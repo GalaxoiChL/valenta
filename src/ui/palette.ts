@@ -6,43 +6,68 @@ export interface PaletteController {
   getSelected(): string | null;
 }
 
+interface PaletteItem {
+  item: HTMLElement;
+  stockEl: HTMLElement;
+}
+
 export function renderPalette(container: HTMLElement, store: GameStore): PaletteController {
   let selected: string | null = store.state.unlockedElements[0] ?? null;
 
-  function render(): void {
-    container.innerHTML = "";
-    const heading = document.createElement("h2");
-    heading.textContent = "Paletă";
-    container.appendChild(heading);
+  container.innerHTML = "";
+  const heading = document.createElement("h2");
+  heading.textContent = "Paletă";
+  container.appendChild(heading);
 
-    for (const symbol of store.state.unlockedElements) {
-      const def = getElement(symbol);
-      const stock = Math.floor(store.state.resources.atoms[symbol] ?? 0);
+  const items = new Map<string, PaletteItem>();
 
-      const item = document.createElement("div");
-      item.className = "palette-item" + (selected === symbol ? " selected" : "");
-      item.addEventListener("click", () => {
-        selected = symbol;
-        render();
-      });
-      attachTooltip(item, `${def.name} (${def.symbol}) — valență ${def.valences.join("/")}. ${def.flavor}`);
+  function ensureItem(symbol: string): PaletteItem {
+    const existing = items.get(symbol);
+    if (existing) return existing;
 
-      const circle = document.createElement("div");
-      circle.className = "symbol";
-      circle.style.background = def.color;
-      circle.textContent = def.symbol;
+    const def = getElement(symbol);
+    const item = document.createElement("div");
+    item.className = "palette-item";
+    item.addEventListener("click", () => {
+      selected = symbol;
+      updateSelection();
+    });
+    attachTooltip(item, `${def.name} (${def.symbol}) — valență ${def.valences.join("/")}. ${def.flavor}`);
 
-      const name = document.createElement("div");
-      name.className = "name";
-      name.textContent = def.name;
+    const circle = document.createElement("div");
+    circle.className = "symbol";
+    circle.style.background = def.color;
+    circle.textContent = def.symbol;
 
-      const stockEl = document.createElement("div");
-      stockEl.className = "stock" + (stock === 0 ? " zero" : "");
-      stockEl.textContent = String(stock);
+    const name = document.createElement("div");
+    name.className = "name";
+    name.textContent = def.name;
 
-      item.append(circle, name, stockEl);
-      container.appendChild(item);
+    const stockEl = document.createElement("div");
+    stockEl.className = "stock";
+
+    item.append(circle, name, stockEl);
+    container.appendChild(item);
+
+    const entry: PaletteItem = { item, stockEl };
+    items.set(symbol, entry);
+    return entry;
+  }
+
+  function updateSelection(): void {
+    for (const [symbol, { item }] of items) {
+      item.classList.toggle("selected", selected === symbol);
     }
+  }
+
+  function render(): void {
+    for (const symbol of store.state.unlockedElements) {
+      const { stockEl } = ensureItem(symbol);
+      const stock = Math.floor(store.state.resources.atoms[symbol] ?? 0);
+      stockEl.textContent = String(stock);
+      stockEl.classList.toggle("zero", stock === 0);
+    }
+    updateSelection();
   }
 
   render();
