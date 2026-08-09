@@ -1,0 +1,92 @@
+[
+  {
+    "key": "H2|1",
+    "formula": "H2",
+    "name": "Hidrogen",
+    "bonusMult": 1.5,
+    "discoveryC": 1,
+    "tier": 0,
+    "tags": ["anorganic", "gaz"],
+    "flavor": "Cel mai simplu combustibil din univers — stelele îl ard pentru a produce toată lumina pe care o vezi."
+  },
+  {
+    "key": "O2|2",
+    "formula": "O2",
+    "name": "Oxigen",
+    "bonusMult": 1.8,
+    "discoveryC": 2,
+    "tier": 1,
+    "tags": ["anorganic", "gaz", "viață"],
+    "flavor": "Molecula pe care o respiri la fiecare câteva secunde, produsă de plante prin fotosinteză."
+  },
+  {
+    "key": "N2|3",
+    "formula": "N2",
+    "name": "Azot",
+    "bonusMult": 2.5,
+    "discoveryC": 3,
+    "tier": 1,
+    "tags": ["anorganic", "gaz"],
+    "flavor": "Legătura triplă N≡N e atât de puternică încât face din azot un gaz aproape inert."
+  },
+  {
+    "key": "H2O|1,1",
+    "formula": "H2O",
+    "name": "Apă",
+    "bonusMult": 2.0,
+    "discoveryC": 5,
+    "tier": 1,
+    "tags": ["anorganic", "solvent", "viață"],
+    "flavor": "Singura substanță comună care există natural în toate trei stările. Fiecare pahar conține atomi care au trecut prin dinozauri."
+  },
+  {
+    "key": "H3N|1,1,1",
+    "formula": "H3N",
+    "name": "Amoniac",
+    "bonusMult": 1.7,
+    "discoveryC": 4,
+    "tier": 1,
+    "tags": ["anorganic", "industrial"],
+    "flavor": "Baza îngrășămintelor moderne — procesul Haber-Bosch care îl produce hrănește azi jumătate din omenire."
+  },
+  {
+    "key": "H2O2|1,1,1",
+    "formula": "H2O2",
+    "name": "Apă oxigenată",
+    "bonusMult": 2.2,
+    "discoveryC": 6,
+    "tier": 1,
+    "tags": ["anorganic", "oxidant"],
+    "flavor": "Peroxidul de hidrogen se descompune spontan în apă și oxigen — de-asta face spumă pe o rană."
+  },
+  {
+    "key": "H4N2|1,1,1,1,1",
+    "formula": "H4N2",
+    "name": "Hidrazină",
+    "bonusMult": 2.4,
+    "discoveryC": 7,
+    "tier": 1,
+    "tags": ["anorganic", "combustibil"],
+    "flavor": "Combustibil de rachetă — motoarele modulului lunar Apollo ardeau exact această moleculă."
+  },
+  {
+    "key": "H2N2|1,1,2",
+    "formula": "H2N2",
+    "name": "Diazenă",
+    "bonusMult": 2.6,
+    "discoveryC": 8,
+    "tier": 1,
+    "tags": ["anorganic", "instabil"],
+    "flavor": "Diimida — o moleculă fragilă, folosită industrial pe loc, imediat după ce e produsă, pentru că nu rezistă mult."
+  },
+  {
+    "key": "H3NO|1,1,1,1",
+    "formula": "H3NO",
+    "name": "Hidroxilamină",
+    "bonusMult": 2.1,
+    "discoveryC": 6,
+    "tier": 1,
+    "tags": ["anorganic", "industrial"],
+    "flavor": "Un intermediar cheie în producția de nailon — și un agent reducător folosit în fotografie și electronică."
+  }
+]
