@@ -31,7 +31,7 @@ Format per intrare:
 - Test nou `tests/moleculeDB_tier10.test.ts` (3 teste).
 - **Bug mecanic găsit și reparat de două ori în acest lot, prin `tsc`/`node -e`, nu vizual**: aceeași greșeală ca la Crom (tier 8) — ghilimele drepte „...\" în interiorul flavor text-ului lui Zr, atât în `elements.ts` cât și în `moleculeDB.json` (unde a spart și JSON.parse, nu doar TS). Reparat cu ghilimele franceze «...» în ambele locuri. Al doilea semnal clar că acest tipar de citat trebuie evitat sistematic de-acum — notat ca regulă de scris pentru loturile viitoare.
 - `tsc --noEmit` curat; 162 de teste automate trec (21 fișiere).
-- Verificare live pe deploy-ul public: în curs, se face după acest commit (nu înainte — lecție reținută din corecția de la tier 8).
+- Verificat live pe deploy-ul public, după push: ZrO₂ construit și sintetizat manual (1×Zr⁴⁺ + 2×O²⁻), banner de descoperire corect (inclusiv textul «zirconia cubică» afișat corect — confirmă și fix-ul de ghilimele), rată afișată 18,9 E/s — exact valoarea calculată. Toate cele 50 de elemente deblocate până la tier 10 confirmate vizual în picker-ul Ionic cu sarcinile corecte.
 
 **Decizii / abateri de la SPEC.md:**
 - Niciuna nouă de design — doar extensia consecventă a politicii deja stabilite (un singur compus pentru metalele de tranziție cu sarcină ≥4 ale căror halogenuri sunt de fapt covalente în realitate).
