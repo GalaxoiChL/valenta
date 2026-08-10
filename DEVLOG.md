@@ -30,7 +30,7 @@ Format per intrare:
 - 2 obiective noi: „Deblochează Uraniul", „Sintetizează Oxid de uraniu (UO₂)".
 - Test nou `tests/moleculeDB_tier15.test.ts` (4 teste).
 - `tsc --noEmit` curat; 180 de teste automate trec (26 fișiere).
-- Verificat live pe deploy-ul public, după push: vezi mai jos.
+- Verificat live pe deploy-ul public, după push: UO₂ construit și sintetizat manual (1×U⁴⁺ + 2×O²⁻), banner de descoperire corect, rată 26,1 E/s — exact valoarea calculată. Kr confirmat vizual în Paletă covalentă (inert, ca He/Ne/Ar); Tm³⁺, Lu³⁺, Ra²⁺, Th⁴⁺, U⁴⁺ toate confirmate vizual în picker-ul Ionic cu sarcinile corecte.
 
 **Decizii / abateri de la SPEC.md:**
 - **Th și U tratate cu context strict factual/civil** (istoric — manșoane de lampă; industrial — combustibil de reactor nuclear civil), nicio mențiune de arme sau îmbogățire — consistent cu tonul educativ al restului jocului (la fel cum Hg/Pb/As/Tl/Cd sunt tratate ca „chimie reală, cu precauție", nu evitate din cauza toxicității).
