@@ -132,6 +132,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Alumină (Al₂O₃) — rubinele și safirele sunt exact acest compus",
     rewardC: 18,
     isComplete: (s) => collectionCopies(s, "Al2O3") >= 1
+  },
+  {
+    id: "unlock_ag",
+    description: "Deblochează Argintul",
+    rewardC: 20,
+    isComplete: (s) => s.state.unlockedElements.includes("Ag")
+  },
+  {
+    id: "synth_agbr",
+    description: "Sintetizează Bromură de argint (AgBr) — sarea sensibilă la lumină din fotografia clasică",
+    rewardC: 22,
+    isComplete: (s) => collectionCopies(s, "AgBr") >= 1
   }
 ];
 

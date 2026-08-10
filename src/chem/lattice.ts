@@ -30,7 +30,23 @@ const LATTICE_ENERGY: Record<string, number> = {
   CaO: 1452,
   CaCl2: 2830,
   AlCl3: 3679,
-  Al2O3: 4185
+  Al2O3: 4185,
+  // Tier 6 — Li/Sn/Zn/Ba/Ag/Pb: aceeași metodă de recalibrare de la introducere.
+  // Adenina (§8.2) nu mai e plafonul absolut al jocului odată ce tier-urile
+  // depășesc roadmap-ul original din SPEC — normal ca un tier nou să urce
+  // peste un vârf vechi, exact ca în orice joc idle cu progresie deschisă.
+  LiCl: 1830,
+  Li2O: 3282,
+  BaO: 1750,
+  BaCl2: 3167,
+  ZnO: 1780,
+  ZnCl2: 3223,
+  AgCl: 1503,
+  AgBr: 1440,
+  SnO: 1836,
+  SnCl2: 3391,
+  PbO: 1699,
+  PbCl2: 3020
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

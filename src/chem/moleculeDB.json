@@ -1633,5 +1633,125 @@
     "tier": 5,
     "tags": ["ionic", "anorganic"],
     "flavor": "Rubinele și safirele naturale sunt exact acest compus — doar cu urme de crom sau fier ca impuritate care le dă culoarea."
+  },
+  {
+    "key": "LiCl",
+    "formula": "LiCl",
+    "name": "Clorură de litiu",
+    "bonusMult": 2.0,
+    "discoveryC": 18,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Extrem de higroscopică — absoarbe umezeala din aer atât de eficient încât se folosește în dezumidificatoare industriale."
+  },
+  {
+    "key": "Li2O",
+    "formula": "Li2O",
+    "name": "Oxid de litiu",
+    "bonusMult": 2.1,
+    "discoveryC": 19,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Adăugat în sticlă și ceramică pentru rezistență la șoc termic — și component cheie în electroliții bateriilor litiu-ion."
+  },
+  {
+    "key": "BaO",
+    "formula": "BaO",
+    "name": "Oxid de bariu",
+    "bonusMult": 2.2,
+    "discoveryC": 20,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Reacționează violent cu apa, ca oxizii tuturor metalelor alcalino-pământoase — folosit istoric la rafinarea zahărului."
+  },
+  {
+    "key": "BaCl2",
+    "formula": "BaCl2",
+    "name": "Clorură de bariu",
+    "bonusMult": 2.1,
+    "discoveryC": 21,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Sursa sărurilor de bariu care dau flăcărilor de artificii culoarea verde-măr caracteristică."
+  },
+  {
+    "key": "ZnO",
+    "formula": "ZnO",
+    "name": "Oxid de zinc",
+    "bonusMult": 2.2,
+    "discoveryC": 20,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Pigmentul alb din multe creme de protecție solară — reflectă fizic razele UV în loc să le absoarbă chimic."
+  },
+  {
+    "key": "ZnCl2",
+    "formula": "ZnCl2",
+    "name": "Clorură de zinc",
+    "bonusMult": 2.1,
+    "discoveryC": 21,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un flux folosit la lipit — curăță oxizii de pe suprafețele metalice înainte ca lipitura să adere."
+  },
+  {
+    "key": "AgCl",
+    "formula": "AgCl",
+    "name": "Clorură de argint",
+    "bonusMult": 2.3,
+    "discoveryC": 22,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un precipitat alb clasic de laborator — se înnegrește la lumină, exact principiul din spatele fotografiei pe film."
+  },
+  {
+    "key": "AgBr",
+    "formula": "AgBr",
+    "name": "Bromură de argint",
+    "bonusMult": 2.4,
+    "discoveryC": 23,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Sarea sensibilă la lumină din emulsia fotografică tradițională — se descompune în argint metalic expusă la lumină."
+  },
+  {
+    "key": "SnO",
+    "formula": "SnO",
+    "name": "Oxid de staniu",
+    "bonusMult": 2.1,
+    "discoveryC": 20,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un intermediar în rafinarea staniului din minereu — un solid albastru-negru, spre deosebire de multe alte oxide metalice albe."
+  },
+  {
+    "key": "SnCl2",
+    "formula": "SnCl2",
+    "name": "Clorură de staniu",
+    "bonusMult": 2.0,
+    "discoveryC": 21,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un agent reducător puternic folosit în chimia analitică și la cositorirea metalelor."
+  },
+  {
+    "key": "PbO",
+    "formula": "PbO",
+    "name": "Litargiriu (oxid de plumb)",
+    "bonusMult": 2.3,
+    "discoveryC": 22,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosit istoric la glazuri ceramice și la producția de cristal cu plumb — azi evitat din cauza toxicității."
+  },
+  {
+    "key": "PbCl2",
+    "formula": "PbCl2",
+    "name": "Clorură de plumb",
+    "bonusMult": 2.2,
+    "discoveryC": 23,
+    "tier": 6,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Aproape insolubilă în apă rece dar vizibil mai solubilă în apă fierbinte — un exemplu clasic de solubilitate dependentă de temperatură."
   }
 ]

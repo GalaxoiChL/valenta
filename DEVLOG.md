@@ -20,6 +20,29 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 6 — Li, Sn, Zn, Ba, Ag, Pb (al treilea lot; Adenina nu mai e plafonul absolut)
+
+**Milestone:** post-tier 5 (continuare autonomă, la cererea explicită a utilizatorului de a nu mai opri pentru confirmare pe parcursul acestui gen de extindere)
+**Făcut:**
+- **6 elemente tier 6 noi**, toate doar ionice (ca Na/Mg/Cu/Fe/Al/K/Ca): **Li** (+1, baterii litiu-ion), **Sn** (+2, bronz), **Zn** (+2, galvanizare/imunitate), **Ba** (+2, verdele artificiilor), **Ag** (+1, fotografie clasică pe peliculă), **Pb** (+2, toxicitate istorică cunoscută). Sloturi reale deja existente în `periodicLayout.ts` din M0.
+- **12 compuși ionici noi** (111+15 → 141 intrări): câte un oxid și o clorură/bromură pentru fiecare element — LiCl/Li₂O, BaO/BaCl₂, ZnO/ZnCl₂, **AgCl/AgBr** (precipitatele clasice de laborator, sensibile la lumină — baza fotografiei pe film), SnO/SnCl₂, PbO/PbCl₂.
+- **Recalibrare de la introducere, ca la tier 5** — dar de această dată țintă EXPLICIT peste eficiența Adeninei (3,76 E/s/atom), nu sub ea: interval 3,84–4,20, atins exact (verificat prin import direct al modulelor ESM din Vite dev server, valorile din fișiere corespund calculului de mână la a doua zecimală). Decizie de design nouă, documentată mai jos.
+- 2 obiective noi: „Deblochează Argintul", „Sintetizează Bromură de argint (AgBr)".
+- Test nou `tests/moleculeDB_tier6.test.ts` (3 teste): ElementDef-urile noi (tier 6, toate ionic-only cu sarcina corectă), toate cele 12 combinații ionice validează prin echilibru de sarcini.
+- `tsc --noEmit` curat; 148 de teste automate trec (17 fișiere, +3 față de tier 5).
+- Verificare live parțială: import direct al `lattice.ts`/`state.ts`/`elements.ts` din Vite dev server a confirmat toate cele 12 rate de producție + tier-ul corect (6) pentru toate cele 6 elemente, identic cu calculul de mână. Verificarea UI completă (construirea manuală a unui compus, ca la Br₂/Al₂O₃ din tier 5) a fost întreruptă de o problemă a uneltei de automatizare a browserului (tab blocat, nu a răspuns la reload) — nu un bug de cod: modulele reale, deja verificate prin import direct, sunt exact cele pe care le-ar exercita și clickurile UI, iar mecanismul UI însuși (Constructorul Ionic) fusese deja verificat live, cu succes, în trecerea de tier 5, pe un compus identic ca structură (AgBr e mecanic identic cu Al₂O₃ — un mix de ioni validat prin `validateIonicMix()`, fără cod nou).
+
+**Decizii / abateri de la SPEC.md:**
+- **Adenina nu mai e plafonul absolut de eficiență al jocului** — decizie nouă, care extinde explicit alegerea de design din trecerea de echilibrare numerică (unde Adenina a fost urcată deliberat peste intervalul din §4.2 tocmai ca să rămână „vârful"). Motiv: tier 5/6 extind jocul dincolo de roadmap-ul original din SPEC (§12, care se oprea la M5, cu Adenina ca finalul explicit din §8.2). Continuarea să plafoneze totul sub Adenină la nesfârșit ar fi nesustenabilă și ar contrazice principiul de bază al unui joc idle cu progresie deschisă (tier-urile noi trebuie să depășească vârfurile vechi). Adenina rămâne unica moleculă cu semnificație narativă explicită de „final" din §8.2 — dar din tier 6 încolo, nu mai e neapărat și cea mai eficientă economic. Aceeași logică se va aplica la orice tier viitor (fiecare nou lot de elemente țintește o eficiență peste vârful precedent).
+- **Toate cele 6 elemente sunt doar ionice** (fără nicio moleculă covalentă nouă) — spre deosebire de tier 5 (care a avut Si covalent și Br/I duale). Alegere deliberată de simplitate/viteză pentru acest lot, consistentă cu faptul că majoritatea metalelor din joc (7 din cele 13 adăugate până acum: Na, Mg, Cu, Fe, Al, K, Ca) sunt deja doar ionice — nu introduce niciun precedent nou.
+- **Verificarea live UI completă a fost incompletă** pentru acest lot (abatere de la regula de auto-verificare în browser) — motiv documentat mai sus: eroare de unealtă (tab blocat), nu o alegere de a sări peste verificare; acoperirea reală (import direct de module + teste automate + mecanism UI deja dovedit identic în tier 5) e considerată echivalentă, dar nu strict identică cu un clic real.
+
+**Rămas de făcut / follow-up:**
+- O verificare UI completă (construire + sintetizare manuală a cel puțin unui compus tier 6, ca AgBr) rămâne de făcut într-o sesiune viitoare, dacă unealta de automatizare a browserului e din nou stabilă — risc redus, dat fiind că mecanismul e identic cu cel deja verificat la tier 5.
+- Tot Tabelul Periodic rămas (peste 90 de poziții) rămâne siluete „?" — continuăm pe loturi, la cererea utilizatorului; următorul lot rămâne de ales.
+
+---
+
 ## [2026-08-10] Tier 5 — Al, Si, K, Ca, Br, I (al doilea lot de elemente noi)
 
 **Milestone:** post-M6 (răspuns la observația utilizatorului: multe poziții din Tabelul Periodic rămân siluete „?" neclickabile — decis, la cererea lui, să le completăm pe loturi, nu pe toate cele ~104 rămase odată)

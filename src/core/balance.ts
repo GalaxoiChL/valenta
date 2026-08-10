@@ -31,7 +31,13 @@ export const GENERATOR_BASE_COST: Record<string, number> = {
   Br: 900,
   K: 950,
   Ca: 1000,
-  I: 1100
+  I: 1100,
+  Li: 1200,
+  Sn: 1300,
+  Zn: 1400,
+  Ba: 1500,
+  Ag: 1600,
+  Pb: 1700
 };
 export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare

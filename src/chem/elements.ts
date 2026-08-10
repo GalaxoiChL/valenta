@@ -259,6 +259,80 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 650,
     flavor: "Solidul sublimază direct în vapori violeți fără să treacă prin stare lichidă — esențial pentru tiroidă, în cantități infime.",
     ionicCharge: -1
+  },
+
+  // --- tier 6: al treilea lot, la cererea utilizatorului de a continua pe loturi ---
+  Li: {
+    symbol: "Li",
+    name: "Litiu",
+    Z: 3,
+    valences: [],
+    mass: 6.94,
+    color: "#cc80ff",
+    tier: 6,
+    unlockCost: 700,
+    flavor: "Cel mai ușor metal solid din tabelul periodic — bateriile litiu-ion din telefonul tău îi poartă numele.",
+    ionicCharge: 1
+  },
+  Sn: {
+    symbol: "Sn",
+    name: "Staniu",
+    Z: 50,
+    valences: [],
+    mass: 118.71,
+    color: "#668080",
+    tier: 6,
+    unlockCost: 750,
+    flavor: "Amestecat cu cuprul dă bronzul, aliajul care a dat numele unei epoci întregi a civilizației umane.",
+    ionicCharge: 2
+  },
+  Zn: {
+    symbol: "Zn",
+    name: "Zinc",
+    Z: 30,
+    valences: [],
+    mass: 65.38,
+    color: "#7d80b0",
+    tier: 6,
+    unlockCost: 800,
+    flavor: "Esențial pentru sistemul imunitar și vindecarea rănilor — dar și metalul care acoperă protector oțelul galvanizat.",
+    ionicCharge: 2
+  },
+  Ba: {
+    symbol: "Ba",
+    name: "Bariu",
+    Z: 56,
+    valences: [],
+    mass: 137.327,
+    color: "#4caf50",
+    tier: 6,
+    unlockCost: 850,
+    flavor: "Sărurile lui colorează focurile de artificii într-un verde-măr caracteristic — dar în stare solubilă e toxic.",
+    ionicCharge: 2
+  },
+  Ag: {
+    symbol: "Ag",
+    name: "Argint",
+    Z: 47,
+    valences: [],
+    mass: 107.868,
+    color: "#c8c8d0",
+    tier: 6,
+    unlockCost: 900,
+    flavor: "Cel mai bun conducător electric dintre toate metalele — și baza fotografiei clasice pe peliculă, prin sărurile lui sensibile la lumină.",
+    ionicCharge: 1
+  },
+  Pb: {
+    symbol: "Pb",
+    name: "Plumb",
+    Z: 82,
+    valences: [],
+    mass: 207.2,
+    color: "#575961",
+    tier: 6,
+    unlockCost: 950,
+    flavor: "Folosit milenii la conducte și vopsele pentru maleabilitatea lui — până s-a descoperit cât de toxic e, chiar și în urme mici.",
+    ionicCharge: 2
   }
 };
 
