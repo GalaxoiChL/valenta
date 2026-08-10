@@ -30,7 +30,7 @@ Format per intrare:
 - 2 obiective noi: „Deblochează Reniul", „Sintetizează Heptoxid de reniu (Re₂O₇)".
 - Test nou `tests/moleculeDB_tier12.test.ts` (3 teste) — inclusiv cazul Re₂O₇ (raport 2:7), prima sarcină ionică ≥7 din joc.
 - `tsc --noEmit` curat; 168 de teste automate trec (23 fișiere).
-- Verificat live pe deploy-ul public, după push: vezi mai jos.
+- Verificat live pe deploy-ul public, după push: Re₂O₇ construit și sintetizat manual (2×Re⁷⁺ + 7×O²⁻ — cel mai mare raport din joc până acum), banner de descoperire corect, rată 67,5 E/s — exact valoarea calculată. Toate cele 61 de elemente deblocate până la tier 12 confirmate vizual cu sarcinile corecte.
 
 **Decizii / abateri de la SPEC.md:**
 - Niciuna nouă — continuă politica deja stabilită.
