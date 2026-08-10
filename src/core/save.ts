@@ -2,7 +2,7 @@ import type { GameState, GameStore } from "./state";
 import { SAVE_VERSION, createInitialState, GameStore as Store, reconcileCollectionWithDB } from "./state";
 import { AUTOSAVE_INTERVAL_MS, STARTING_ATOMS } from "./balance";
 
-const SAVE_KEY = "valenta-save";
+export const SAVE_KEY = "valenta-save";
 
 export function saveGame(store: GameStore): void {
   store.state.savedAt = Date.now();

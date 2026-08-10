@@ -16,7 +16,10 @@ export function tick(store: GameStore, dt: number): void {
 
   const energyPerSecond = store.totalEnergyPerSecond();
   if (energyPerSecond > 0) {
-    store.state.resources.energy += energyPerSecond * dt;
+    const gained = energyPerSecond * dt;
+    store.state.resources.energy += gained;
+    // M5 — Nucleosinteza (§3.3): totalul erei curente, nu scade la cheltuieli.
+    store.state.totalEnergyEarned += gained;
   }
 
   if (atomsChanged || energyPerSecond > 0) {

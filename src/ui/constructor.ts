@@ -8,6 +8,7 @@ import { DEFAULT_BONUS_MULT, MAX_UNDO_STEPS } from "../core/balance";
 import type { PaletteController } from "./palette";
 import { attachTooltip } from "./tooltip";
 import { renderIonicConstructor } from "./ionicConstructor";
+import { playClick, playValid, playSynthesize } from "./sound";
 
 const SNAP_RADIUS = 48;
 const ATOM_RADIUS = 20;
@@ -143,6 +144,7 @@ export function renderConstructor(
     if (result.ok) {
       undoStack.length = 0;
       redoStack.length = 0;
+      playSynthesize(store);
     }
   });
 
@@ -190,6 +192,7 @@ export function renderConstructor(
     pushUndo();
     const atom = store.placeAtomInDraft(element, point.x, point.y);
     if (!atom) undoStack.pop(); // n-a reușit (fără stoc) — anulăm snapshot-ul degeaba pus
+    else playClick(store);
   });
 
   svg.addEventListener("mousemove", (evt) => {
@@ -239,6 +242,7 @@ export function renderConstructor(
         pushUndo();
         const ok = store.setBondOrder(atomId, targetId, 1);
         if (!ok) undoStack.pop();
+        else playClick(store);
       }
     } else {
       pushUndo();
@@ -263,6 +267,7 @@ export function renderConstructor(
     const b = bondEl.getAttribute("data-b")!;
     pushUndo();
     store.cycleBondOrder(a, b);
+    playClick(store);
   });
 
   // --- randare ---
@@ -370,6 +375,8 @@ export function renderConstructor(
     renderStatus(graph);
   }
 
+  let wasValid = false;
+
   function renderStatus(graph: MoleculeGraph): void {
     const result = validate(graph);
     formulaEl.textContent = toUnicodeSubscript(hillFormula(graph)) || "—";
@@ -381,6 +388,7 @@ export function renderConstructor(
       previewEl.textContent = "";
       synthBtn.disabled = true;
       synthBtn.title = "Adaugă atomi din paletă";
+      wasValid = false;
       return;
     }
 
@@ -393,7 +401,12 @@ export function renderConstructor(
       previewEl.textContent = `~${rate.toFixed(2)} E/s`;
       synthBtn.disabled = false;
       synthBtn.title = "";
+      // Ton cald doar la TRANZIȚIA spre valid (§6.3) — nu la fiecare re-randare
+      // declanșată de tick-ul economic cât timp molecula rămâne validă.
+      if (!wasValid) playValid(store);
+      wasValid = true;
     } else {
+      wasValid = false;
       badge.classList.add("error");
       if (result.reason === "disconnected") {
         badge.textContent = "🔴 deconectată";

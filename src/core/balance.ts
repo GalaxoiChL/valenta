@@ -74,3 +74,15 @@ export function discoveryKnowledge(sumBondEnergy: number, tier: number): number 
 export function analysisKnowledge(sumBondEnergy: number): number {
   return Math.max(1, Math.round(K_ANALYSIS_PER_ENERGY * sumBondEnergy));
 }
+
+// M5 — Nucleosinteza (§3.3): prestige. Pragul de Energie acumulată în era
+// curentă pentru prima Stea; scalare rădăcină pătrată pentru randament
+// descrescător (fiecare Stea suplimentară cere din ce în ce mai multă
+// Energie, curbă clasică de prestige în jocurile idle).
+export const NUCLEOSYNTHESIS_MIN_ENERGY = 1_000_000;
+export const STAR_PRODUCTION_BONUS = 0.1; // +10% producție globală per Stea
+
+export function starsForEnergy(totalEnergyEarned: number): number {
+  if (totalEnergyEarned < NUCLEOSYNTHESIS_MIN_ENERGY) return 0;
+  return Math.floor(Math.sqrt(totalEnergyEarned / NUCLEOSYNTHESIS_MIN_ENERGY));
+}

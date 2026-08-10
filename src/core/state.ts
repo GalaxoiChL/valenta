@@ -21,12 +21,14 @@ import {
   discoveryKnowledge,
   analysisKnowledge,
   generatorSpeedUpgradeCost,
+  starsForEnergy,
   DEFAULT_BONUS_MULT,
   K_PROD,
   PRODUCTION_EXPONENT,
   STARTING_ATOMS,
   AUTO_SYNTH_UNLOCK_COST,
-  MAX_AUTO_SYNTH_RATE
+  MAX_AUTO_SYNTH_RATE,
+  STAR_PRODUCTION_BONUS
 } from "./balance";
 
 export interface MoleculeDBEntry {
@@ -59,7 +61,7 @@ export function reconcileCollectionWithDB(state: GameState): void {
     if (!dbEntry) continue;
     entry.name = dbEntry.name;
     entry.flavor = dbEntry.flavor;
-    entry.ePerSecondPerCopy = productionRate(entry.sumBondEnergy, dbEntry.bonusMult);
+    entry.ePerSecondPerCopy = productionRate(entry.sumBondEnergy, dbEntry.bonusMult, state.stars * STAR_PRODUCTION_BONUS);
   }
 }
 
@@ -98,6 +100,10 @@ export interface GameState {
     sound: boolean;
     offlineCap: number;
   };
+  /** M5 — Nucleosinteza (§3.3): Energie acumulată în era curentă (resetată la fiecare prestige). */
+  totalEnergyEarned: number;
+  /** M5 — Stele deținute, persistă peste resetări; fiecare dă +STAR_PRODUCTION_BONUS producție globală. */
+  stars: number;
 }
 
 export const SAVE_VERSION = 1;
@@ -118,7 +124,9 @@ export function createInitialState(): GameState {
     collection: {},
     constructorDraft: createMolecule(),
     objectivesDone: [],
-    settings: { sound: true, offlineCap: 8 * 60 * 60 }
+    settings: { sound: true, offlineCap: 8 * 60 * 60 },
+    totalEnergyEarned: 0,
+    stars: 0
   };
 }
 
@@ -209,6 +217,11 @@ export class GameStore {
 
   private emitDraft(): void {
     this.events.emit("draft");
+  }
+
+  /** M5 — Bonusul global de producție acumulat din Stele (§3.3): +10% per Stea. */
+  globalProductionMultiplier(): number {
+    return this.state.stars * STAR_PRODUCTION_BONUS;
   }
 
   addAtoms(element: string, amount: number): void {
@@ -336,7 +349,7 @@ export class GameStore {
     if (isFirstDiscovery) {
       const energyMetric = latticeEnergy(formula);
       const bonusMult = dbEntry?.bonusMult ?? DEFAULT_BONUS_MULT;
-      const ePerSecondPerCopy = productionRate(energyMetric, bonusMult);
+      const ePerSecondPerCopy = productionRate(energyMetric, bonusMult, this.globalProductionMultiplier());
       this.state.collection[key] = {
         key,
         formula,
@@ -492,7 +505,7 @@ export class GameStore {
     if (isFirstDiscovery) {
       const sumE = sumGraphBondEnergy(graph);
       const bonusMult = dbEntry?.bonusMult ?? DEFAULT_BONUS_MULT;
-      const ePerSecondPerCopy = productionRate(sumE, bonusMult);
+      const ePerSecondPerCopy = productionRate(sumE, bonusMult, this.globalProductionMultiplier());
       this.state.collection[key] = {
         key,
         formula: result.formula,
@@ -591,7 +604,7 @@ export class GameStore {
         name: `${base.name} — polimer ×${n}`,
         copies: 0,
         discovered: true,
-        ePerSecondPerCopy: productionRate(energyMetric, DEFAULT_BONUS_MULT),
+        ePerSecondPerCopy: productionRate(energyMetric, DEFAULT_BONUS_MULT, this.globalProductionMultiplier()),
         sumBondEnergy: energyMetric,
         atomsPerCopy,
         flavor: `${n} unități de ${base.name} legate într-un lanț polimeric — atomii se rearanjează, nu se pierd (§5.6).`,
@@ -608,6 +621,51 @@ export class GameStore {
     }
 
     return { ok: true, isFirstDiscovery, formula: this.state.collection[key].formula };
+  }
+
+  /**
+   * M5 — Nucleosinteza (§3.3): câte Stele NOI ar aduce un reset acum,
+   * calculat din Energia acumulată în era curentă (`totalEnergyEarned`,
+   * resetată la 0 la fiecare declanșare — nu e un total pe viață).
+   */
+  pendingStars(): number {
+    return starsForEnergy(this.state.totalEnergyEarned);
+  }
+
+  canTriggerNucleosynthesis(): boolean {
+    return this.pendingStars() >= 1;
+  }
+
+  /**
+   * M5 — Declanșează Nucleosinteza: reciclează progresul erei curente într-un
+   * număr de Stele (permanente, +10% producție globală fiecare). Se păstrează
+   * Cunoașterea și elementele deblocate (tematic: elementele grele rămân
+   * "forjate"); se resetează tot ce ține de economia activă a erei — Energie,
+   * atomi, generatoare, Colecție, obiective — ca bucla de progresie să aibă
+   * sens să se rejoace, de data asta mai repede datorită bonusului global.
+   * Întoarce numărul de Stele câștigate (0 dacă pragul nu e atins).
+   */
+  triggerNucleosynthesis(): number {
+    const gained = this.pendingStars();
+    if (gained < 1) return 0;
+
+    this.state.stars += gained;
+    this.state.totalEnergyEarned = 0;
+    this.state.resources.energy = 0;
+    this.state.resources.atoms = { ...STARTING_ATOMS };
+    for (const el of Object.keys(this.state.generators)) this.state.generators[el] = 0;
+    this.state.generatorSpeedLevel = 0;
+    this.state.autoSynthUnlocked = false;
+    this.state.collection = {};
+    this.state.constructorDraft = createMolecule();
+    this.state.objectivesDone = [];
+
+    this.emitResources();
+    this.emitDraft();
+    this.events.emit("generators");
+    this.events.emit("collection");
+    this.events.emit("nucleosynthesis", gained);
+    return gained;
   }
 
   maxSynthesizable(key: string): number {

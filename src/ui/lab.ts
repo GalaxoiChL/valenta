@@ -255,6 +255,17 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
   function renderCollection(): void {
     renderAutoSynthUnlock();
     const entries = Object.values(store.state.collection);
+
+    // --- Nucleosinteza (M5, §3.3) golește colecția: rândurile cache-uite pe
+    // cheie trebuie eliminate din DOM, altfel rămân vizibile cu date vechi. ---
+    const currentKeys = new Set(entries.map((entry) => entry.key));
+    for (const [key, cached] of collectionRows) {
+      if (!currentKeys.has(key)) {
+        cached.row.remove();
+        collectionRows.delete(key);
+      }
+    }
+
     if (entries.length === 0) {
       if (!emptyCollectionMsg.isConnected) collectionBody.appendChild(emptyCollectionMsg);
       return;

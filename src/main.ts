@@ -1,5 +1,5 @@
 import "./style.css";
-import { createStore, startAutosave } from "./core/save";
+import { createStore, startAutosave, saveGame, SAVE_KEY } from "./core/save";
 import { tick } from "./core/economy";
 import { ECONOMY_TICK_MS } from "./core/balance";
 import { checkObjectives } from "./core/objectives";
@@ -13,6 +13,10 @@ import { renderPeriodicTable } from "./ui/periodicTable";
 import { renderSettings } from "./ui/settings";
 import { toUnicodeSubscript } from "./chem/formula";
 import { formatNumber, formatDuration } from "./ui/format";
+import { playDiscovery } from "./ui/sound";
+import { renderTutorial } from "./ui/tutorial";
+
+const isFirstLaunch = localStorage.getItem(SAVE_KEY) === null;
 
 const app = document.getElementById("app")!;
 
@@ -65,6 +69,7 @@ store.events.on("discovery", (payload: unknown) => {
   };
   const name = dbEntry?.name ?? `Compus ${toUnicodeSubscript(formula)}`;
   const flavor = dbEntry?.flavor ?? "O moleculă validă, în afara bazei de date cunoscute — la fel de reală.";
+  playDiscovery(store);
   banner.innerHTML = `
     <div class="title">Ai descoperit</div>
     <div class="name">${name} <span style="opacity:.6">(${toUnicodeSubscript(formula)})</span></div>
@@ -74,6 +79,21 @@ store.events.on("discovery", (payload: unknown) => {
   if (bannerTimeout) clearTimeout(bannerTimeout);
   bannerTimeout = setTimeout(() => banner.classList.remove("visible"), 3500);
   banner.onclick = () => banner.classList.remove("visible");
+});
+
+// --- Nucleosinteza: banner de sărbătorire (§3.3) ---
+store.events.on("nucleosynthesis", (payload: unknown) => {
+  const gained = payload as number;
+  const nucleoBanner = document.createElement("div");
+  nucleoBanner.className = "discovery-banner nucleo-banner visible";
+  nucleoBanner.innerHTML = `
+    <div class="title">Nucleosinteza!</div>
+    <div class="name">+${gained} ${gained === 1 ? "Stea" : "Stele"} ⭐</div>
+    <div class="flavor">Materia ta a fost reciclată într-o stea care forjează elemente mai grele — exact ca în univers. Producția globală crește permanent.</div>
+  `;
+  document.body.appendChild(nucleoBanner);
+  nucleoBanner.onclick = () => nucleoBanner.remove();
+  setTimeout(() => nucleoBanner.remove(), 6000);
 });
 
 // --- progres offline, plafonat la 8h, 50% producție (§4.3) ---
@@ -101,3 +121,8 @@ setInterval(() => {
 }, ECONOMY_TICK_MS);
 
 startAutosave(store);
+
+// --- Tutorial interactiv la primul joc (§12, M5) — o singură dată ---
+if (isFirstLaunch) {
+  renderTutorial(() => saveGame(store));
+}

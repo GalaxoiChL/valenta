@@ -20,6 +20,31 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] M5 — Nucleosinteza, Sunet, Tutorial, responsive tabletă
+
+**Milestone:** M5
+**Făcut:**
+- **Nucleosinteza (prestige, §3.3)**: `NUCLEOSYNTHESIS_MIN_ENERGY = 1.000.000 E` prag pentru prima Stea; `starsForEnergy()` = `floor(sqrt(totalEnergyEarned / prag))` (randamente descrescânde — a doua Stea cere de 4× energia primei, a treia de 9×, nu liniar). Fiecare Stea = +10% (`STAR_PRODUCTION_BONUS`) producție globală permanentă, aplicat ca al treilea parametru al `productionRate()` la toate cele 3 puncte de sinteză (covalent, ionic, polimer) plus `reconcileCollectionWithDB`. `GameStore.triggerNucleosynthesis()` resetează era curentă (energie, atomi, generatoare, nivel de viteză, Automatizare, Colecție, draft, obiective) dar **păstrează** Cunoașterea și elementele deblocate — Stelele sunt moneda permanentă peste resetări, Cunoașterea rămâne progresul „cheie" al jucătorului. UI: buton cu confirmare în doi pași (armare + fereastră de 8s înainte de auto-dezarmare) în Setări, plus un banner de sărbătorire la declanșare.
+- **Sunet (§10.3, Web Audio API, fără fișiere externe)**: modul nou `ui/sound.ts` — tonuri sintetizate procedural (`tone()`, atac liniar + decădere exponențială), 4 evenimente: click (plasare atom), tranziție validă (doar pe front fals→adevărat, nu la fiecare re-render de 100ms cât molecula rămâne validă), sintetizare, descoperire. `AudioContext` creat lazy și reluat (`.resume()`) la prima interacțiune, ca să respecte politica de autoplay a browserelor. Toggle unic în Setări, persistat în `settings.sound` (câmp deja existent din M0).
+- **Tutorial interactiv la primul lansare**: `ui/tutorial.ts`, 4 pași (bun venit → construiește → sintetizează → automatizează), detectat prin absența unei chei de save în `localStorage` (`SAVE_KEY` exportat acum din `save.ts`), afișat o singură dată, nu mai reapare după primul „Am înțeles, hai să încep!" (salvează imediat starea inițială).
+- **Panoul „Despre chimia din joc" (§5.6)**: secțiune colapsabilă în Setări, listă cu cele 6 simplificări chimice asumate de joc (fără geometrie 3D/rezonanță, valențe fixe, ionic separat de covalent, energie ca convenție de joc nu termodinamică riguroasă, hash canonic pentru izomeri „foarte fiabil, nu o demonstrație matematică", polimerizare simplificată) — spuse pe față jucătorului, nu ascunse.
+- **Responsive tabletă (§12)**: un singur bloc `@media (max-width: 900px)` în `style.css` — layout single-column (3 rânduri stivuite în loc de 3 coloane), palete/obiective cu `flex-wrap`, overlay-uri la 94vw cu scroll vertical, ținte de atingere mărite (`min-height: 40px` pe butoane/celule).
+- Test suite nou `tests/nucleosynthesis.test.ts` (8 teste): curba `starsForEnergy`, acumularea `totalEnergyEarned` (crește doar din producție, nu din achiziții), refuz sub prag, resetare completă (Stele câștigate, Cunoaștere/elemente păstrate, restul șters), acumulare de Stele peste resetări succesive, bonusul de +10%/Stea verificat direct pe `ePerSecondPerCopy`.
+- Verificat integral live în browser: buclă completă bootstrap → ~2.1M E acumulați → Nucleosinteza declanșată cu succes (2 Stele câștigate) → reset confirmat corect (energie/atomi/generatoare/Automatizare/obiective la zero, Cunoaștere păstrată la 66C) → sinteză nouă de H₂ după reset arată exact 1 copie la rata boostată (+20%, 2,53 E/s/copie față de 2,11 nebonusat).
+- `tsc --noEmit` curat; 130 de teste automate trec (14 fișiere, +8 față de M4).
+
+**Decizii / abateri de la SPEC.md:**
+- **Bug găsit și reparat în timpul verificării live**: după Nucleosinteza, tab-ul Colecție din `lab.ts` continua să arate rânduri DOM vechi (ex. „H2 ×2737" dintr-o eră anterioară) chiar dacă `store.state.collection` era corect golit — `renderCollection()` actualiza doar rândurile pentru cheile ÎNCĂ prezente în colecție, dar nu elimina niciodată rândurile pentru chei care au dispărut, fiindcă înainte de M5 Colecția doar creștea, nu se golea niciodată. Fix: `renderCollection()` compară acum cheile curente cu Map-ul `collectionRows` cache-uit și elimină din DOM + din Map orice rând orfan, la începutul fiecărui render. Acesta e exact genul de regresie pe care regula de auto-verificare în browser (nu doar teste unitare) e menită s-o prindă — testele automate nu ating DOM-ul din `lab.ts`.
+- **Cunoașterea și elementele deblocate NU sunt resetate de Nucleosinteza** — SPEC (§3.3) nu specifică exact ce se păstrează; am ales să tratez Cunoașterea ca „progresul meta" (analog Stelelor) și doar resursele/producția „de eră" (energie, atomi, generatoare) ca fiind reciclate. Alternativa (reset total, doar Stelele persistă) ar face fiecare prestige să simtă ca un restart complet de la Tabelul Periodic gol, ceea ce contravine spiritului de „acumulare" al unui idle game.
+- **Formula de Stele foloseşte rădăcină pătrată** (nu liniar sau exponențial) pentru randamente descrescânde explicite fără să fie punitivă — nespecificat exact în SPEC dincolo de „randamente descrescânde".
+
+**Rămas de făcut / follow-up:**
+- Acesta a fost ultimul milestone planificat explicit în §12 din SPEC (M0→M5). Echilibrarea numerică fină (costuri, rate, praguri de Nucleosinteza) rămâne empirică — a fost verificată să funcționeze, nu neapărat optimizată pentru „simțul" de progresie pe termen lung.
+- Elementele de tier 4 din SPEC (P, Fe, Cu, Mg), notate ca neadăugate încă din M4, rămân neadăugate.
+- Nu există teste automate pentru bug-ul de randare DOM reparat mai sus (nu ating `lab.ts`/DOM) — dependent în continuare de verificarea manuală/live în browser după orice schimbare care poate goli Colecția.
+
+---
+
 ## [2026-08-10] M4 — Chimia organică: izomeri, șabloane, polimeri, DB 100+
 
 **Milestone:** M4

@@ -14,6 +14,8 @@ export function renderHud(container: HTMLElement, store: GameStore, callbacks: H
   energy.className = "stat";
   const knowledge = document.createElement("div");
   knowledge.className = "stat";
+  const stars = document.createElement("div");
+  stars.className = "stat";
   const spacer = document.createElement("div");
   spacer.className = "spacer";
 
@@ -26,12 +28,15 @@ export function renderHud(container: HTMLElement, store: GameStore, callbacks: H
   settingsBtn.title = "Setări";
   settingsBtn.addEventListener("click", callbacks.onOpenSettings);
 
-  container.append(energy, knowledge, spacer, periodicBtn, settingsBtn);
+  container.append(energy, knowledge, stars, spacer, periodicBtn, settingsBtn);
 
   function render(): void {
     const rate = store.totalEnergyPerSecond();
     energy.innerHTML = `<span class="icon">⚡</span> ${formatNumber(store.state.resources.energy)} E <span style="opacity:.6">(${formatRate(rate)})</span>`;
     knowledge.innerHTML = `<span class="icon">🧠</span> ${formatNumber(store.state.resources.knowledge)} C`;
+    // M5 — Stelele apar în HUD abia după prima Nucleosinteza, ca să nu aglomereze interfața unui jucător nou.
+    stars.style.display = store.state.stars > 0 ? "" : "none";
+    stars.innerHTML = `<span class="icon">⭐</span> ${store.state.stars}`;
   }
 
   render();

@@ -4,6 +4,7 @@ import { validateIonicMix, ionicFormula } from "../chem/ionic";
 import { toUnicodeSubscript } from "../chem/formula";
 import { formatNumber } from "./format";
 import { attachTooltip } from "./tooltip";
+import { playClick, playSynthesize } from "./sound";
 
 interface IonRow {
   row: HTMLElement;
@@ -100,6 +101,7 @@ export function renderIonicConstructor(container: HTMLElement, store: GameStore)
     plusBtn.addEventListener("click", () => {
       if (!store.reserveAtomForIon(symbol)) return;
       mix[symbol] = (mix[symbol] ?? 0) + 1;
+      playClick(store);
       render();
     });
 
@@ -126,6 +128,7 @@ export function renderIonicConstructor(container: HTMLElement, store: GameStore)
   synthBtn.addEventListener("click", () => {
     const result = store.synthesizeIonicMix(mix);
     if (result.ok) {
+      playSynthesize(store);
       for (const key of Object.keys(mix)) delete mix[key];
       render();
     }
