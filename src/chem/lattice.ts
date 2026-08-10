@@ -19,7 +19,18 @@ const LATTICE_ENERGY: Record<string, number> = {
   CuO: 1175,
   CuCl2: 2448,
   FeCl3: 3390,
-  Fe2O3: 4075
+  Fe2O3: 4075,
+  // Tier 5 — K/Ca/Al: aceleași energii reale de rețea ar fi cu un ordin de
+  // mărime peste orice altceva din joc (ex. Al2O3 real ≈ 15.900 kJ/mol) —
+  // recalibrate direct la introducere, cu aceeași metodă ca la Fe2O3 mai sus,
+  // ca eficiența E/s-per-atom să rămână puțin peste tier 4 și sub Adenină.
+  KCl: 1634,
+  KBr: 1665,
+  KI: 1587,
+  CaO: 1452,
+  CaCl2: 2830,
+  AlCl3: 3679,
+  Al2O3: 4185
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

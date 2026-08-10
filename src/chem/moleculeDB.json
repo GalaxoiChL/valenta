@@ -1483,5 +1483,155 @@
       "anorganic"
     ],
     "flavor": "Exact procesul care mănâncă orice obiect de fier lăsat la umezeală — și, la scară planetară, pigmentul roșu care dă culoarea lui Marte."
+  },
+  {
+    "key": "BrH|Br:1(1:H:1)|H:1(1:Br:1)",
+    "formula": "BrH",
+    "name": "Acid bromhidric",
+    "bonusMult": 1.9,
+    "discoveryC": 9,
+    "tier": 5,
+    "tags": ["anorganic", "acid"],
+    "flavor": "Un acid tare, mai puternic decât acidul clorhidric — legătura H-Br e mai slabă și cedează protonul mai ușor."
+  },
+  {
+    "key": "Br2|Br:1(1:Br:1)|Br:1(1:Br:1)",
+    "formula": "Br2",
+    "name": "Brom",
+    "bonusMult": 1.6,
+    "discoveryC": 6,
+    "tier": 5,
+    "tags": ["anorganic", "element"],
+    "flavor": "Singurul nemetal lichid la temperatura camerei — vaporii lui denși, roșii-brun, sunt vizibil toxici chiar și la concentrații mici."
+  },
+  {
+    "key": "HI|H:1(1:I:1)|I:1(1:H:1)",
+    "formula": "HI",
+    "name": "Acid iodhidric",
+    "bonusMult": 2.0,
+    "discoveryC": 10,
+    "tier": 5,
+    "tags": ["anorganic", "acid"],
+    "flavor": "Cel mai puternic dintre acizii halogenhidrici — legătura H-I e atât de slabă încât se ionizează aproape complet în apă."
+  },
+  {
+    "key": "I2|I:1(1:I:1)|I:1(1:I:1)",
+    "formula": "I2",
+    "name": "Iod",
+    "bonusMult": 2.3,
+    "discoveryC": 7,
+    "tier": 5,
+    "tags": ["anorganic", "element"],
+    "flavor": "Solidul violet-negru sublimază direct în vapori violeți fără să treacă prin stare lichidă — de-asta tinctura de iod miroase atât de caracteristic."
+  },
+  {
+    "key": "CH3Br|Br:1(1:C:4)|C:4(1:Br:1,1:H:1,1:H:1,1:H:1)|H:1(1:C:4)|H:1(1:C:4)|H:1(1:C:4)",
+    "formula": "CH3Br",
+    "name": "Bromometan",
+    "bonusMult": 1.7,
+    "discoveryC": 13,
+    "tier": 5,
+    "tags": ["organic", "halogenoalcan"],
+    "flavor": "Folosit istoric ca fumigant agricol — un halogenoalcan cu legătura C-Br suficient de slabă încât să reacționeze ușor cu alte molecule."
+  },
+  {
+    "key": "CH3I|C:4(1:H:1,1:H:1,1:H:1,1:I:1)|H:1(1:C:4)|H:1(1:C:4)|H:1(1:C:4)|I:1(1:C:4)",
+    "formula": "CH3I",
+    "name": "Iodometan",
+    "bonusMult": 1.8,
+    "discoveryC": 14,
+    "tier": 5,
+    "tags": ["organic", "halogenoalcan"],
+    "flavor": "Un reactiv clasic de laborator pentru metilare — legătura C-I, cea mai slabă dintre halogenoalcani, îl face foarte reactiv."
+  },
+  {
+    "key": "H4Si|H:1(1:Si:4)|H:1(1:Si:4)|H:1(1:Si:4)|H:1(1:Si:4)|Si:4(1:H:1,1:H:1,1:H:1,1:H:1)",
+    "formula": "H4Si",
+    "name": "Silan",
+    "bonusMult": 1.6,
+    "discoveryC": 11,
+    "tier": 5,
+    "tags": ["anorganic", "gaz"],
+    "flavor": "Analogul de siliciu al metanului — dar spre deosebire de metan, ia foc spontan în contact cu aerul."
+  },
+  {
+    "key": "Cl4Si|Cl:1(1:Si:4)|Cl:1(1:Si:4)|Cl:1(1:Si:4)|Cl:1(1:Si:4)|Si:4(1:Cl:1,1:Cl:1,1:Cl:1,1:Cl:1)",
+    "formula": "Cl4Si",
+    "name": "Tetraclorură de siliciu",
+    "bonusMult": 1.9,
+    "discoveryC": 14,
+    "tier": 5,
+    "tags": ["anorganic"],
+    "flavor": "Materia primă industrială pentru siliciul ultra-pur din cipuri și pentru fibra optică — reacționează violent cu umezeala din aer."
+  },
+  {
+    "key": "KCl",
+    "formula": "KCl",
+    "name": "Clorură de potasiu",
+    "bonusMult": 2.0,
+    "discoveryC": 14,
+    "tier": 5,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Înlocuitorul de sare \"fără sodiu\" de pe rafturile magazinelor — gust aproape identic cu sarea de masă obișnuită."
+  },
+  {
+    "key": "KBr",
+    "formula": "KBr",
+    "name": "Bromură de potasiu",
+    "bonusMult": 2.0,
+    "discoveryC": 15,
+    "tier": 5,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosită istoric drept primul sedativ și anticonvulsivant eficient — azi înlocuită de medicamente mult mai sigure."
+  },
+  {
+    "key": "KI",
+    "formula": "KI",
+    "name": "Iodură de potasiu",
+    "bonusMult": 2.1,
+    "discoveryC": 16,
+    "tier": 5,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Adăugată în cantități infime în sarea de masă \"iodată\" — previne gușa, o afecțiune a tiroidei cauzată de deficitul de iod."
+  },
+  {
+    "key": "CaO",
+    "formula": "CaO",
+    "name": "Var nestins",
+    "bonusMult": 2.2,
+    "discoveryC": 15,
+    "tier": 5,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Reacția lui cu apa e atât de exotermă încât poate fierbe apa — folosit din antichitate la mortar și, mai recent, la producția de oțel."
+  },
+  {
+    "key": "CaCl2",
+    "formula": "CaCl2",
+    "name": "Clorură de calciu",
+    "bonusMult": 2.1,
+    "discoveryC": 16,
+    "tier": 5,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un desicant puternic, folosit și ca sare de drum antiderapantă — absoarbe umezeala din aer atât de eficient încât se poate lichefia singură."
+  },
+  {
+    "key": "AlCl3",
+    "formula": "AlCl3",
+    "name": "Clorură de aluminiu",
+    "bonusMult": 2.3,
+    "discoveryC": 17,
+    "tier": 5,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un catalizator clasic în chimia organică industrială — și ingredientul activ din multe antiperspirante."
+  },
+  {
+    "key": "Al2O3",
+    "formula": "Al2O3",
+    "name": "Alumină (oxid de aluminiu)",
+    "bonusMult": 2.7,
+    "discoveryC": 20,
+    "tier": 5,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Rubinele și safirele naturale sunt exact acest compus — doar cu urme de crom sau fier ca impuritate care le dă culoarea."
   }
 ]

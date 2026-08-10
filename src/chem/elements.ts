@@ -186,6 +186,79 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 300,
     flavor: "Rugina de pe orice obiect vechi de fier e literalmente oxidul lui — același proces care dă culoarea roșie a lui Marte.",
     ionicCharge: 3
+  },
+
+  // --- tier 5: al doilea lot de metale/nemetale, urmând exact modelul din M6 ---
+  Al: {
+    symbol: "Al",
+    name: "Aluminiu",
+    Z: 13,
+    valences: [],
+    mass: 26.982,
+    color: "#a8a8a8",
+    tier: 5,
+    unlockCost: 450,
+    flavor: "Cel mai abundent metal din scoarța terestră — dar prea reactiv ca să existe liber în natură, mereu legat în minerale.",
+    ionicCharge: 3
+  },
+  Si: {
+    symbol: "Si",
+    name: "Siliciu",
+    Z: 14,
+    valences: [4],
+    mass: 28.085,
+    color: "#f0c8a0",
+    tier: 5,
+    unlockCost: 480,
+    flavor: "Al doilea cel mai abundent element din scoarța terestră — baza sticlei, a cipurilor de calculator și a nisipului de pe orice plajă."
+  },
+  Br: {
+    symbol: "Br",
+    name: "Brom",
+    Z: 35,
+    valences: [1],
+    mass: 79.904,
+    color: "#a62929",
+    tier: 5,
+    unlockCost: 520,
+    flavor: "Singurul nemetal lichid la temperatura camerei — un lichid roșu-brun cu vapori denși și un miros pătrunzător.",
+    ionicCharge: -1
+  },
+  K: {
+    symbol: "K",
+    name: "Potasiu",
+    Z: 19,
+    valences: [],
+    mass: 39.098,
+    color: "#8f40d4",
+    tier: 5,
+    unlockCost: 550,
+    flavor: "Esențial pentru semnalele nervoase și bătăile inimii — dar metalul pur reacționează exploziv cu apa, la fel de violent ca sodiul.",
+    ionicCharge: 1
+  },
+  Ca: {
+    symbol: "Ca",
+    name: "Calciu",
+    Z: 20,
+    valences: [],
+    mass: 40.078,
+    color: "#2f9e44",
+    tier: 5,
+    unlockCost: 580,
+    flavor: "Cel mai abundent metal din corpul tău — oasele și dinții sunt în mare parte compuși de calciu.",
+    ionicCharge: 2
+  },
+  I: {
+    symbol: "I",
+    name: "Iod",
+    Z: 53,
+    valences: [1],
+    mass: 126.904,
+    color: "#940094",
+    tier: 5,
+    unlockCost: 650,
+    flavor: "Solidul sublimază direct în vapori violeți fără să treacă prin stare lichidă — esențial pentru tiroidă, în cantități infime.",
+    ionicCharge: -1
   }
 };
 

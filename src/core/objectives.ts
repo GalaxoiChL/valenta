@@ -120,6 +120,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Adenină (C₅H₅N₅) — o „literă” a codului genetic",
     rewardC: 20,
     isComplete: (s) => Object.values(s.state.collection).some((e) => e.formula === "C5H5N5" && e.copies >= 1)
+  },
+  {
+    id: "unlock_si",
+    description: "Deblochează Siliciul",
+    rewardC: 14,
+    isComplete: (s) => s.state.unlockedElements.includes("Si")
+  },
+  {
+    id: "synth_al2o3",
+    description: "Sintetizează Alumină (Al₂O₃) — rubinele și safirele sunt exact acest compus",
+    rewardC: 18,
+    isComplete: (s) => collectionCopies(s, "Al2O3") >= 1
   }
 ];
 

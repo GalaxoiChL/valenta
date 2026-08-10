@@ -37,7 +37,17 @@ const BOND_ENERGIES: Partial<Record<BondKey, number>> = {
   [bondKey("P", "O", 1)]: 335,
   [bondKey("P", "O", 2)]: 544,
   [bondKey("P", "P", 1)]: 201,
-  [bondKey("C", "N", 2)]: 615
+  [bondKey("C", "N", 2)]: 615,
+  // Tier 5 — Si (silan, tetraclorură de siliciu) și halogenii grei Br/I
+  // (acizi, elemente diatomice, halogenoalcani — același model ca Cl/F din M3).
+  [bondKey("Si", "H", 1)]: 393,
+  [bondKey("Si", "Cl", 1)]: 381,
+  [bondKey("Br", "Br", 1)]: 193,
+  [bondKey("H", "Br", 1)]: 366,
+  [bondKey("C", "Br", 1)]: 276,
+  [bondKey("I", "I", 1)]: 151,
+  [bondKey("H", "I", 1)]: 298,
+  [bondKey("C", "I", 1)]: 240
 };
 
 // Medie brută per element, folosită doar pentru fallback (§5.4).
@@ -48,7 +58,10 @@ const AVERAGE_BOND_ENERGY: Record<string, number> = {
   C: 500,
   Cl: 380,
   S: 350,
-  F: 400
+  F: 400,
+  Si: 400,
+  Br: 300,
+  I: 250
 };
 
 export function bondEnergy(a: string, b: string, order: 1 | 2 | 3): number {

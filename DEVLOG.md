@@ -20,6 +20,30 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 5 — Al, Si, K, Ca, Br, I (al doilea lot de elemente noi)
+
+**Milestone:** post-M6 (răspuns la observația utilizatorului: multe poziții din Tabelul Periodic rămân siluete „?" neclickabile — decis, la cererea lui, să le completăm pe loturi, nu pe toate cele ~104 rămase odată)
+**Făcut:**
+- **6 elemente tier 5 noi** (`chem/elements.ts`), toate cu sloturi reale deja pregătite în `periodicLayout.ts` din M0: **Al** (Aluminiu, doar ionic, sarcină +3, ca Fe), **Si** (Siliciu, covalent, valență 4, ca C — dar fără sarcină ionică, spre deosebire de Al/K/Ca/Fe/Cu/Mg/Na), **K** (Potasiu, doar ionic, sarcină +1, ca Na), **Ca** (Calciu, doar ionic, sarcină +2, ca Mg), **Br** și **I** (Brom, Iod — duale covalent+ionic, sarcină −1, exact modelul Cl/F din M3).
+- Energii de legătură noi în `bonds.ts` (Si-H, Si-Cl, Br-Br, H-Br, C-Br, I-I, H-I, C-I) — valori reale din literatură.
+- **`moleculeDB.json` extins cu 15 intrări noi** (111→126): covalente — HBr, Br₂, HI, I₂ (acizii halogenhidrici + elementele diatomice, ca modelul Cl₂/F₂/HCl/HF din M3), CH₃Br/CH₃I (halogenoalcani, extensia seriei CH₃Cl din M4), SiH₄ (silan, analogul de Si al metanului) și SiCl₄ (tetraclorură de siliciu, precursor industrial pentru siliciul ultra-pur); ionice — KCl/KBr/KI (cele 3 halogenuri de potasiu, reutilizează Cl/Br/I existente), CaO/CaCl₂, AlCl₃/Al₂O₃ (**Alumina** — rubinele și safirele naturale sunt exact acest compus). Cheile covalente extrase programatic (script temporar, șters după rulare), la fel ca la M4/M6.
+- **Recalibrare de la bun început cu metodologia stabilită în trecerea anterioară de echilibrare numerică** (vezi intrarea de mai jos): energiile reale de rețea ale K/Ca/Al (ex. Al₂O₃ real ≈ 15.900 kJ/mol) ar fi reintrodus exact problema tocmai reparată la Mg/Cu/Fe — coborâte direct în `lattice.ts` la introducere, calibrate ca eficiența E/s-per-atom a compușilor ionici tier 5 să stea puțin peste tier 4 (Fe₂O₃ eff 3,50) și clar sub Adenină (eff 3,76, capstone-ul jocului) — interval țintă 3,55–3,70, atins exact. Moleculele covalente tier 5 (Si/Br/I) au eficiențe modeste (0,64–1,28 E/s/atom), consistent cu precedentul deja stabilit la P din tier 4 — legăturile elementelor grele/halogenilor sunt inerent mai slabe decât C-H/O-H, deci nu e un regres, e coerență chimică.
+- Costuri de deblocare (`unlockCost`) 450–650 C, costuri de generator 800–1100 E — continuă monoton progresia de la tier 4 (max 400 C / 750 E).
+- 2 obiective noi: „Deblochează Siliciul", „Sintetizează Alumină (Al₂O₃)".
+- Test nou `tests/moleculeDB_tier5.test.ts` (6 teste): ElementDef-urile noi (tier 5, valențe/sarcini corecte — Si covalent-only, Al/K/Ca ionic-only, Br/I duale), toate cele 8 molecule covalente validează structural cu cheia corectă în DB, toate cele 7 combinații ionice validează prin echilibru de sarcini.
+- Verificat live în browser (Vite dev): Si/Br/I apar corect în Paletă covalentă (culori CPK distincte); Al/K/Ca corect ABSENTE din Paletă (fără valențe covalente) dar prezente în picker-ul Ionic cu sarcinile corecte; construit și sintetizat Br₂ manual (rată afișată 1,27 E/s — exact valoarea calculată de mână); construit și sintetizat Al₂O₃ (2×Al³⁺ + 3×O²⁻, reducere corectă la raportul minim) în Constructorul Ionic — banner de descoperire corect, rată totală de producție confirmă exact valoarea calculată (18,52 E/s pentru Al₂O₃, adăugată la 1,27 de la Br₂ = 19,8 E/s afișat).
+- `tsc --noEmit` curat; 145 de teste automate trec (16 fișiere, +7 față de trecerea de echilibrare).
+
+**Decizii / abateri de la SPEC.md:**
+- **SiO₂ (silice/sticlă) NU a fost adăugată**, deși ar fi cea mai recognoscibilă moleculă de Siliciu — motiv: SiO₂ nu e de fapt o moleculă discretă (e un solid de rețea 3D, fiecare Si legat de 4 O în tetraedre, fiecare O punte între 2 Si), spre deosebire de CO₂ care chiar există ca moleculă discretă O=C=O. Simularea ei ca „O=Si=O" (analog CO₂) ar fi însemnat inventarea unei energii de legătură Si=O fără bază reală clară (spre deosebire de restul tabelului din `bonds.ts`, toate valori reale din literatură). Am ales onestitate chimică peste completitudine tematică — SiH₄/SiCl₄ acoperă totuși Si cu molecule discrete reale. Rămâne un candidat pentru un viitor lot, dacă se decide o simplificare explicită (documentată) pentru solide de rețea.
+- **O singură sarcină ionică per Al** (Al³⁺, nu și alte stări) — consistent cu simplificarea deja stabilită la Fe/Cu în M6 (`ionicCharge: number` unic per element).
+
+**Rămas de făcut / follow-up:**
+- Tot Tabelul Periodic rămas (peste 100 de poziții — lantanide, actinide, restul metalelor tranziționale, gaze rare grele etc.) rămâne siluete „?" — la cererea explicită a utilizatorului, se continuă pe loturi curate, nu toate odată. Următorul lot rămâne de decis într-o sesiune viitoare.
+- La fel ca la M6, nu există o simulare dedicată a timpului real necesar să ajungi la tier 5 cu economia curentă — calibrarea rămâne empirică, verificată doar structural.
+
+---
+
 ## [2026-08-10] Echilibrare numerică (post-M6) — eficiență E/s per atom, bug de migrare save-uri
 
 **Milestone:** post-M6 (follow-up explicit lăsat deschis în DEVLOG M5: „echilibrare finală pe curbe, foaie de calcul separată")
