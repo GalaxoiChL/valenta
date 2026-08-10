@@ -55,7 +55,13 @@ export const GENERATOR_BASE_COST: Record<string, number> = {
   In: 3200,
   Bi: 3300,
   W: 3400,
-  V: 3500
+  V: 3500,
+  Rb: 3600,
+  Sc: 3700,
+  Zr: 3800,
+  Sb: 3900,
+  Mo: 4000,
+  Nb: 4100
 };
 export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare

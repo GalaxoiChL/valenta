@@ -20,6 +20,28 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 10 — Rb, Sc, Zr, Sb, Mo, Nb (al șaptelea lot)
+
+**Milestone:** post-tier 9 (continuare autonomă, la cererea explicită „continua cu tier 10")
+**Făcut:**
+- **6 elemente tier 10 noi**, toate ionice: **Rb** (+1, alcalin extrem de reactiv, se aprinde spontan în aer), **Sc** (+3, aliaje ușoare de performanță), **Zr** (+4, **ZrO₂ = „zirconia cubică"**, alternativa sintetică clasică la diamant), **Sb** (+3, kohl-ul egiptean antic, azi agent ignifug), **Mo** (+6, oțeluri de scule), **Nb** (+5, supraconductor — magneții RMN).
+- **9 compuși noi**: RbCl/RbBr, ZrO₂ (singur — ZrCl₄ e de fapt covalent/molecular în realitate, la fel ca TiCl₄/NbCl₅/MoCl₆, toate evitate consistent), Nb₂O₅ (singur), MoO₃ (singur), Sb₂O₃/SbCl₃, Sc₂O₃/ScCl₃.
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 9 (V₂O₅, eff 5,90) — interval 6,00–6,40, atins exact.
+- 2 obiective noi: „Deblochează Zirconiul", „Sintetizează Oxid de zirconiu (ZrO₂)".
+- Test nou `tests/moleculeDB_tier10.test.ts` (3 teste).
+- **Bug mecanic găsit și reparat de două ori în acest lot, prin `tsc`/`node -e`, nu vizual**: aceeași greșeală ca la Crom (tier 8) — ghilimele drepte „...\" în interiorul flavor text-ului lui Zr, atât în `elements.ts` cât și în `moleculeDB.json` (unde a spart și JSON.parse, nu doar TS). Reparat cu ghilimele franceze «...» în ambele locuri. Al doilea semnal clar că acest tipar de citat trebuie evitat sistematic de-acum — notat ca regulă de scris pentru loturile viitoare.
+- `tsc --noEmit` curat; 162 de teste automate trec (21 fișiere).
+- Verificare live pe deploy-ul public: în curs, se face după acest commit (nu înainte — lecție reținută din corecția de la tier 8).
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nouă de design — doar extensia consecventă a politicii deja stabilite (un singur compus pentru metalele de tranziție cu sarcină ≥4 ale căror halogenuri sunt de fapt covalente în realitate).
+
+**Rămas de făcut / follow-up:**
+- **Regulă de scris pentru loturile viitoare**: NU folosi niciodată ghilimele drepte „...\" (stil englezesc) în flavor text — doar «...» (franceze) sau «...» pentru citate în interiorul unui string, ca să nu se mai repete bug-ul de sintaxă din Cr/Zr.
+- Tot Tabelul Periodic rămas (peste 60 de poziții) rămâne siluete „?" — continuăm pe loturi.
+
+---
+
 ## [2026-08-10] Tier 9 — Be, Ga, In, Bi, W, V (al șaselea lot)
 
 **Milestone:** post-tier 8 (continuare autonomă)

@@ -2083,5 +2083,95 @@
     "tier": 9,
     "tags": ["ionic", "anorganic"],
     "flavor": "Catalizatorul industrial folosit la producția majorității acidului sulfuric din lume — sarcina +5 a vanadiului cere cinci oxigeni pentru doi atomi de vanadiu."
+  },
+  {
+    "key": "RbCl",
+    "formula": "RbCl",
+    "name": "Clorură de rubidiu",
+    "bonusMult": 2.0,
+    "discoveryC": 30,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Structura ei cristalină e aproape identică cu a clorurii de sodiu — doar celula unitară e vizibil mai mare, din cauza ionului de rubidiu mai voluminos."
+  },
+  {
+    "key": "RbBr",
+    "formula": "RbBr",
+    "name": "Bromură de rubidiu",
+    "bonusMult": 2.1,
+    "discoveryC": 31,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosită în unele optici pentru infraroșu — transparentă la lungimi de undă pe care sticla obișnuită le blochează."
+  },
+  {
+    "key": "ZrO2",
+    "formula": "ZrO2",
+    "name": "Oxid de zirconiu",
+    "bonusMult": 2.4,
+    "discoveryC": 32,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Crescut ca monocristal, e «zirconia cubică» — cea mai comună alternativă sintetică la diamant din bijuteriile ieftine."
+  },
+  {
+    "key": "Nb2O5",
+    "formula": "Nb2O5",
+    "name": "Pentoxid de niobiu",
+    "bonusMult": 2.8,
+    "discoveryC": 34,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosit la producția condensatoarelor electronice de mare capacitate — niobiul reține o pojghiță de oxid extrem de subțire și stabilă."
+  },
+  {
+    "key": "MoO3",
+    "formula": "MoO3",
+    "name": "Trioxid de molibden",
+    "bonusMult": 2.5,
+    "discoveryC": 32,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid galben-verzui folosit ca sursă de molibden în îngrășăminte agricole — element esențial pentru plante, în urme."
+  },
+  {
+    "key": "Sb2O3",
+    "formula": "Sb2O3",
+    "name": "Trioxid de stibiu",
+    "bonusMult": 2.6,
+    "discoveryC": 33,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cel mai folosit agent sinergic pentru ignifugare din plastice și textile — nu arde singur, dar amplifică efectul altor compuși ignifugi."
+  },
+  {
+    "key": "SbCl3",
+    "formula": "SbCl3",
+    "name": "Clorură de stibiu",
+    "bonusMult": 2.3,
+    "discoveryC": 31,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid alb care fumegă în aer umed — reacționează cu vaporii de apă formând un clorură bazică insolubilă."
+  },
+  {
+    "key": "Sc2O3",
+    "formula": "Sc2O3",
+    "name": "Oxid de scandiu",
+    "bonusMult": 2.5,
+    "discoveryC": 32,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Unul dintre cele mai rare oxide de pământuri rare procesate comercial — folosit în lămpi cu halogenuri metalice de înaltă intensitate."
+  },
+  {
+    "key": "ScCl3",
+    "formula": "ScCl3",
+    "name": "Clorură de scandiu",
+    "bonusMult": 2.2,
+    "discoveryC": 30,
+    "tier": 10,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cristale albe higroscopice — un intermediar în extragerea scandiului metalic pur, un proces industrial notoriu de dificil."
   }
 ]

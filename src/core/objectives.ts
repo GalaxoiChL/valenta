@@ -180,6 +180,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Pentoxid de vanadiu (V₂O₅) — catalizatorul din spatele majorității acidului sulfuric din lume",
     rewardC: 35,
     isComplete: (s) => collectionCopies(s, "V2O5") >= 1
+  },
+  {
+    id: "unlock_zr",
+    description: "Deblochează Zirconiul",
+    rewardC: 32,
+    isComplete: (s) => s.state.unlockedElements.includes("Zr")
+  },
+  {
+    id: "synth_zro2",
+    description: "Sintetizează Oxid de zirconiu (ZrO₂) — „zirconia cubică”, alternativa sintetică la diamant",
+    rewardC: 34,
+    isComplete: (s) => collectionCopies(s, "ZrO2") >= 1
   }
 ];
 

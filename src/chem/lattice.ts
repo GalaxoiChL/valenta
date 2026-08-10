@@ -81,7 +81,21 @@ const LATTICE_ENERGY: Record<string, number> = {
   BiCl3: 6582,
   WO3: 6526,
   WCl6: 13987,
-  V2O5: 12497
+  V2O5: 12497,
+  // Tier 10 — Rb/Sc/Zr/Sb/Mo/Nb: aceeași metodă, țintă peste vârful tier 9
+  // (V2O5, eff 5,90). ZrCl4/NbCl5/MoCl6 evitate deliberat — la fel ca TiCl4
+  // din tier 7, sunt de fapt covalente/moleculare în realitate, nu săruri
+  // ionice — fiecare metal de tranziție cu sarcină ≥4 primește un singur
+  // compus (oxidul, genuine ionic), consistent cu Ti/Au/V.
+  RbCl: 3457,
+  RbBr: 3263,
+  ZrO2: 5099,
+  Nb2O5: 14037,
+  MoO3: 7091,
+  Sb2O3: 9115,
+  SbCl3: 7713,
+  Sc2O3: 9529,
+  ScCl3: 8122
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

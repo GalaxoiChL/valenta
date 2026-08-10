@@ -553,6 +553,80 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 1850,
     flavor: "Oxidul lui e catalizatorul industrial folosit la producția majorității acidului sulfuric din lume.",
     ionicCharge: 5
+  },
+
+  // --- tier 10: al șaptelea lot ---
+  Rb: {
+    symbol: "Rb",
+    name: "Rubidiu",
+    Z: 37,
+    valences: [],
+    mass: 85.468,
+    color: "#702eb0",
+    tier: 10,
+    unlockCost: 1900,
+    flavor: "Un metal alcalin atât de reactiv încât se aprinde spontan în aer — păstrat mereu în ulei sau atmosferă inertă.",
+    ionicCharge: 1
+  },
+  Sc: {
+    symbol: "Sc",
+    name: "Scandiu",
+    Z: 21,
+    valences: [],
+    mass: 44.956,
+    color: "#e6e6e6",
+    tier: 10,
+    unlockCost: 1950,
+    flavor: "Adăugat în cantități mici la aliaje de aluminiu pentru piese de bicicletă și echipament sportiv de performanță — ușor și rezistent.",
+    ionicCharge: 3
+  },
+  Zr: {
+    symbol: "Zr",
+    name: "Zirconiu",
+    Z: 40,
+    valences: [],
+    mass: 91.224,
+    color: "#94e0e0",
+    tier: 10,
+    unlockCost: 2000,
+    flavor: "Oxidul lui, crescut ca monocristal, e «zirconia cubică» — cea mai comună alternativă sintetică la diamant din bijuterii.",
+    ionicCharge: 4
+  },
+  Sb: {
+    symbol: "Sb",
+    name: "Stibiu",
+    Z: 51,
+    valences: [],
+    mass: 121.76,
+    color: "#9e63b5",
+    tier: 10,
+    unlockCost: 2050,
+    flavor: "Folosit din Egiptul antic ca pigment cosmetic negru (kohl) — și azi ca agent ignifug în textile și materiale plastice.",
+    ionicCharge: 3
+  },
+  Mo: {
+    symbol: "Mo",
+    name: "Molibden",
+    Z: 42,
+    valences: [],
+    mass: 95.95,
+    color: "#54b5b5",
+    tier: 10,
+    unlockCost: 2100,
+    flavor: "Crește punctul de topire al oțelului mai mult decât aproape orice alt element de aliere — esențial în oțelurile de scule.",
+    ionicCharge: 6
+  },
+  Nb: {
+    symbol: "Nb",
+    name: "Niobiu",
+    Z: 41,
+    valences: [],
+    mass: 92.906,
+    color: "#43a3a3",
+    tier: 10,
+    unlockCost: 2150,
+    flavor: "Devine supraconductor la temperaturi apropiate de zero absolut — folosit în magneții puternici ai scanerelor RMN.",
+    ionicCharge: 5
   }
 };
 
