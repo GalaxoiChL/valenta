@@ -108,6 +108,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Clorură de sodiu (NaCl) în Constructorul Ionic",
     rewardC: 10,
     isComplete: (s) => collectionCopies(s, "NaCl") >= 1
+  },
+  {
+    id: "unlock_p",
+    description: "Deblochează Fosforul",
+    rewardC: 12,
+    isComplete: (s) => s.state.unlockedElements.includes("P")
+  },
+  {
+    id: "synth_adenine",
+    description: "Sintetizează Adenină (C₅H₅N₅) — o „literă” a codului genetic",
+    rewardC: 20,
+    isComplete: (s) => Object.values(s.state.collection).some((e) => e.formula === "C5H5N5" && e.copies >= 1)
   }
 ];
 

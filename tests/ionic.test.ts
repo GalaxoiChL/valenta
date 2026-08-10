@@ -59,10 +59,16 @@ describe("validateIonicMix — validare prin echilibru de sarcini (§5.6)", () =
     if (!result.ok) expect(result.reason).toBe("cannot_ionize");
   });
 
-  it("respinge elemente fără sarcină ionică definită (H, O covalente)", () => {
-    const result = validateIonicMix({ Na: 1, O: 1 });
+  it("respinge elemente fără sarcină ionică definită (C, N covalente)", () => {
+    const result = validateIonicMix({ Na: 1, C: 1 });
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.reason).toBe("cannot_ionize");
+  });
+
+  it("acceptă O ca ion oxid (M6 — dual, ca Cl/F): Mg2+ + O2- → MgO neutru", () => {
+    const result = validateIonicMix({ Mg: 1, O: 1 });
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.formula).toBe("MgO");
   });
 });
 

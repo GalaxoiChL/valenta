@@ -40,7 +40,10 @@ export const ELEMENTS: Record<string, ElementDef> = {
     color: "#ff3b30",
     tier: 1,
     unlockCost: 10,
-    flavor: "Respirăm datorită lui, dar în stare pură e și el otrăvitor peste o anumită concentrație."
+    flavor: "Respirăm datorită lui, dar în stare pură e și el otrăvitor peste o anumită concentrație.",
+    // M6 — dual, ca Cl/F: covalent (H2O, CO2...) ȘI ionic (ionul oxid O²⁻,
+    // necesar pentru oxizii metalelor din tier 4: MgO, CuO, Fe2O3).
+    ionicCharge: -2
   },
   N: {
     symbol: "N",
@@ -134,6 +137,55 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 95,
     flavor: "Gazul care dă culoarea roșu-portocalie clasică reclamelor luminoase — la fel de puțin dornic să lege ca vecinul său Heliul.",
     ionicCharge: 0
+  },
+
+  // --- M6 — tier 4: metalele rămase din §8.2, notate ca gol în M4/M5 ---
+  P: {
+    symbol: "P",
+    name: "Fosfor",
+    Z: 15,
+    valences: [3, 5],
+    mass: 30.974,
+    color: "#ff8000",
+    tier: 4,
+    unlockCost: 400,
+    flavor: "Esențial în ADN și în oasele tale — dar forma albă a elementului pur e atât de reactivă încât ia foc singură la aer."
+  },
+  Mg: {
+    symbol: "Mg",
+    name: "Magneziu",
+    Z: 12,
+    valences: [],
+    mass: 24.305,
+    color: "#8aff00",
+    tier: 4,
+    unlockCost: 220,
+    flavor: "Arde cu o lumină albă orbitoare — folosit istoric în primele blițuri foto. Ionul lui e esențial pentru clorofilă.",
+    ionicCharge: 2
+  },
+  Cu: {
+    symbol: "Cu",
+    name: "Cupru",
+    Z: 29,
+    valences: [],
+    mass: 63.546,
+    color: "#c88033",
+    tier: 4,
+    unlockCost: 320,
+    flavor: "Singurul metal comun cu o culoare naturală, alta decât gri/argintiu — patina lui verde e chiar oxidul de cupru.",
+    ionicCharge: 2
+  },
+  Fe: {
+    symbol: "Fe",
+    name: "Fier",
+    Z: 26,
+    valences: [],
+    mass: 55.845,
+    color: "#b7410e",
+    tier: 4,
+    unlockCost: 300,
+    flavor: "Rugina de pe orice obiect vechi de fier e literalmente oxidul lui — același proces care dă culoarea roșie a lui Marte.",
+    ionicCharge: 3
   }
 };
 

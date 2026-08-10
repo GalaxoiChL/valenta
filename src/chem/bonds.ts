@@ -31,7 +31,13 @@ const BOND_ENERGIES: Partial<Record<BondKey, number>> = {
   // F-F e neobișnuit de slabă (respingerea perechilor de electroni neparticipanți
   // de pe cei doi atomi mici, vecini) — de-asta fluorul e atât de reactiv: rupe
   // ușor propria legătură. Valoare reală, nu o simplificare a modelului.
-  [bondKey("F", "F", 1)]: 159
+  [bondKey("F", "F", 1)]: 159,
+  // M6 — Fosfor (PH3, P4, H3PO4) și C=N (necesar pentru Adenină, §8.2 tier 5).
+  [bondKey("P", "H", 1)]: 322,
+  [bondKey("P", "O", 1)]: 335,
+  [bondKey("P", "O", 2)]: 544,
+  [bondKey("P", "P", 1)]: 201,
+  [bondKey("C", "N", 2)]: 615
 };
 
 // Medie brută per element, folosită doar pentru fallback (§5.4).

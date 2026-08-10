@@ -20,6 +20,33 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] M6 — Deploy public, metalele tier 4 rămase (P, Mg, Cu, Fe), Adenină
+
+**Milestone:** post-M5 (roadmap-ul din §12 e complet; acesta e follow-up din notele lăsate în DEVLOG M4/M5)
+**Făcut:**
+- **Deploy public**: repo GitHub privat (`github.com/GalaxoiChL/valenta`, cod inaccesibil public) conectat la Vercel (cont personal al utilizatorului, autorizat explicit doar pe acest repo) — joc live, permanent accesibil la **https://valenta-five.vercel.app**, redeployat automat la fiecare `git push` pe `master`. Verificat live: build-ul de producție (nu doar `npm run dev`) încarcă corect, inclusiv tutorialul de prim-lansare pe un domeniu/browser complet nou.
+- **Elementele de tier 4 rămase din §8.2** (notate ca gol încă din M4): **P** (Fosfor, covalent, valențe 3 și 5, unlockCost 400C — exact valoarea din §4.2), **Mg/Cu/Fe** (Magneziu, Cupru, Fier — doar ionice, sarcini +2/+2/+3). Poziționate automat corect în Tabelul Periodic (`periodicLayout.ts` avea deja sloturile reale pregătite din M1, neutilizate până acum) și filtrate automat corect în Paletă/Constructorul Ionic — arhitectura din M1-M3 s-a dovedit complet generică, zero cod UI nou a fost necesar dincolo de `elements.ts`.
+- **Oxigenul a devenit dual** (covalent ȘI ionic, ion oxid O²⁻) — după modelul deja existent pentru Cl/F. Necesar ca oxizii metalelor (MgO, Fe₂O₃) să fie construibili prin motorul ionic existent.
+- **`moleculeDB.json` extins cu 10 intrări noi** (101→111): fosfor covalent — PH₃ (fosfină), P₄ (fosfor alb, patru atomi legați într-un tetraedru — graful K4 satisface valența 3 a fiecărui P prin trei legături simple, fără cod special), H₃PO₄ (acid fosforic, P cu valență 5: trei grupe O-H + un O dublu legat); metale ionice — MgO, MgCl₂, CuO, CuCl₂, FeCl₃, Fe₂O₃ (rugina); și **Adenină (C₅H₅N₅)** — molecula-far explicită a finalului de joc din §8.2 ("cărămida vieții"), un inel purinic fuzionat (pirimidină 6 + imidazol 5), structură Kekulé cu 15 atomi/16 legături, validată exact ca piridina/toluenul din M4 (fără cod nou în motor). Cheile canonice pentru cele 4 molecule covalente noi au fost extrase programatic (script temporar care apelează `moleculeKey()` direct pe graful real, apoi șters), la fel ca la M4.
+- Energii de legătură noi în `bonds.ts` (P-H, P-O simplă/dublă, P-P, C=N — ultima necesară pentru inelul Adeninei) și energii de rețea noi în `lattice.ts` pentru cei 6 compuși ionici noi.
+- 2 obiective noi: „Deblochează Fosforul", „Sintetizează Adenină — o «literă» a codului genetic".
+- Test nou `tests/moleculeDB_m6.test.ts` (7 teste): ElementDef-urile noi, PH₃/P₄/H₃PO₄/Adenină validează structural și au cheia corectă în DB, cei 6 compuși ionici noi validează prin echilibru de sarcini. Actualizat un test din `ionic.test.ts` care presupunea greșit că O nu poate ioniza (acum poate, ca O²⁻) — înlocuit cu C (element încă fără sarcină ionică) pentru cazul „element neionizabil", plus un test nou explicit pentru O²⁻.
+- Verificat live în browser (Vite dev, nu doar teste): stare bootstrată direct prin `localStorage` (2000 C, stoc mare de atomi) ca să sară peste grindul de ~1200 C necesar pentru toate cele 4 elemente; deblocate P/Mg/Cu/Fe din Tabelul Periodic (culori/poziții/tooltips corecte); construit și sintetizat Fosfină (H₃P) manual în Constructorul Covalent (validă, banner de descoperire corect, rată boostată din DB); construit și sintetizat Clorură de fier (FeCl₃) în Constructorul Ionic (sarcină netă 0, `Fe3⁺`/`Mg2⁺`/`O2⁻` afișate corect cu formatarea sarcinii multiple, deja generică din M3). Adenina NU a fost testată manual în browser (15 atomi/16 legături prin click-uri sintetice ar fi nesigur de reprodus corect) — verificată exclusiv prin testul automat care reconstruiește graful exact și verifică `validate().ok` + cheia din DB, o alegere deliberată (vezi mai jos).
+- `tsc --noEmit` curat; 138 de teste automate trec (15 fișiere, +8 față de M5).
+
+**Decizii / abateri de la SPEC.md:**
+- **Adenina verificată doar prin test automat, nu live în browser** — abatere de la [[feedback-self-verify-browser]]. Motiv: construirea manuală a unui inel bicilic fuzionat de 15 atomi prin coordonate de click sintetice e fragilă și predispusă la erori de poziționare care ar da fals-negative fără să reflecte un bug real; testul automat verifică exact același cod de validare (`validate()`, `moleculeKey()`) pe care l-ar exercita și un click real, deci acoperirea e echivalentă pentru corectitudinea structurală — doar interacțiunea UI de plasare/drag propriu-zisă rămâne neverificată vizual pentru acest caz specific (dar e identică mecanic cu piridina/toluenul din M4, deja verificate live).
+- **O singură sarcină ionică per metal** (Fe³⁺, nu și Fe²⁺; Cu²⁺, nu și Cu⁺) — modelul `ElementDef.ionicCharge` suportă un singur număr, nu stări de oxidare multiple. Fe³⁺ ales pentru tema rugină/Fe₂O₃ (mai recognoscibilă decât FeCl₂). Simplificare conștientă, în linia deja stabilită de §5.6.
+- **Costurile de deblocare pentru Mg/Cu/Fe** (220C/320C/300C) nu erau specificate în SPEC (doar P=400C era dat explicit, §4.2) — calibrate manual, între Na(150C) și S(250C)/costul lui P, fără testare de echilibrare pe termen lung dedicată.
+- **Repo GitHub e privat**, spre deosebire de ce ar fi implicat un deploy simplu pe GitHub Pages (care ar necesita repo public pe cont gratuit) — ales explicit de utilizator; Vercel deployează direct din repo privat fără nicio limitare, cod sursă rămâne inaccesibil public, doar jocul compilat e la un link public.
+
+**Rămas de făcut / follow-up:**
+- Toate golurile notate explicit în DEVLOG M4/M5 sunt acum închise: tier 4 complet (S, Cl, Na, F, He, Ne, P, Mg, Cu, Fe), Adenina adăugată.
+- Rămâne deschisă din M5: „echilibrare finală pe curbe (foaie de calcul separată)" — încă nefăcută ca exercițiu dedicat, doar calibrare empirică continuă.
+- Dacă apare vreodată nevoia de stări de oxidare multiple (Fe²⁺ ȘI Fe³⁺ simultan) — modelul actual de `ionicCharge: number` unic per element ar trebui extins la o listă, similar cu `valences: number[]` de la chimia covalentă.
+
+---
+
 ## [2026-08-10] M5 — Nucleosinteza, Sunet, Tutorial, responsive tabletă
 
 **Milestone:** M5
