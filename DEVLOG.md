@@ -20,6 +20,24 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Căutare în Paletă și Constructorul Ionic — UX necesar la scara nouă (82 de elemente)
+
+**Milestone:** post-tier 16 (răspuns la „continua cu ce crezi ca mai trebuie" — nu mai era conținut chimic real de adăugat, dar arcul de extindere a lăsat o lacună reală de UX)
+**Făcut:**
+- **Câmp de căutare nou**, atât în Paletă (elemente covalente) cât și în Constructorul Ionic (ioni) — cu 82 de elemente deblocabile (față de ~14 la începutul sesiunii de azi), un scroll lung fără filtru devenise impracticabil pentru găsirea unui element anume. Filtrare live, după nume sau simbol, fără sensibilitate la majuscule.
+- Implementat cu tiparul deja existent în ambele fișiere (`ensureItem`/`ensureRow`, actualizare in-place): elementele/ionii nepotriviți primesc clasa `filtered-out` (`display:none`), nu sunt recreați/eliminați din DOM — filtrarea nu strică cache-ul de randare stabilit din M0.
+- Cele două câmpuri de căutare sunt independente (fiecare cu propria stare `query` locală), consistent cu faptul că Paleta și Constructorul Ionic au fost dintotdeauna module UI separate (§8.2).
+- Verificat live în dev server: „xen" în Paletă → doar Xenon rămâne vizibil; „osm" în picker-ul Ionic → doar Osmiu rămâne vizibil; ambele filtre independente, fără efecte secundare asupra selecției/mix-ului curent.
+- `tsc --noEmit` curat; toate cele 183 de teste automate încă trec (nicio schimbare de logică de joc, doar UI).
+
+**Decizii / abateri de la SPEC.md:**
+- Nicio schimbare de design nouă — SPEC nu menționează explicit căutare, dar principiul din §10.1 („un singur ecran, fără navigare") rămâne intact: căutarea e un filtru local pe ecranul existent, nu o navigare/overlay nou.
+
+**Rămas de făcut / follow-up:**
+- Verificare live pe deploy-ul public rămâne de făcut după push (parte din acest commit).
+
+---
+
 ## [2026-08-10] Tier 16 — Rh, Os (ultimele 2 metale reale, lacună găsită prin recitirea completă a tabelului)
 
 **Milestone:** post-tier 15 (continuare autonomă, „continua" — la recitirea completă a Tabelului Periodic pentru a confirma că tier 15 a fost cu adevărat ultimul lot, am găsit o lacună reală: Rh și Os, ambele stabile, ambele din familia platinei ca Ru/Pd/Ir/Pt deja acoperite, omise din greșeală)

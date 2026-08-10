@@ -366,6 +366,37 @@ body {
   flex-shrink: 0;
 }
 
+/* Căutare în Paletă și în picker-ul de ioni (§10) — apare mai sus, ambele
+   liste au crescut mult (80+ elemente) și un scroll fără filtru e greoi. */
+.search-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  padding: 7px 10px;
+  background: var(--bg-panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+/* .ionic-panel are padding:0 (spre deosebire de .palette-panel) — căutarea
+   are nevoie de propriul spațiu lateral ca să se alinieze cu restul. */
+.ionic-panel > .search-input {
+  width: auto;
+  margin: 8px 16px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.filtered-out {
+  display: none !important;
+}
+
 .ion-chip {
   display: flex;
   flex-direction: column;

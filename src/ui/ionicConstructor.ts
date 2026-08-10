@@ -28,6 +28,18 @@ export function renderIonicConstructor(container: HTMLElement, store: GameStore)
   hint.textContent =
     "Adaugă ioni cu + / − până la sarcină netă zero (cel puțin un cation și un anion), apoi Sintetizează.";
 
+  // Căutare (§10: la fel ca în Paletă — cu zeci de ioni deblocați, un scroll
+  // lung fără filtru devine impracticabil).
+  let query = "";
+  const searchInput = document.createElement("input");
+  searchInput.type = "text";
+  searchInput.className = "search-input";
+  searchInput.placeholder = "Caută ion...";
+  searchInput.addEventListener("input", () => {
+    query = searchInput.value.trim().toLowerCase();
+    applyFilter();
+  });
+
   const pickerWrap = document.createElement("div");
   pickerWrap.className = "ion-picker";
 
@@ -50,7 +62,7 @@ export function renderIonicConstructor(container: HTMLElement, store: GameStore)
   synthBtn.textContent = "Sintetizează";
   statusBar.append(badge, formulaEl, messageEl, clearBtn, synthBtn);
 
-  container.append(hint, pickerWrap, latticeWrap, statusBar);
+  container.append(hint, searchInput, pickerWrap, latticeWrap, statusBar);
 
   // mix = câți ioni din fiecare element sunt curent "în tavă", cu atomii deja
   // rezervați din stoc (§6.1) — stare locală UI, nepersistată (simplificare M3).
@@ -58,6 +70,14 @@ export function renderIonicConstructor(container: HTMLElement, store: GameStore)
 
   function ionicElements(): string[] {
     return store.state.unlockedElements.filter((s) => (ELEMENTS[s]?.ionicCharge ?? 0) !== 0);
+  }
+
+  function applyFilter(): void {
+    for (const [symbol, { row }] of rows) {
+      const def = getElement(symbol);
+      const matches = query === "" || def.name.toLowerCase().includes(query) || symbol.toLowerCase().includes(query);
+      row.classList.toggle("filtered-out", !matches);
+    }
   }
 
   const rows = new Map<string, IonRow>();
@@ -213,6 +233,7 @@ export function renderIonicConstructor(container: HTMLElement, store: GameStore)
     }
     renderLattice();
     renderStatus();
+    applyFilter();
   }
 
   render();

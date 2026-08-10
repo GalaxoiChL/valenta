@@ -19,13 +19,34 @@ function covalentCapable(store: GameStore): string[] {
 
 export function renderPalette(container: HTMLElement, store: GameStore): PaletteController {
   let selected: string | null = covalentCapable(store)[0] ?? null;
+  let query = "";
 
   container.innerHTML = "";
   const heading = document.createElement("h2");
   heading.textContent = "Paletă";
   container.appendChild(heading);
 
+  // Căutare (§10: cu zeci de elemente deblocate, un scroll lung fără filtru
+  // devine impracticabil — găsește după nume sau simbol, nu case-sensitive).
+  const searchInput = document.createElement("input");
+  searchInput.type = "text";
+  searchInput.className = "search-input";
+  searchInput.placeholder = "Caută element...";
+  searchInput.addEventListener("input", () => {
+    query = searchInput.value.trim().toLowerCase();
+    applyFilter();
+  });
+  container.appendChild(searchInput);
+
   const items = new Map<string, PaletteItem>();
+
+  function applyFilter(): void {
+    for (const [symbol, { item }] of items) {
+      const def = getElement(symbol);
+      const matches = query === "" || def.name.toLowerCase().includes(query) || symbol.toLowerCase().includes(query);
+      item.classList.toggle("filtered-out", !matches);
+    }
+  }
 
   function ensureItem(symbol: string): PaletteItem {
     const existing = items.get(symbol);
@@ -74,6 +95,7 @@ export function renderPalette(container: HTMLElement, store: GameStore): Palette
       stockEl.classList.toggle("zero", stock === 0);
     }
     updateSelection();
+    applyFilter();
   }
 
   render();
