@@ -1753,5 +1753,115 @@
     "tier": 6,
     "tags": ["ionic", "anorganic"],
     "flavor": "Aproape insolubilă în apă rece dar vizibil mai solubilă în apă fierbinte — un exemplu clasic de solubilitate dependentă de temperatură."
+  },
+  {
+    "key": "TiO2",
+    "formula": "TiO2",
+    "name": "Dioxid de titan",
+    "bonusMult": 2.6,
+    "discoveryC": 24,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cel mai folosit pigment alb din lume — de la vopsele la pastă de dinți și creme de protecție solară."
+  },
+  {
+    "key": "SrO",
+    "formula": "SrO",
+    "name": "Oxid de stronțiu",
+    "bonusMult": 2.2,
+    "discoveryC": 23,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Adăugat istoric în glazurile ceramice pentru luciu — vecin de grup cu calciul și bariul, cu proprietăți asemănătoare."
+  },
+  {
+    "key": "SrCl2",
+    "formula": "SrCl2",
+    "name": "Clorură de stronțiu",
+    "bonusMult": 2.1,
+    "discoveryC": 24,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosită în unele paste de dinți pentru dinți sensibili — blochează fizic canalele microscopice spre nervul dintelui."
+  },
+  {
+    "key": "NiO",
+    "formula": "NiO",
+    "name": "Oxid de nichel",
+    "bonusMult": 2.2,
+    "discoveryC": 23,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid verde folosit la colorarea sticlei și ceramicii — și un precursor în producția catozilor pentru baterii."
+  },
+  {
+    "key": "NiCl2",
+    "formula": "NiCl2",
+    "name": "Clorură de nichel",
+    "bonusMult": 2.1,
+    "discoveryC": 24,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cristale galben-verzui folosite în galvanizarea cu nichel — un strat protector și decorativ pe metale."
+  },
+  {
+    "key": "CoO",
+    "formula": "CoO",
+    "name": "Oxid de cobalt",
+    "bonusMult": 2.3,
+    "discoveryC": 23,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Sursa albastrului de cobalt folosit în ceramică și sticlă colorată timp de secole, din Egiptul antic până azi."
+  },
+  {
+    "key": "CoCl2",
+    "formula": "CoCl2",
+    "name": "Clorură de cobalt",
+    "bonusMult": 2.2,
+    "discoveryC": 24,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Schimbă culoarea din albastru (uscat) în roz (hidratat) — folosită clasic ca indicator de umiditate în silica gel."
+  },
+  {
+    "key": "CsCl",
+    "formula": "CsCl",
+    "name": "Clorură de cesiu",
+    "bonusMult": 2.0,
+    "discoveryC": 22,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Structura ei cristalină cubică simplă e un exemplu clasic în manualele de cristalografie — diferită de cea a NaCl."
+  },
+  {
+    "key": "CsBr",
+    "formula": "CsBr",
+    "name": "Bromură de cesiu",
+    "bonusMult": 2.1,
+    "discoveryC": 23,
+    "tier": 7,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Transparentă la infraroșu — folosită la ferestrele instrumentelor optice de spectroscopie."
+  },
+  {
+    "key": "BF3|B:3(1:F:1,1:F:1,1:F:1)|F:1(1:B:3)|F:1(1:B:3)|F:1(1:B:3)",
+    "formula": "BF3",
+    "name": "Trifluorură de bor",
+    "bonusMult": 1.6,
+    "discoveryC": 16,
+    "tier": 7,
+    "tags": ["anorganic"],
+    "flavor": "Un acid Lewis clasic — atomul de bor are doar 6 electroni în jur, „foame\" de o pereche de electroni în plus."
+  },
+  {
+    "key": "BCl3|B:3(1:Cl:1,1:Cl:1,1:Cl:1)|Cl:1(1:B:3)|Cl:1(1:B:3)|Cl:1(1:B:3)",
+    "formula": "BCl3",
+    "name": "Triclorură de bor",
+    "bonusMult": 1.8,
+    "discoveryC": 17,
+    "tier": 7,
+    "tags": ["anorganic"],
+    "flavor": "Folosită industrial la purificarea aluminiului și siliciului — reacționează violent cu apa, eliberând acid clorhidric."
   }
 ]

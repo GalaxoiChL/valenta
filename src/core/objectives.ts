@@ -144,6 +144,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Bromură de argint (AgBr) — sarea sensibilă la lumină din fotografia clasică",
     rewardC: 22,
     isComplete: (s) => collectionCopies(s, "AgBr") >= 1
+  },
+  {
+    id: "unlock_ti",
+    description: "Deblochează Titanul",
+    rewardC: 24,
+    isComplete: (s) => s.state.unlockedElements.includes("Ti")
+  },
+  {
+    id: "synth_tio2",
+    description: "Sintetizează Dioxid de titan (TiO₂) — cel mai folosit pigment alb din lume",
+    rewardC: 26,
+    isComplete: (s) => collectionCopies(s, "TiO2") >= 1
   }
 ];
 

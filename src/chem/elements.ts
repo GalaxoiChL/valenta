@@ -333,6 +333,79 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 950,
     flavor: "Folosit milenii la conducte și vopsele pentru maleabilitatea lui — până s-a descoperit cât de toxic e, chiar și în urme mici.",
     ionicCharge: 2
+  },
+
+  // --- tier 7: al patrulea lot ---
+  Ti: {
+    symbol: "Ti",
+    name: "Titan",
+    Z: 22,
+    valences: [],
+    mass: 47.867,
+    color: "#bfc2c7",
+    tier: 7,
+    unlockCost: 1000,
+    flavor: "Rezistent, ușor și inert biologic — folosit la implanturi medicale și avioane. Oxidul lui e pigmentul alb din aproape orice vopsea.",
+    ionicCharge: 4
+  },
+  Sr: {
+    symbol: "Sr",
+    name: "Stronțiu",
+    Z: 38,
+    valences: [],
+    mass: 87.62,
+    color: "#00ff00",
+    tier: 7,
+    unlockCost: 1050,
+    flavor: "Sărurile lui dau flăcărilor de artificii un roșu intens, caracteristic — vecin de grup cu calciul și bariul.",
+    ionicCharge: 2
+  },
+  Ni: {
+    symbol: "Ni",
+    name: "Nichel",
+    Z: 28,
+    valences: [],
+    mass: 58.693,
+    color: "#50d050",
+    tier: 7,
+    unlockCost: 1100,
+    flavor: "Componentă clasică a monedelor și a bateriilor reîncărcabile — dar și un alergen de contact frecvent la bijuterii ieftine.",
+    ionicCharge: 2
+  },
+  Co: {
+    symbol: "Co",
+    name: "Cobalt",
+    Z: 27,
+    valences: [],
+    mass: 58.933,
+    color: "#3060c0",
+    tier: 7,
+    unlockCost: 1150,
+    flavor: "Sursa albastrului de cobalt din ceramica și sticla colorată de secole — clorura lui schimbă culoarea cu umezeala din aer.",
+    ionicCharge: 2
+  },
+  Cs: {
+    symbol: "Cs",
+    name: "Cesiu",
+    Z: 55,
+    valences: [],
+    mass: 132.905,
+    color: "#57178f",
+    tier: 7,
+    unlockCost: 1200,
+    flavor: "Cel mai reactiv metal stabil din tabelul periodic — reacționează exploziv cu apa, chiar mai violent decât sodiul sau potasiul.",
+    ionicCharge: 1
+  },
+  B: {
+    symbol: "B",
+    name: "Bor",
+    Z: 5,
+    valences: [3],
+    mass: 10.811,
+    color: "#ffb5b5",
+    tier: 7,
+    unlockCost: 1250,
+    flavor: "Elementul-cheie din sticla borosilicată (Pyrex) — rezistentă la șocuri termice mari, spre deosebire de sticla obișnuită."
   }
 };
 

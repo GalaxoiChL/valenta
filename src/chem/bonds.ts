@@ -47,7 +47,11 @@ const BOND_ENERGIES: Partial<Record<BondKey, number>> = {
   [bondKey("C", "Br", 1)]: 276,
   [bondKey("I", "I", 1)]: 151,
   [bondKey("H", "I", 1)]: 298,
-  [bondKey("C", "I", 1)]: 240
+  [bondKey("C", "I", 1)]: 240,
+  // Tier 7 — Bor (BF3, BCl3, molecule reale/stabile, spre deosebire de BH3
+  // care dimerizează în realitate — evitat deliberat, ca la SiO2 din tier 5).
+  [bondKey("B", "F", 1)]: 613,
+  [bondKey("B", "Cl", 1)]: 456
 };
 
 // Medie brută per element, folosită doar pentru fallback (§5.4).

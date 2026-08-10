@@ -20,6 +20,29 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 7 — Ti, Sr, Ni, Co, Cs, B (al patrulea lot)
+
+**Milestone:** post-tier 6 (continuare autonomă neîntreruptă, la cererea explicită a utilizatorului)
+**Făcut:**
+- **6 elemente tier 7 noi**: **Ti** (+4 — prima sarcină ionică peste +3 din joc, TiO₂ e cel mai folosit pigment alb din lume), **Sr** (+2, roșul din artificii), **Ni** (+2, monede/baterii), **Co** (+2, albastru de cobalt — CoCl₂ e indicatorul clasic de umiditate, schimbă culoarea albastru↔roz), **Cs** (+1, cel mai reactiv metal stabil din tabel), **B** (covalent, valență 3 — primul element covalent nou după Si din tier 5).
+- **11 compuși noi**: TiO₂, SrO/SrCl₂, NiO/NiCl₂, CoO/CoCl₂, CsCl/CsBr (ionice) + **BF₃/BCl₃** (covalente, energii de legătură B-F/B-Cl adăugate în `bonds.ts`).
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 6 (PbO, eff 4,20) — interval 4,35–4,75 pentru ionice, atins exact; BF₃/BCl₃ modeste (eff 1,4–1,5), consistent cu restul chimiei covalente a elementelor grele din joc.
+- 2 obiective noi: „Deblochează Titanul", „Sintetizează Dioxid de titan (TiO₂)".
+- Test nou `tests/moleculeDB_tier7.test.ts` (4 teste).
+- `tsc --noEmit` curat; 152 de teste automate trec (18 fișiere).
+- Verificare: import direct al modulelor ESM reale din Vite dev server a confirmat toate cele 11 rate de producție + tier-ul corect pentru toate cele 6 elemente, identic cu calculul de mână. Verificarea UI live (click-uri reale) nu a putut fi finalizată — unealta de automatizare a browserului a devenit intermitent instabilă (tab-uri/grupuri de tab-uri care dispar) în tot restul acestei sesiuni, nu doar la acest lot; a fost deja dovedită funcțională identic la tier 5 (Br₂, Al₂O₃) pentru exact același mecanism (Constructor covalent + Constructor Ionic), fără nicio schimbare de cod UI la tier 6/7.
+
+**Decizii / abateri de la SPEC.md:**
+- **Prima sarcină ionică peste +3 din joc** (Ti⁴⁺) — modelul `ionicCharge: number` din M3 nu avea o limită explicită, doar exemplele folosite până acum erau ≤3. Funcționează corect fără nicio schimbare de cod (`validateIonicMix` face echilibru de sarcini generic, indiferent de magnitudine) — confirmat prin testul TiO₂ (4=2×2, reducere GCD corectă).
+- **BH₃ evitat deliberat** (ar dimeriza real la B₂H₆, structură mai complexă) — folosite în schimb BF₃/BCl₃, molecule reale, stabile, cu geometrie trigonală simplă, consistent cu decizia de onestitate chimică de la SiO₂ (tier 5).
+- **Verificarea UI live incompletă a doua oară la rând** — de această dată clar o problemă de mediu (unealta de browser a devenit nefolosibilă, nu doar lentă), nu o alegere. Semnalat explicit ca risc rămas mai jos.
+
+**Rămas de făcut / follow-up:**
+- **Verificare UI live completă restantă pentru tier 6 ȘI tier 7** — de făcut într-o sesiune viitoare când unealta de automatizare a browserului e stabilă din nou. Risc considerat redus (mecanism identic, deja verificat de multiple ori pe tier-uri anterioare), dar rămâne o verificare reală nefăcută, nu doar teoretic echivalentă.
+- Tot Tabelul Periodic rămas (peste 80 de poziții) rămâne siluete „?" — continuăm pe loturi.
+
+---
+
 ## [2026-08-10] Tier 6 — Li, Sn, Zn, Ba, Ag, Pb (al treilea lot; Adenina nu mai e plafonul absolut)
 
 **Milestone:** post-tier 5 (continuare autonomă, la cererea explicită a utilizatorului de a nu mai opri pentru confirmare pe parcursul acestui gen de extindere)

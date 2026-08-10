@@ -46,7 +46,18 @@ const LATTICE_ENERGY: Record<string, number> = {
   SnO: 1836,
   SnCl2: 3391,
   PbO: 1699,
-  PbCl2: 3020
+  PbCl2: 3020,
+  // Tier 7 — Ti/Sr/Ni/Co/Cs: aceeași metodă, țintă peste vârful tier 6 (PbO,
+  // eff 4,20), continuând urcarea monotonă.
+  TiO2: 3042,
+  SrO: 1934,
+  SrCl2: 3814,
+  NiO: 1903,
+  NiCl2: 3757,
+  CoO: 1815,
+  CoCl2: 3572,
+  CsCl: 2181,
+  CsBr: 2069
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;
