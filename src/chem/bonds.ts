@@ -54,7 +54,11 @@ const BOND_ENERGIES: Partial<Record<BondKey, number>> = {
   [bondKey("B", "Cl", 1)]: 456,
   // Tier 8 — Germaniu (germanul GeH4, GeCl4 — analogii de Ge ai CH4/SiH4).
   [bondKey("Ge", "H", 1)]: 289,
-  [bondKey("Ge", "Cl", 1)]: 349
+  [bondKey("Ge", "Cl", 1)]: 349,
+  // Tier 13 — Xenonul, gazul nobil care totuși formează legături reale sub
+  // fluor (XeF2/XeF4/XeF6) — legătura Xe-F e slabă (de-asta compușii sunt
+  // reactivi/oxidanți puternici), valoare reală din literatură.
+  [bondKey("Xe", "F", 1)]: 130
 };
 
 // Medie brută per element, folosită doar pentru fallback (§5.4).

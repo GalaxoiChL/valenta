@@ -118,7 +118,16 @@ const LATTICE_ENERGY: Record<string, number> = {
   Ru2O3: 11304,
   RuCl3: 9597,
   Ir2O3: 10818,
-  IrCl3: 9122
+  IrCl3: 9122,
+  // Tier 13 — La/Ce/Nd/Gd: aceeași metodă, țintă peste vârful tier 12
+  // (Re2O7, eff 7,50).
+  La2O3: 12334,
+  LaCl3: 10785,
+  Nd2O3: 12567,
+  NdCl3: 10785,
+  Gd2O3: 12129,
+  GdCl3: 10243,
+  CeO2: 6284
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

@@ -775,6 +775,79 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 2750,
     flavor: "Atinge sarcina +7, cea mai mare din tot jocul — al doilea cel mai înalt punct de topire dintre toate metalele, după wolfram.",
     ionicCharge: 7
+  },
+
+  // --- tier 13: al zecelea lot — primele lantanide + gazele nobile grele ---
+  Ar: {
+    symbol: "Ar",
+    name: "Argon",
+    Z: 18,
+    valences: [0],
+    mass: 39.948,
+    color: "#80d1e3",
+    tier: 13,
+    unlockCost: 2800,
+    flavor: "A treia cea mai comună componentă a aerului pe care-l respiri — la fel de puțin dornic să lege ca He/Ne, dar mult mai ieftin de extras industrial.",
+    ionicCharge: 0
+  },
+  La: {
+    symbol: "La",
+    name: "Lantan",
+    Z: 57,
+    valences: [],
+    mass: 138.905,
+    color: "#70d4ff",
+    tier: 13,
+    unlockCost: 2850,
+    flavor: "Dă numele întregii familii a lantanidelor — oxidul lui e folosit în lentilele optice de mare precizie ale camerelor foto profesionale.",
+    ionicCharge: 3
+  },
+  Ce: {
+    symbol: "Ce",
+    name: "Ceriu",
+    Z: 58,
+    valences: [],
+    mass: 140.116,
+    color: "#ffffc7",
+    tier: 13,
+    unlockCost: 2900,
+    flavor: "Cea mai abundentă lantanidă — oxidul lui e folosit la lustruirea sticlei de precizie și în convertoarele catalitice auto.",
+    ionicCharge: 4
+  },
+  Nd: {
+    symbol: "Nd",
+    name: "Neodim",
+    Z: 60,
+    valences: [],
+    mass: 144.242,
+    color: "#c7ffc7",
+    tier: 13,
+    unlockCost: 2950,
+    flavor: "Baza celor mai puternici magneți permanenți fabricați vreodată — din căștile audio până în motoarele mașinilor electrice.",
+    ionicCharge: 3
+  },
+  Gd: {
+    symbol: "Gd",
+    name: "Gadoliniu",
+    Z: 64,
+    valences: [],
+    mass: 157.25,
+    color: "#45ffc7",
+    tier: 13,
+    unlockCost: 3000,
+    flavor: "Substanța de contrast injectată înaintea multor scanări RMN — face vizibile detalii altfel invizibile în imagistica medicală.",
+    ionicCharge: 3
+  },
+  Xe: {
+    symbol: "Xe",
+    name: "Xenon",
+    Z: 54,
+    valences: [2, 4, 6],
+    mass: 131.293,
+    color: "#429eb0",
+    tier: 13,
+    unlockCost: 3050,
+    flavor: "Contrazice mitul «gazelor nobile complet inerte» — sub fluor, formează compuși reali și stabili, o descoperire care a răsturnat manualele de chimie în 1962."
   }
 };
 

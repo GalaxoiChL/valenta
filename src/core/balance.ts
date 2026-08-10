@@ -73,7 +73,13 @@ export const GENERATOR_BASE_COST: Record<string, number> = {
   Ru: 5000,
   Ta: 5100,
   Ir: 5200,
-  Re: 5300
+  Re: 5300,
+  Ar: 5400,
+  La: 5450,
+  Ce: 5500,
+  Nd: 5550,
+  Gd: 5600,
+  Xe: 5650
 };
 export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare

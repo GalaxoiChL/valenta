@@ -216,6 +216,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Heptoxid de reniu (Re₂O₇)",
     rewardC: 42,
     isComplete: (s) => collectionCopies(s, "Re2O7") >= 1
+  },
+  {
+    id: "unlock_xe",
+    description: "Deblochează Xenonul — gazul nobil care totuși formează legături reale",
+    rewardC: 40,
+    isComplete: (s) => s.state.unlockedElements.includes("Xe")
+  },
+  {
+    id: "synth_xef4",
+    description: "Sintetizează Tetrafluorură de xenon (XeF₄)",
+    rewardC: 30,
+    isComplete: (s) => Object.values(s.state.collection).some((e) => e.formula === "F4Xe" && e.copies >= 1)
   }
 ];
 

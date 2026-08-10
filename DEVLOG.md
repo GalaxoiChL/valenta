@@ -20,6 +20,30 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 13 — Ar, La, Ce, Nd, Gd, Xe (al zecelea lot — primele lantanide + gaz nobil reactiv)
+
+**Milestone:** post-tier 12 (continuare autonomă, „continua cu tier 13")
+**Făcut:**
+- **6 elemente tier 13 noi**: **Ar** (inert, ca He/Ne — a treia cea mai comună componentă a aerului), primele **4 lantanide** — **La** (+3, lentile optice de precizie), **Ce** (+4, singura lantanidă din acest lot cu altă sarcină — convertoare catalitice, lustruire sticlă), **Nd** (+3, cei mai puternici magneți permanenți), **Gd** (+3, substanța de contrast din RMN) — și **Xe** (**covalent, cu 3 valențe reale — 2, 4, 6** — gazul „nobil" care totuși formează legături, o descoperire din 1962 care a răsturnat manualele de chimie).
+- **11 compuși noi**: Ar (monoatomic, ca He/Ne — 0 E/s, doar valoare de descoperire/flavor), La₂O₃/LaCl₃, CeO₂ (singur, ca Ti/Zr/Hf — sarcina +4 diferă de restul lantanidelor), Nd₂O₃/NdCl₃, Gd₂O₃/GdCl₃, **XeF₂/XeF₄/XeF₆** (trei valențe diferite ale aceluiași element, exact modelul deja folosit pentru S: SO₂/SO₃/H₂SO₄ din M6).
+- Energie de legătură nouă Xe-F (130 kJ/mol, reală — slabă, motivul pentru care fluorurile de xenon sunt oxidanți puternici).
+- Recalibrare cu aceeași metodă pentru compușii ionici, țintă peste vârful tier 12 (Re₂O₇, eff 7,50) — interval 7,60–7,90. Fluorurile de Xe rămân modeste (eff 0,6, ca alte elemente cu legături slabe — F₂/I₂), consistent cu restul jocului.
+- 2 obiective noi: „Deblochează Xenonul", „Sintetizează Tetrafluorură de xenon (XeF₄)".
+- Test nou `tests/moleculeDB_tier13.test.ts` (6 teste) — inclusiv Ar ca „moleculă" monoatomică și toate cele 3 fluoruri de Xe.
+- **A treia greșeală de ghilimele drepte găsită și reparată în acest lot** (Xenon, în `elements.ts`) — de data asta prinsă vizual la scriere, înainte de orice rulare de test. Tiparul e acum bine cunoscut; regula din DEVLOG-ul de la tier 10 rămâne activă.
+- `tsc --noEmit` curat; 174 de teste automate trec (24 fișiere).
+- Verificat live pe deploy-ul public, după push: vezi mai jos.
+
+**Decizii / abateri de la SPEC.md:**
+- **Ce (Ceriu) primește sarcina +4, nu +3** ca restul lantanidelor din acest lot — CeO₂ (forma +4) e mult mai iconică/folosită industrial (convertoare catalitice, lustruire sticlă) decât Ce₂O₃ (forma +3). Consistent cu simplificarea deja stabilită de „o singură sarcină per element", doar că aleasă pe criteriul „cea mai faimoasă formă reală", nu implicit cea mai comună generic.
+- **Xe primește 3 valențe covalente (2, 4, 6), fără nicio sarcină ionică** — al doilea element din joc (după S) cu valențe multiple, motor deja generic, zero cod nou necesar.
+
+**Rămas de făcut / follow-up:**
+- Restul lantanidelor (Pr, Sm, Eu, Tb, Dy, Ho, Er, Tm, Yb, Lu) și actinidele rămân un candidat natural pentru loturi viitoare, dacă se continuă.
+- Kr (Kripton) a fost omis deliberat din acest lot — singurul compus relativ cunoscut, KrF₂, e mult mai instabil/greu de izolat decât fluorurile de Xe, o linie mai aproape de „chimie inventată" decât vrem să tragem; rămâne un candidat doar ca adiție monoatomică inertă (ca Ar), nu cu compuși reali.
+
+---
+
 ## [2026-08-10] Tier 12 — Tl, Hf, Ru, Ta, Ir, Re (al nouălea lot)
 
 **Milestone:** post-tier 11 (continuare autonomă, „continua cu tier 12")

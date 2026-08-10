@@ -2363,5 +2363,115 @@
     "tier": 12,
     "tags": ["ionic", "anorganic"],
     "flavor": "Un solid verde-măsliniu — un precursor comun pentru catalizatorii de iridiu folosiți în chimia organometalică."
+  },
+  {
+    "key": "Ar|Ar",
+    "formula": "Ar",
+    "name": "Argon",
+    "bonusMult": 1.4,
+    "discoveryC": 4,
+    "tier": 13,
+    "tags": ["anorganic", "gaz", "nobil"],
+    "flavor": "A treia cea mai comună componentă a aerului — folosit la umplerea becurilor incandescente, ca să încetinească evaporarea filamentului."
+  },
+  {
+    "key": "La2O3",
+    "formula": "La2O3",
+    "name": "Oxid de lantan",
+    "bonusMult": 2.6,
+    "discoveryC": 38,
+    "tier": 13,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosit la fabricarea sticlei optice de mare precizie — mărește indicele de refracție fără să adauge culoare vizibilă."
+  },
+  {
+    "key": "LaCl3",
+    "formula": "LaCl3",
+    "name": "Clorură de lantan",
+    "bonusMult": 2.3,
+    "discoveryC": 36,
+    "tier": 13,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un intermediar comun la extragerea lantanului metalic pur din minereuri de pământuri rare."
+  },
+  {
+    "key": "CeO2",
+    "formula": "CeO2",
+    "name": "Oxid de ceriu",
+    "bonusMult": 2.6,
+    "discoveryC": 37,
+    "tier": 13,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosit la lustruirea sticlei de precizie (inclusiv oglinzile de telescop) și în convertoarele catalitice auto pentru a stoca și elibera oxigen."
+  },
+  {
+    "key": "Nd2O3",
+    "formula": "Nd2O3",
+    "name": "Oxid de neodim",
+    "bonusMult": 2.6,
+    "discoveryC": 38,
+    "tier": 13,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Materia primă pentru cei mai puternici magneți permanenți fabricați vreodată — din căștile audio până în motoarele mașinilor electrice."
+  },
+  {
+    "key": "NdCl3",
+    "formula": "NdCl3",
+    "name": "Clorură de neodim",
+    "bonusMult": 2.3,
+    "discoveryC": 36,
+    "tier": 13,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cristale mov — culoarea vine chiar de la ionul de neodim, folosită și la sticla decorativă colorată."
+  },
+  {
+    "key": "Gd2O3",
+    "formula": "Gd2O3",
+    "name": "Oxid de gadoliniu",
+    "bonusMult": 2.7,
+    "discoveryC": 39,
+    "tier": 13,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Precursor pentru substanțele de contrast injectate înaintea scanărilor RMN — fac vizibile detalii altfel invizibile în imagistica medicală."
+  },
+  {
+    "key": "GdCl3",
+    "formula": "GdCl3",
+    "name": "Clorură de gadoliniu",
+    "bonusMult": 2.4,
+    "discoveryC": 37,
+    "tier": 13,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un intermediar folosit la sinteza compușilor de gadoliniu pentru imagistica medicală și cercetare."
+  },
+  {
+    "key": "F2Xe|F:1(1:Xe:2)|F:1(1:Xe:2)|Xe:2(1:F:1,1:F:1)",
+    "formula": "F2Xe",
+    "name": "Difluorură de xenon",
+    "bonusMult": 1.9,
+    "discoveryC": 20,
+    "tier": 13,
+    "tags": ["anorganic"],
+    "flavor": "Prima dovadă, în 1962, că «gazele nobile» nu sunt de fapt complet inerte — a răsturnat manualele de chimie ale vremii."
+  },
+  {
+    "key": "F4Xe|F:1(1:Xe:4)|F:1(1:Xe:4)|F:1(1:Xe:4)|F:1(1:Xe:4)|Xe:4(1:F:1,1:F:1,1:F:1,1:F:1)",
+    "formula": "F4Xe",
+    "name": "Tetrafluorură de xenon",
+    "bonusMult": 2.0,
+    "discoveryC": 22,
+    "tier": 13,
+    "tags": ["anorganic"],
+    "flavor": "Cristale incolore, stabile la temperatura camerei — un oxidant puternic folosit în chimia de laborator a fluorului."
+  },
+  {
+    "key": "F6Xe|F:1(1:Xe:6)|F:1(1:Xe:6)|F:1(1:Xe:6)|F:1(1:Xe:6)|F:1(1:Xe:6)|F:1(1:Xe:6)|Xe:6(1:F:1,1:F:1,1:F:1,1:F:1,1:F:1,1:F:1)",
+    "formula": "F6Xe",
+    "name": "Hexafluorură de xenon",
+    "bonusMult": 2.1,
+    "discoveryC": 24,
+    "tier": 13,
+    "tags": ["anorganic"],
+    "flavor": "Cel mai reactiv dintre fluorurile de xenon — reacționează chiar și cu sticla, motiv pentru care se manipulează în recipiente speciale."
   }
 ]
