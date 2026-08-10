@@ -228,6 +228,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Tetrafluorură de xenon (XeF₄)",
     rewardC: 30,
     isComplete: (s) => Object.values(s.state.collection).some((e) => e.formula === "F4Xe" && e.copies >= 1)
+  },
+  {
+    id: "unlock_yb",
+    description: "Deblochează Yterbiul",
+    rewardC: 42,
+    isComplete: (s) => s.state.unlockedElements.includes("Yb")
+  },
+  {
+    id: "synth_eu2o3",
+    description: "Sintetizează Oxid de europiu (Eu₂O₃) — sursa fosforului roșu din ecrane",
+    rewardC: 41,
+    isComplete: (s) => collectionCopies(s, "Eu2O3") >= 1
   }
 ];
 

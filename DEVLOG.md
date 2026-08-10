@@ -20,6 +20,26 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 14 — Pr, Sm, Eu, Tb, Dy, Yb (al doilea lot de lantanide)
+
+**Milestone:** post-tier 13 (continuare autonomă, „continua cu tier 14")
+**Făcut:**
+- **6 lantanide noi**, toate ionice, sarcină +3 (chimie reală, uniformă pe toată seria): **Pr** (sticla de sudură galben-verzuie), **Sm** (magneți samariu-cobalt, rezistenți la temperaturi mari), **Eu** (fosforul roșu din ecrane CRT/LED), **Tb** (fosforul verde, alături de europiu), **Dy** (adăugat magneților de neodim pentru rezistență termică în motoarele electrice), **Yb** (dopant pentru laserele industriale cu fibră optică).
+- **12 compuși noi**: câte un oxid (X₂O₃) și o clorură (XCl₃) pentru fiecare — al doilea lot de lantanide cu exact același tipar chimic ca La/Nd/Gd din tier 13 (real, nu o simplificare — seria lantanidelor chiar are chimie de sarcină +3 aproape uniformă).
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 13 (CeO₂, eff 7,90) — interval 8,00–8,25.
+- 2 obiective noi: „Deblochează Yterbiul", „Sintetizează Oxid de europiu (Eu₂O₃)".
+- Test nou `tests/moleculeDB_tier14.test.ts` (2 teste).
+- `tsc --noEmit` curat; 176 de teste automate trec (25 fișiere).
+- Verificat live pe deploy-ul public, după push: vezi mai jos.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nouă — continuă exact tiparul stabilit la tier 13 pentru lantanide.
+
+**Rămas de făcut / follow-up:**
+- Restul lantanidelor (Tm, Lu — Pm e radioactiv, exclus deliberat) și actinidele (Th, U, posibil sensibile tematic) rămân candidați pentru loturi viitoare.
+
+---
+
 ## [2026-08-10] Tier 13 — Ar, La, Ce, Nd, Gd, Xe (al zecelea lot — primele lantanide + gaz nobil reactiv)
 
 **Milestone:** post-tier 12 (continuare autonomă, „continua cu tier 13")

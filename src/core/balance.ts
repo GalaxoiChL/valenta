@@ -79,7 +79,13 @@ export const GENERATOR_BASE_COST: Record<string, number> = {
   Ce: 5500,
   Nd: 5550,
   Gd: 5600,
-  Xe: 5650
+  Xe: 5650,
+  Pr: 5700,
+  Sm: 5750,
+  Eu: 5800,
+  Tb: 5850,
+  Dy: 5900,
+  Yb: 5950
 };
 export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare

@@ -127,7 +127,21 @@ const LATTICE_ENERGY: Record<string, number> = {
   NdCl3: 10785,
   Gd2O3: 12129,
   GdCl3: 10243,
-  CeO2: 6284
+  CeO2: 6284,
+  // Tier 14 — Pr/Sm/Eu/Tb/Dy/Yb: al doilea lot de lantanide, aceeași metodă,
+  // țintă peste vârful tier 13 (CeO2, eff 7,90).
+  Pr2O3: 13272,
+  PrCl3: 11599,
+  Sm2O3: 13391,
+  SmCl3: 11702,
+  Eu2O3: 12914,
+  EuCl3: 11012,
+  Tb2O3: 13510,
+  TbCl3: 11599,
+  Dy2O3: 13027,
+  DyCl3: 11109,
+  Yb2O3: 13141,
+  YbCl3: 11207
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

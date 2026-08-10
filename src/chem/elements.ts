@@ -848,6 +848,80 @@ export const ELEMENTS: Record<string, ElementDef> = {
     tier: 13,
     unlockCost: 3050,
     flavor: "Contrazice mitul «gazelor nobile complet inerte» — sub fluor, formează compuși reali și stabili, o descoperire care a răsturnat manualele de chimie în 1962."
+  },
+
+  // --- tier 14: al doilea lot de lantanide ---
+  Pr: {
+    symbol: "Pr",
+    name: "Praseodim",
+    Z: 59,
+    valences: [],
+    mass: 140.908,
+    color: "#d9ffc7",
+    tier: 14,
+    unlockCost: 3100,
+    flavor: "Dă sticlei o culoare galben-verzuie intensă — folosit și în aliaje ultra-rezistente pentru motoarele de avion.",
+    ionicCharge: 3
+  },
+  Sm: {
+    symbol: "Sm",
+    name: "Samariu",
+    Z: 62,
+    valences: [],
+    mass: 150.36,
+    color: "#8fffc7",
+    tier: 14,
+    unlockCost: 3150,
+    flavor: "Combinat cu cobalt formează magneți care rezistă la temperaturi mult peste cele pe care le suportă magneții de neodim.",
+    ionicCharge: 3
+  },
+  Eu: {
+    symbol: "Eu",
+    name: "Europiu",
+    Z: 63,
+    valences: [],
+    mass: 151.964,
+    color: "#61ffc7",
+    tier: 14,
+    unlockCost: 3200,
+    flavor: "Fosforul roșu din ecranele CRT vechi și din multe LED-uri moderne — cel mai strălucitor roșu obținut chimic la scară comercială.",
+    ionicCharge: 3
+  },
+  Tb: {
+    symbol: "Tb",
+    name: "Terbiu",
+    Z: 65,
+    valences: [],
+    mass: 158.925,
+    color: "#30ffc7",
+    tier: 14,
+    unlockCost: 3250,
+    flavor: "Fosforul verde folosit alături de europiul roșu în tuburile fluorescente și ecranele color de generație mai veche.",
+    ionicCharge: 3
+  },
+  Dy: {
+    symbol: "Dy",
+    name: "Disprosiu",
+    Z: 66,
+    valences: [],
+    mass: 162.5,
+    color: "#1fffc7",
+    tier: 14,
+    unlockCost: 3300,
+    flavor: "Adăugat magneților de neodim ca să reziste la căldura din interiorul motoarelor electrice ale mașinilor moderne.",
+    ionicCharge: 3
+  },
+  Yb: {
+    symbol: "Yb",
+    name: "Yterbiu",
+    Z: 70,
+    valences: [],
+    mass: 173.045,
+    color: "#00d452",
+    tier: 14,
+    unlockCost: 3350,
+    flavor: "Amplificatorul din fibra optică a laserelor industriale de mare putere folosite la tăiat și sudat metal.",
+    ionicCharge: 3
   }
 };
 
