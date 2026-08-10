@@ -30,7 +30,7 @@ Format per intrare:
 - 2 obiective noi: „Deblochează Osmiul", „Sintetizează Tetroxid de osmiu (OsO₄)".
 - Test nou `tests/moleculeDB_tier16.test.ts` (3 teste).
 - `tsc --noEmit` curat; 183 de teste automate trec (27 fișiere).
-- Verificat live pe deploy-ul public, după push: vezi mai jos.
+- Verificat live pe deploy-ul public, după push: OsO₄ construit și sintetizat manual (1×Os⁸⁺ + 4×O²⁻), banner de descoperire corect, rată 46,0 E/s — exact valoarea calculată. Rh³⁺ confirmat vizual corect poziționat.
 
 **Decizii / abateri de la SPEC.md:**
 - Niciuna nouă.
