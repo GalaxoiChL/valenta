@@ -29,6 +29,10 @@ function isStuck(state: GameState): boolean {
  */
 function migrate(raw: GameState): GameState {
   const state = { ...createInitialState(), ...raw, version: SAVE_VERSION };
+  // settings e un obiect imbricat: spread-ul de mai sus e SHALLOW, deci dacă
+  // raw.settings există dintr-un save mai vechi (fără autopilot), înlocuiește
+  // în întregime settings-ul default, lăsând autopilot undefined, nu false.
+  state.settings.autopilot = state.settings.autopilot ?? false;
   if (isStuck(state)) {
     state.resources.atoms = { ...state.resources.atoms, ...STARTING_ATOMS };
   }

@@ -20,6 +20,27 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Autopilot — deblocare elemente + cumpărare generatoare automată
+
+**Milestone:** post-extindere elemente (răspuns concret ales dintr-un brainstorm de idei — „profunzime de joc")
+**Făcut:**
+- **Toggle global nou în Setări** (`settings.autopilot: boolean`, implicit `false`, exact tiparul deja folosit de `settings.sound`): când activ, la fiecare tick economic (100ms) deblochează automat elementul cel mai ieftin afordabil (Cunoaștere) și cumpără repetat generatorul cel mai ieftin afordabil (Energie), până epuizează ce-și poate permite.
+- `tickAutopilot(store)` în `economy.ts`, apelat la finalul `tick()`, cu două sub-funcții (`autopilotUnlockElements`, `autopilotBuyGenerators`) care refolosesc `store.unlockElement`/`store.buyGenerator` — nicio duplicare a logicii de affordability/mutație/emit deja existente.
+- Constantă nouă `AUTOPILOT_MAX_PURCHASES_PER_TICK = 200` (`balance.ts`) — plafon de siguranță doar pe bucla de cumpărare de generatoare, ca un tick cu stoc uriaș de Energie (ex. după progres offline de ore) să nu bucleze nelimitat într-un singur apel. Bucla de deblocare elemente nu are nevoie de plafon separat — e bounded natural de câte elemente blocate mai există (~82 max).
+- **Fix de migrare pentru un câmp imbricat**, prins din prima încercare, nu descoperit ulterior: `GameState.settings` e un obiect, iar merge-ul din `migrate()` (`save.ts`) e shallow — dacă un save vechi are `settings` fără `autopilot`, spread-ul îl înlocuiește în întregime, lăsând `autopilot` `undefined`, nu `false`. Corectat explicit cu `state.settings.autopilot = state.settings.autopilot ?? false;`, exact aceeași clasă de bug reparată azi mai devreme pentru câmpurile de top-nivel (`stars`, `generatorSpeedLevel`) — de data asta prins prin planificare atentă (research + design înainte de scris cod), nu prin verificare live ulterioară.
+- Teste noi: `tests/autopilot.test.ts` (5 cazuri — dezactivat nu face nimic; cumpără cel mai ieftin generator când bugetul ajunge doar pentru unul; deblochează cel mai ieftin element afordabil; respectă plafonul de siguranță la un stoc uriaș de Energie; sanity-check că 200 de cumpărări pe 3 elemente rămân mult sub pragul folosit în testul plafonului) + un test nou în `tests/save.test.ts` (regresie explicită pentru fix-ul de migrare, save vechi fără `settings.autopilot` → `.toBe(false)` strict).
+- `tsc --noEmit` curat; 189 de teste automate trec (28 fișiere, +6 față de tier 16).
+
+**Decizii / abateri de la SPEC.md:**
+- Fără indicator vizual (badge) pe butoanele „Cumpără"/celulele din Tabelul Periodic când autopilot le preia — mecanismul analog deja existent (`autoSynth.rate` per moleculă) nu are așa ceva, iar butoanele manuale rămân funcționale în paralel, fără conflict. Poate fi adăugat ulterior dacă se simte nevoia.
+- Fără obiectiv/achievement nou legat de activarea autopilot-ului.
+- **Verificare live UI (clic real pe toggle, confirmare vizuală că generatoarele/elementele se deblochează singure) NU a fost făcută în această trecere** — extensia de browser (claude-in-chrome) a fost deconectată complet pe tot parcursul verificării, reconectare încercată de mai multe ori fără succes. Abatere reală de la regula de auto-verificare în browser, nu o alegere. Acoperirea rămasă: 5 teste automate dedicate, care exercită exact `tick()`/`tickAutopilot` prin același cod pe care l-ar exercita și un clic real din UI (toggle-ul din `settings.ts` doar comută `store.state.settings.autopilot`, fără logică proprie suplimentară).
+
+**Rămas de făcut / follow-up:**
+- **Verificare live UI reală pentru autopilot, restantă** — de făcut într-o sesiune viitoare când extensia de browser e din nou stabilă: activare toggle din Setări, confirmare vizuală că generatoarele/elementele se deblochează singure în câteva ticks, dezactivare, confirmare că se oprește.
+
+---
+
 ## [2026-08-10] Căutare în Paletă, Constructorul Ionic, Generatoare și Colecție — UX necesar la scara nouă
 
 **Milestone:** post-tier 16 (răspuns la „continua cu ce crezi ca mai trebuie" — nu mai era conținut chimic real de adăugat, dar arcul de extindere a lăsat o lacună reală de UX)

@@ -39,6 +39,28 @@ export function renderSettings(store: GameStore): OverlayController {
   renderSoundBtn();
   soundSection.append(soundLabel, soundBtn);
 
+  // --- Autopilot: deblochează elemente și cumpără generatoare automat, cel mai
+  // ieftin întâi — settings.autopilot e un boolean global, la fel ca settings.sound. ---
+  const autopilotSection = document.createElement("div");
+  autopilotSection.className = "settings-section";
+  const autopilotLabel = document.createElement("div");
+  autopilotLabel.className = "settings-label";
+  autopilotLabel.textContent = "Autopilot";
+  const autopilotHint = document.createElement("div");
+  autopilotHint.className = "settings-status";
+  autopilotHint.textContent = "Deblochează elemente și cumpără generatoare automat, cel mai ieftin întâi.";
+  const autopilotBtn = document.createElement("button");
+  function renderAutopilotBtn(): void {
+    autopilotBtn.textContent = store.state.settings.autopilot ? "🤖 Autopilot activat" : "🤖 Autopilot dezactivat";
+  }
+  autopilotBtn.addEventListener("click", () => {
+    store.state.settings.autopilot = !store.state.settings.autopilot;
+    renderAutopilotBtn();
+    saveGame(store);
+  });
+  renderAutopilotBtn();
+  autopilotSection.append(autopilotLabel, autopilotHint, autopilotBtn);
+
   const section = document.createElement("div");
   section.className = "settings-section";
   const label = document.createElement("div");
@@ -150,7 +172,7 @@ export function renderSettings(store: GameStore): OverlayController {
   });
   aboutSection.append(aboutToggle, aboutBody);
 
-  panel.append(header, soundSection, section, nucleoSection, aboutSection);
+  panel.append(header, soundSection, autopilotSection, section, nucleoSection, aboutSection);
   overlay.appendChild(panel);
   document.body.appendChild(overlay);
 

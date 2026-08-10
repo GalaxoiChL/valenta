@@ -99,6 +99,7 @@ export interface GameState {
   settings: {
     sound: boolean;
     offlineCap: number;
+    autopilot: boolean;
   };
   /** M5 — Nucleosinteza (§3.3): Energie acumulată în era curentă (resetată la fiecare prestige). */
   totalEnergyEarned: number;
@@ -124,7 +125,7 @@ export function createInitialState(): GameState {
     collection: {},
     constructorDraft: createMolecule(),
     objectivesDone: [],
-    settings: { sound: true, offlineCap: 8 * 60 * 60 },
+    settings: { sound: true, offlineCap: 8 * 60 * 60, autopilot: false },
     totalEnergyEarned: 0,
     stars: 0
   };

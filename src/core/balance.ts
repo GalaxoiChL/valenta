@@ -123,6 +123,12 @@ export const GENERATOR_SPEED_UPGRADE_BASE_COST = 500; // E
 export const GENERATOR_SPEED_UPGRADE_GROWTH = 2.2;
 export const GENERATOR_SPEED_UPGRADE_MULT = 1.5; // +50% rată per nivel
 
+// Autopilot (§ toggle global): plafon de siguranță pe cumpărări de generatoare
+// într-un SINGUR apel de tick() — altfel un tick cu dt uriaș (progres offline)
+// și un stoc mare de Energie ar bucla nelimitat. Deblocarea elementelor nu are
+// nevoie de plafon separat: e bounded natural de câte elemente blocate există.
+export const AUTOPILOT_MAX_PURCHASES_PER_TICK = 200;
+
 export function generatorCost(element: string, owned: number): number {
   const base = GENERATOR_BASE_COST[element] ?? 100;
   return base * Math.pow(GENERATOR_COST_GROWTH, owned);

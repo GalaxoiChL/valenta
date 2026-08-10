@@ -49,4 +49,23 @@ describe("export/import save (§11.1, panoul de Setări)", () => {
     expect(store.globalProductionMultiplier()).toBe(0);
     expect(Number.isFinite(productionRate(500, 1.5, store.globalProductionMultiplier()))).toBe(true);
   });
+
+  it("un save vechi cu settings fără autopilot migrează la autopilot: false, nu undefined", () => {
+    // settings e un obiect imbricat — spread-ul shallow din migrate() nu-l
+    // completează automat cu default-uri ca la câmpurile de top-nivel (vezi
+    // testul de mai sus). Regresie explicită pentru fix-ul din migrate().
+    const oldSave = {
+      version: 1,
+      resources: { energy: 0, knowledge: 0, atoms: { H: 0, O: 0, N: 0 } },
+      unlockedElements: ["H", "O", "N"],
+      generators: { H: 0, O: 0, N: 0 },
+      collection: {},
+      settings: { sound: true, offlineCap: 8 * 60 * 60 }
+    };
+    const store = new GameStore(createInitialState());
+    const ok = importSave(store, JSON.stringify(oldSave));
+
+    expect(ok).toBe(true);
+    expect(store.state.settings.autopilot).toBe(false);
+  });
 });
