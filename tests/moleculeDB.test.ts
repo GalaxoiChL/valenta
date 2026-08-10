@@ -146,3 +146,35 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
     expect(expectKeyInDB(butadiene)).toBe("C4H6|1,1,1,1,1,1,1,2,2");
   });
 });
+
+describe("moleculeDB — noile intrări covalente M3 (tier 3: Cl, F)", () => {
+  it("Acid clorhidric HCl (H-Cl)", () => {
+    const g = build(["H", "Cl"], [[0, 1, 1]]);
+    expect(expectKeyInDB(g)).toBe("ClH|1");
+  });
+
+  it("Acid fluorhidric HF (H-F)", () => {
+    const g = build(["H", "F"], [[0, 1, 1]]);
+    expect(expectKeyInDB(g)).toBe("FH|1");
+  });
+
+  it("Clor Cl2 (Cl-Cl)", () => {
+    const g = build(["Cl", "Cl"], [[0, 1, 1]]);
+    expect(expectKeyInDB(g)).toBe("Cl2|1");
+  });
+
+  it("Fluor F2 (F-F)", () => {
+    const g = build(["F", "F"], [[0, 1, 1]]);
+    expect(expectKeyInDB(g)).toBe("F2|1");
+  });
+
+  it("Heliu — atom singur, moleculă monoatomică validă", () => {
+    const g = build(["He"], []);
+    expect(expectKeyInDB(g)).toBe("He|");
+  });
+
+  it("Neon — atom singur, moleculă monoatomică validă", () => {
+    const g = build(["Ne"], []);
+    expect(expectKeyInDB(g)).toBe("Ne|");
+  });
+});

@@ -7,6 +7,7 @@ import { hillFormula, toUnicodeSubscript } from "../chem/formula";
 import { DEFAULT_BONUS_MULT, MAX_UNDO_STEPS } from "../core/balance";
 import type { PaletteController } from "./palette";
 import { attachTooltip } from "./tooltip";
+import { renderIonicConstructor } from "./ionicConstructor";
 
 const SNAP_RADIUS = 48;
 const ATOM_RADIUS = 20;
@@ -22,7 +23,36 @@ export function renderConstructor(
   palette: PaletteController
 ): void {
   container.innerHTML = "";
-  container.classList.add("constructor-panel");
+  container.classList.add("constructor-panel-wrap");
+
+  // --- M3: comutator Covalent / Ionic — două paradigme de construcție
+  // distincte pe același ecran, fără navigare (§10.1). ---
+  const modeTabs = document.createElement("div");
+  modeTabs.className = "mode-tabs";
+  const covalentTabBtn = document.createElement("button");
+  covalentTabBtn.textContent = "Covalent";
+  const ionicTabBtn = document.createElement("button");
+  ionicTabBtn.textContent = "Ionic";
+  modeTabs.append(covalentTabBtn, ionicTabBtn);
+
+  const covalentView = document.createElement("div");
+  covalentView.className = "constructor-panel";
+  const ionicView = document.createElement("div");
+  ionicView.className = "ionic-panel";
+
+  container.append(modeTabs, covalentView, ionicView);
+
+  function setMode(mode: "covalent" | "ionic"): void {
+    covalentTabBtn.classList.toggle("active", mode === "covalent");
+    ionicTabBtn.classList.toggle("active", mode === "ionic");
+    covalentView.style.display = mode === "covalent" ? "flex" : "none";
+    ionicView.style.display = mode === "ionic" ? "flex" : "none";
+  }
+  covalentTabBtn.addEventListener("click", () => setMode("covalent"));
+  ionicTabBtn.addEventListener("click", () => setMode("ionic"));
+  setMode("covalent");
+
+  renderIonicConstructor(ionicView, store);
 
   const statusBar = document.createElement("div");
   statusBar.className = "status-bar";
@@ -48,7 +78,7 @@ export function renderConstructor(
   const svg = document.createElementNS(svgNS, "svg");
   canvasWrap.appendChild(svg);
 
-  container.append(statusBar, canvasWrap);
+  covalentView.append(statusBar, canvasWrap);
 
   const undoStack: Snapshot[] = [];
   const redoStack: Snapshot[] = [];

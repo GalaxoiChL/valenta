@@ -20,6 +20,33 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] M3 — Chimia ionică: tier 3, sarcini, Constructor Ionic distinct
+
+**Milestone:** M3
+**Făcut:**
+- **5 elemente tier 3 noi** (`chem/elements.ts`): Cl și F (covalente, valență 1, ȘI ionice, sarcină −1 — apar în ambele interfețe), Na (doar ionic, sarcină +1, `valences: []` — exclus intenționat din Constructorul covalent), He și Ne (`valences: [0]`, sarcină 0 — inerte peste tot, dar validează natural ca „molecule" monoatomice via motorul covalent existent, fără cod special). Energii de legătură noi în `bonds.ts` (H–F, Cl–Cl, F–F — F–F explicit slabă, 159 kJ/mol, motivul real al reactivității extreme a fluorului).
+- **Motor de chimie ionică nou** (`chem/ionic.ts`, `chem/lattice.ts`): `validateIonicMix()` — un mecanic separat de `validator.ts`, conform §5.6: validează prin **echilibru de sarcini**, nu prin grafuri de legături. Reduce raportul la forma minimă prin GCD (ex. 2Na+2Cl → formula NaCl, 2 „unități-formulă"). `lattice.ts` oferă echivalentul energiei de legătură pentru compuși fără legături desenate, folosit direct de `productionRate()` existent.
+- **`GameStore`**: `reserveAtomForIon`/`releaseAtomFromIon` (simetrice cu `placeAtomInDraft`, §6.1) și `synthesizeIonicMix()`. Compusul ionic rezultat e un `CollectionEntry` obișnuit — **compatibil automat, fără nicio modificare**, cu re-sinteza ×1/×10/×Max, Analizatorul și auto-sintetizatoarele din M2 (verificat live).
+- **Constructor Ionic — UI distinct** (§8.2 „rețea, nu graf"): tab nou „Covalent / Ionic" deasupra Constructorului (fără să iasă din regula „un singur ecran, fără navigare"). Modul Ionic arată un picker de ioni (cu sarcină afișată, ex. „Na⁺"), controale +/− care rezervă/eliberează atomi live din stoc, o previzualizare de formulă + indicator de sarcină netă, și un vizual decorativ tip rețea cristalină (pătrățele alternante cation-anion), distinct vizual de graful SVG al Constructorului covalent.
+- Paleta covalentă filtrează acum elementele fără nicio valență covalentă (Na) — apar doar în picker-ul ionic; Cl/F apar corect în ambele.
+- **`moleculeDB.json` extins cu 8 intrări tier 3**: HCl, HF (covalente), Cl₂, F₂ (covalente, diatomice), He, Ne (monoatomice — validează ca „molecule" cu 0 legături), NaCl, NaF (ionice). Total 53 de intrări.
+- 2 obiective noi: „Deblochează Sodiul", „Sintetizează NaCl în Constructorul Ionic".
+- Verificat integral în browser: tab-urile comută corect; Tabelul Periodic arată corect toate cele 5 elemente noi cu costurile lor; Cl apare simultan în Paletă (covalent) și în picker-ul ionic; Na exclus corect din Paletă; NaCl sintetizat cu succes (sarcină netă 0, banner de descoperire, +Cunoaștere), apoi re-sintetizat ×10 din Colecție și afișat cu producție E/s ca orice altă intrare; „Golește" din modul Ionic întoarce corect atomii rezervați. Zero erori în consolă.
+- `tsc --noEmit` curat; 86 de teste automate trec (10 fișiere, +25 față de M2: `tests/ionic.test.ts` pentru motorul de validare prin sarcini, `tests/ionicStore.test.ts` pentru acțiunile GameStore, plus cazuri noi în `tests/moleculeDB.test.ts` pentru HCl/HF/Cl₂/F₂/He/Ne).
+
+**Decizii / abateri de la SPEC.md:**
+- **Cheia unui compus ionic e formula însăși** (ex. `"NaCl"`, fără sufix), spre deosebire de cheile covalente care conțin mereu `"|"` urmat de ordinele legăturilor (ex. `"H2O|1,1"`) — nespecificat exact în SPEC, dar alegerea garantează că cele două spații de chei nu pot coincide niciodată, fără nicio verificare suplimentară.
+- **He/Ne nu au primit tratament special** pentru „molecule monoatomice" — motorul covalent existent (validator.ts) le acceptă deja natural, fiindcă `valences: [0]` înseamnă „valența 0 e satisfăcută cu 0 legături". A fost o descoperire plăcută în timpul implementării, nu o decizie de design separată.
+- **UI-ul Constructorului Ionic e un tab, nu un overlay separat** — SPEC spune doar „UI distinct", fără să specifice mecanismul. Ales tab (ca la Laborator: Generatoare/Colecție) în loc de overlay, ca să respecte principiul din §10.1 („un singur ecran, fără navigare... Tabelul Periodic și Setările sunt SINGURELE overlay-uri") — un mecanic de construcție folosit des nu ar trebui tratat ca acțiune rară de settings.
+- **Mixul ionic nu se salvează între sesiuni** (spre deosebire de `constructorDraft`, care e persistat din M0) — simplificare deliberată de scop pentru M3: starea mixului trăiește doar în closure-ul componentei UI. Dacă devine o problemă de fluiditate reală, following-up e ușor (adaugă un câmp `ionicDraft` în `GameState`, după modelul `constructorDraft`).
+- **Ratele de generator pentru Na/Cl/F/He/Ne** și **costurile de deblocare** nu erau specificate exact în SPEC (doar Cl=120C, Na=150C erau date explicit, restul extrapolate) — calibrate manual, verificate empiric în sesiunea de testare să nu blocheze progresia.
+
+**Rămas de făcut / follow-up:**
+- M4: Chimia organică — limita de atomi crescută, izomeri prin hash canonic Morgan, unități polimerice, DB 100+.
+- De luat în calcul: în timpul testării, cu ~200+ copii auto-sintetizate simultan pe mai multe intrări din Colecție, screenshot-urile din automatizarea de browser au început să dea timeout (pagina rămânea funcțională, doar captura vizuală eșua) — posibil semnal că randarea Colecției sub sarcină foarte mare (sute de copii, tick la 100ms) merită profilată la un moment dat, deși nu a afectat jocabilitatea reală, doar unealta de testare.
+
+---
+
 ## [2026-08-10] M2 — Idle adevărat: auto-sintetizatoare, Analizator, offline plafonat
 
 **Milestone:** M2

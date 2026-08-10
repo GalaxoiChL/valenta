@@ -448,5 +448,85 @@
     "tier": 2,
     "tags": ["organic", "combustibil"],
     "flavor": "Referința pentru cifra octanică 0 — cu cât benzina seamănă mai puțin cu heptanul pur, cu atât arde mai controlat."
+  },
+  {
+    "key": "ClH|1",
+    "formula": "ClH",
+    "name": "Acid clorhidric",
+    "bonusMult": 1.9,
+    "discoveryC": 8,
+    "tier": 3,
+    "tags": ["anorganic", "acid"],
+    "flavor": "Acidul din stomacul tău — la o concentrație mult mai mică decât cea folosită industrial pentru curățarea metalelor."
+  },
+  {
+    "key": "FH|1",
+    "formula": "FH",
+    "name": "Acid fluorhidric",
+    "bonusMult": 2.0,
+    "discoveryC": 9,
+    "tier": 3,
+    "tags": ["anorganic", "acid", "toxic"],
+    "flavor": "Singurul acid care atacă sticla — dizolvă dioxidul de siliciu, de-asta se păstrează în recipiente de plastic."
+  },
+  {
+    "key": "Cl2|1",
+    "formula": "Cl2",
+    "name": "Clor",
+    "bonusMult": 1.6,
+    "discoveryC": 4,
+    "tier": 3,
+    "tags": ["anorganic", "gaz", "toxic"],
+    "flavor": "Gaz galben-verzui folosit ca dezinfectant pentru apă — și, tragic, prima armă chimică modernă folosită în masă, în 1915."
+  },
+  {
+    "key": "F2|1",
+    "formula": "F2",
+    "name": "Fluor",
+    "bonusMult": 2.1,
+    "discoveryC": 5,
+    "tier": 3,
+    "tags": ["anorganic", "gaz", "toxic"],
+    "flavor": "Cel mai reactiv element din natură — atacă aproape orice, inclusiv sticla și unele metale nobile."
+  },
+  {
+    "key": "He|",
+    "formula": "He",
+    "name": "Heliu",
+    "bonusMult": 1.2,
+    "discoveryC": 2,
+    "tier": 3,
+    "tags": ["anorganic", "gaz", "nobil"],
+    "flavor": "Un singur atom e o moleculă completă — heliul nu are nevoie de niciun partener de legătură."
+  },
+  {
+    "key": "Ne|",
+    "formula": "Ne",
+    "name": "Neon",
+    "bonusMult": 1.3,
+    "discoveryC": 3,
+    "tier": 3,
+    "tags": ["anorganic", "gaz", "nobil"],
+    "flavor": "Ca și heliul, există fericit de unul singur — dar strălucește roșu-portocaliu când e excitat electric, de unde și reclamele clasice."
+  },
+  {
+    "key": "NaCl",
+    "formula": "NaCl",
+    "name": "Clorură de sodiu",
+    "bonusMult": 2.2,
+    "discoveryC": 10,
+    "tier": 3,
+    "tags": ["anorganic", "ionic", "viață"],
+    "flavor": "Sarea de masă — un cristal ionic, nu o moleculă în sensul clasic: Na⁺ și Cl⁻ se echilibrează, nu se leagă covalent."
+  },
+  {
+    "key": "NaF",
+    "formula": "NaF",
+    "name": "Fluorură de sodiu",
+    "bonusMult": 2.4,
+    "discoveryC": 11,
+    "tier": 3,
+    "tags": ["anorganic", "ionic", "industrial"],
+    "flavor": "Adăugată în multe paste de dinți — protejează smalțul, dar în doze mari e toxică, ca aproape orice compus de fluor."
   }
 ]

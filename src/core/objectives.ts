@@ -95,6 +95,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     rewardC: 15,
     isComplete: (s) => s.totalEnergyPerSecond() >= 500,
     progress: (s) => `${Math.min(Math.floor(s.totalEnergyPerSecond()), 500)}/500`
+  },
+  {
+    id: "unlock_na",
+    description: "Deblochează Sodiul",
+    rewardC: 10,
+    isComplete: (s) => s.state.unlockedElements.includes("Na")
+  },
+  {
+    id: "synth_nacl",
+    description: "Sintetizează Clorură de sodiu (NaCl) în Constructorul Ionic",
+    rewardC: 10,
+    isComplete: (s) => collectionCopies(s, "NaCl") >= 1
   }
 ];
 

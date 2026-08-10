@@ -12,6 +12,8 @@ import { validate } from "../chem/validator";
 import { moleculeKey, hillFormula } from "../chem/formula";
 import { bondEnergy } from "../chem/bonds";
 import { ELEMENTS, maxValence } from "../chem/elements";
+import { validateIonicMix } from "../chem/ionic";
+import { latticeEnergy } from "../chem/lattice";
 import moleculeDB from "../chem/moleculeDB.json";
 import {
   generatorCost,
@@ -289,6 +291,67 @@ export class GameStore {
     this.emitResources();
     this.events.emit("collection", key);
     return gained;
+  }
+
+  /** M3 — Rezervă un atom din stoc pentru mixul ionic (simetric cu placeAtomInDraft, §6.1). */
+  reserveAtomForIon(element: string): boolean {
+    if ((this.state.resources.atoms[element] ?? 0) < 1) return false;
+    this.state.resources.atoms[element] -= 1;
+    this.emitResources();
+    return true;
+  }
+
+  /** Întoarce un atom rezervat pentru mixul ionic înapoi în stoc (Golește / eliminare din mix). */
+  releaseAtomFromIon(element: string): void {
+    this.state.resources.atoms[element] = (this.state.resources.atoms[element] ?? 0) + 1;
+    this.emitResources();
+  }
+
+  /**
+   * M3 — Sintetizează un compus ionic dintr-un mix de ioni deja rezervați
+   * (§5.6): validare prin echilibru de sarcini, nu prin legături desenate.
+   * Cheia unui compus ionic e formula însăși (fără sufixul "|ordine" al
+   * cheilor covalente din moleculeKey()), deci nu poate coincide niciodată
+   * cu o cheie covalentă.
+   */
+  synthesizeIonicMix(counts: Record<string, number>): SynthesisResult {
+    const result = validateIonicMix(counts);
+    if (!result.ok) return { ok: false, reason: result.reason };
+
+    const { formula, copies, atomsPerCopy } = result;
+    const key = formula;
+    const dbEntry = DB_BY_KEY.get(key);
+    const isFirstDiscovery = !this.state.collection[key];
+
+    if (isFirstDiscovery) {
+      const energyMetric = latticeEnergy(formula);
+      const bonusMult = dbEntry?.bonusMult ?? DEFAULT_BONUS_MULT;
+      const ePerSecondPerCopy = productionRate(energyMetric, bonusMult);
+      this.state.collection[key] = {
+        key,
+        formula,
+        name: dbEntry?.name ?? `Compus ionic ${formula}`,
+        copies: 0,
+        discovered: true,
+        ePerSecondPerCopy,
+        sumBondEnergy: energyMetric,
+        atomsPerCopy,
+        flavor: dbEntry?.flavor ?? "Un compus ionic nou, în afara bazei de date cunoscute.",
+        autoSynth: { rate: 0, progress: 0 }
+      };
+      const tier = dbEntry ? dbEntry.tier : 3;
+      const gained = dbEntry ? dbEntry.discoveryC : discoveryKnowledge(energyMetric, tier);
+      this.state.resources.knowledge += gained;
+    }
+
+    this.state.collection[key].copies += copies;
+    this.emitResources();
+    this.events.emit("collection", key);
+    if (isFirstDiscovery) {
+      this.events.emit("discovery", { key, dbEntry, formula });
+    }
+
+    return { ok: true, isFirstDiscovery, dbEntry, formula };
   }
 
   draft(): MoleculeGraph {

@@ -16,7 +16,12 @@ export const GENERATOR_BASE_COST: Record<string, number> = {
   O: 60,
   N: 90,
   C: 200,
-  S: 300
+  S: 300,
+  Cl: 400,
+  F: 350,
+  Na: 500,
+  He: 600,
+  Ne: 650
 };
 export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare

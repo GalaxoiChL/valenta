@@ -11,8 +11,14 @@ interface PaletteItem {
   stockEl: HTMLElement;
 }
 
+/** Elemente care pot fi plasate în Constructorul covalent — exclude elementele
+ * fără nicio valență (ex. Na, M3: ionic-doar, vezi ionicConstructor.ts). */
+function covalentCapable(store: GameStore): string[] {
+  return store.state.unlockedElements.filter((s) => getElement(s).valences.length > 0);
+}
+
 export function renderPalette(container: HTMLElement, store: GameStore): PaletteController {
-  let selected: string | null = store.state.unlockedElements[0] ?? null;
+  let selected: string | null = covalentCapable(store)[0] ?? null;
 
   container.innerHTML = "";
   const heading = document.createElement("h2");
@@ -61,7 +67,7 @@ export function renderPalette(container: HTMLElement, store: GameStore): Palette
   }
 
   function render(): void {
-    for (const symbol of store.state.unlockedElements) {
+    for (const symbol of covalentCapable(store)) {
       const { stockEl } = ensureItem(symbol);
       const stock = Math.floor(store.state.resources.atoms[symbol] ?? 0);
       stockEl.textContent = String(stock);

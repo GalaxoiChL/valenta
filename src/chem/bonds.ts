@@ -25,7 +25,13 @@ const BOND_ENERGIES: Partial<Record<BondKey, number>> = {
   [bondKey("C", "N", 3)]: 891,
   [bondKey("N", "O", 1)]: 201,
   [bondKey("N", "O", 2)]: 607,
-  [bondKey("H", "N", 1)]: 391
+  [bondKey("H", "N", 1)]: 391,
+  [bondKey("H", "F", 1)]: 565,
+  [bondKey("Cl", "Cl", 1)]: 242,
+  // F-F e neobișnuit de slabă (respingerea perechilor de electroni neparticipanți
+  // de pe cei doi atomi mici, vecini) — de-asta fluorul e atât de reactiv: rupe
+  // ușor propria legătură. Valoare reală, nu o simplificare a modelului.
+  [bondKey("F", "F", 1)]: 159
 };
 
 // Medie brută per element, folosită doar pentru fallback (§5.4).
@@ -35,7 +41,8 @@ const AVERAGE_BOND_ENERGY: Record<string, number> = {
   N: 500,
   C: 500,
   Cl: 380,
-  S: 350
+  S: 350,
+  F: 400
 };
 
 export function bondEnergy(a: string, b: string, order: 1 | 2 | 3): number {
