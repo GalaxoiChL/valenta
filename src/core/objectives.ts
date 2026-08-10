@@ -156,6 +156,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Dioxid de titan (TiO₂) — cel mai folosit pigment alb din lume",
     rewardC: 26,
     isComplete: (s) => collectionCopies(s, "TiO2") >= 1
+  },
+  {
+    id: "unlock_au",
+    description: "Deblochează Aurul",
+    rewardC: 28,
+    isComplete: (s) => s.state.unlockedElements.includes("Au")
+  },
+  {
+    id: "synth_cr2o3",
+    description: "Sintetizează Oxid de crom (Cr₂O₃) — pigmentul „verde crom”",
+    rewardC: 30,
+    isComplete: (s) => collectionCopies(s, "Cr2O3") >= 1
   }
 ];
 

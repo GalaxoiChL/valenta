@@ -406,6 +406,79 @@ export const ELEMENTS: Record<string, ElementDef> = {
     tier: 7,
     unlockCost: 1250,
     flavor: "Elementul-cheie din sticla borosilicată (Pyrex) — rezistentă la șocuri termice mari, spre deosebire de sticla obișnuită."
+  },
+
+  // --- tier 8: al cincilea lot ---
+  Au: {
+    symbol: "Au",
+    name: "Aur",
+    Z: 79,
+    valences: [],
+    mass: 196.967,
+    color: "#ffd700",
+    tier: 8,
+    unlockCost: 1300,
+    flavor: "Unul dintre cele mai puțin reactive metale — de-asta rămâne strălucitor mii de ani. Puținii compuși pe care-i formează sunt curiozități chimice.",
+    ionicCharge: 3
+  },
+  Ge: {
+    symbol: "Ge",
+    name: "Germaniu",
+    Z: 32,
+    valences: [4],
+    mass: 72.63,
+    color: "#668f8f",
+    tier: 8,
+    unlockCost: 1350,
+    flavor: "Primul semiconductor folosit în tranzistoare, înainte ca siliciul să-l înlocuiască — vecin de familie cu carbonul și siliciul."
+  },
+  Hg: {
+    symbol: "Hg",
+    name: "Mercur",
+    Z: 80,
+    valences: [],
+    mass: 200.592,
+    color: "#b8b8d0",
+    tier: 8,
+    unlockCost: 1400,
+    flavor: "Singurul metal lichid la temperatura camerei — oxidul lui a fost exact ce a încălzit Priestley în 1774 când a descoperit oxigenul.",
+    ionicCharge: 2
+  },
+  Cr: {
+    symbol: "Cr",
+    name: "Crom",
+    Z: 24,
+    valences: [],
+    mass: 51.996,
+    color: "#8a99c7",
+    tier: 8,
+    unlockCost: 1450,
+    flavor: "Dă numele culorii «crom» pentru cromarea metalică strălucitoare — oxidul lui verde e un pigment folosit din antichitate.",
+    ionicCharge: 3
+  },
+  Mn: {
+    symbol: "Mn",
+    name: "Mangan",
+    Z: 25,
+    valences: [],
+    mass: 54.938,
+    color: "#9c7ac7",
+    tier: 8,
+    unlockCost: 1500,
+    flavor: "Esențial pentru oțelul rezistent la uzură — și pentru primele baterii uscate, sub formă de dioxid de mangan.",
+    ionicCharge: 2
+  },
+  Cd: {
+    symbol: "Cd",
+    name: "Cadmiu",
+    Z: 48,
+    valences: [],
+    mass: 112.414,
+    color: "#ffd98f",
+    tier: 8,
+    unlockCost: 1550,
+    flavor: "Un galben strălucitor folosit istoric ca pigment de pictură — dar toxic, motiv pentru care e azi strict reglementat.",
+    ionicCharge: 2
   }
 };
 

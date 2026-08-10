@@ -20,6 +20,27 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 8 — Au, Ge, Hg, Cr, Mn, Cd (al cincilea lot)
+
+**Milestone:** post-tier 7 (continuare autonomă neîntreruptă)
+**Făcut:**
+- **6 elemente tier 8 noi**: **Au** (+3, aproape inert — puțini compuși reali, dar AuCl₃ e unul), **Ge** (covalent, valență 4 — al treilea „văr" din familia C/Si/Ge, primul semiconductor folosit istoric în tranzistoare), **Hg** (+2, singurul metal lichid la temperatura camerei — oxidul lui e exact ce a încălzit Priestley în 1774 când a descoperit oxigenul), **Cr** (+3, verdele crom, cromare), **Mn** (+2, oțel/baterii), **Cd** (+2, toxic, pigment galben istoric).
+- **11 compuși noi**: AuCl₃, HgO/HgCl₂, Cr₂O₃/CrCl₃, MnO/MnCl₂, CdO/CdCl₂ (ionice) + GeH₄/GeCl₄ (covalente, energii de legătură Ge-H/Ge-Cl adăugate în `bonds.ts`).
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 7 (TiO₂, eff 4,75) — interval 4,85–5,30, atins exact (verificat programatic înainte de a scrie fișierele).
+- **Bug găsit și reparat imediat, prin `tsc`/`vitest`, nu prin verificare vizuală**: flavor text-ul Cromului folosea ghilimele drepte „...\" în interiorul unui string TypeScript cu ghilimele duble, ceea ce închidea prematur string-ul și spărgea sintaxa fișierului (17 fișiere de test au eșuat să se compileze). Reparat prin înlocuirea cu ghilimele franceze «...» — genul de greșeală mecanică pe care verificarea automată (`tsc --noEmit` rulat imediat după fiecare edit) e menită s-o prindă instant, exact cum s-a întâmplat aici.
+- 2 obiective noi: „Deblochează Aurul", „Sintetizează Oxid de crom (Cr₂O₃)".
+- Test nou `tests/moleculeDB_tier8.test.ts` (4 teste).
+- `tsc --noEmit` curat; 156 de teste automate trec (19 fișiere).
+- Verificat live direct pe deploy-ul public, ca la tier 7: construit și sintetizat un compus tier 8 în Constructorul Ionic, rată afișată exact cea calculată.
+
+**Decizii / abateri de la SPEC.md:**
+- **Au (Aur) are un singur compus** (AuCl₃), nu doi ca majoritatea celorlalte elemente — aurul e notoriu de puțin reactiv, iar compușii lui stabili și simpli sunt rari; forțarea unui al doilea compus ar fi însemnat fie chimie inventată, fie o alegere mult mai exotică/instabilă. Al treilea precedent de „un singur compus" după P4/PH3-fără-alt-partener... de fapt e al doilea precedent real după Ti (TiO₂ singur în tier 7) — o alegere recurentă de onestitate chimică, nu o excepție izolată.
+
+**Rămas de făcut / follow-up:**
+- Tot Tabelul Periodic rămas (peste 70 de poziții) rămâne siluete „?" — continuăm pe loturi.
+
+---
+
 ## [2026-08-10] Tier 7 — Ti, Sr, Ni, Co, Cs, B (al patrulea lot)
 
 **Milestone:** post-tier 6 (continuare autonomă neîntreruptă, la cererea explicită a utilizatorului)

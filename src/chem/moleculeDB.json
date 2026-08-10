@@ -1863,5 +1863,115 @@
     "tier": 7,
     "tags": ["anorganic"],
     "flavor": "Folosită industrial la purificarea aluminiului și siliciului — reacționează violent cu apa, eliberând acid clorhidric."
+  },
+  {
+    "key": "AuCl3",
+    "formula": "AuCl3",
+    "name": "Clorură de aur",
+    "bonusMult": 2.4,
+    "discoveryC": 25,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Unul dintre puținii compuși stabili ai aurului — folosit la aurirea electrolitică și la „purpuriul lui Cassius\", un pigment roșu-violet clasic."
+  },
+  {
+    "key": "HgO",
+    "formula": "HgO",
+    "name": "Oxid de mercur",
+    "bonusMult": 2.3,
+    "discoveryC": 24,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Exact substanța pe care Joseph Priestley a încălzit-o în 1774, eliberând un gaz care întreținea puternic arderea — așa a descoperit oxigenul."
+  },
+  {
+    "key": "HgCl2",
+    "formula": "HgCl2",
+    "name": "Clorură de mercur",
+    "bonusMult": 2.2,
+    "discoveryC": 25,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cunoscută istoric drept „sublimat coroziv\" — extrem de toxică, a fost folosită (periculos) ca dezinfectant înainte să se înțeleagă riscurile ei."
+  },
+  {
+    "key": "Cr2O3",
+    "formula": "Cr2O3",
+    "name": "Oxid de crom",
+    "bonusMult": 2.8,
+    "discoveryC": 28,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Pigmentul „verde crom\", folosit din antichitate în vopsele și azi ca abraziv fin de lustruit — extrem de stabil chimic."
+  },
+  {
+    "key": "CrCl3",
+    "formula": "CrCl3",
+    "name": "Clorură de crom",
+    "bonusMult": 2.4,
+    "discoveryC": 26,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cristale violet-roșiatice — culoarea vine chiar de la ionul de crom, aceeași familie chimică din spatele rubinelor sintetice."
+  },
+  {
+    "key": "MnO",
+    "formula": "MnO",
+    "name": "Oxid de mangan",
+    "bonusMult": 2.2,
+    "discoveryC": 24,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid verde-gri folosit ca decolorant în producția de sticlă — neutralizează nuanța verzuie dată de urmele de fier."
+  },
+  {
+    "key": "MnCl2",
+    "formula": "MnCl2",
+    "name": "Clorură de mangan",
+    "bonusMult": 2.1,
+    "discoveryC": 25,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cristale roz pal — manganul e esențial pentru multe enzime din corpul tău, în cantități infime."
+  },
+  {
+    "key": "CdO",
+    "formula": "CdO",
+    "name": "Oxid de cadmiu",
+    "bonusMult": 2.2,
+    "discoveryC": 24,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid maro folosit istoric la baterii nichel-cadmiu — azi înlocuit tot mai mult din cauza toxicității cadmiului."
+  },
+  {
+    "key": "CdCl2",
+    "formula": "CdCl2",
+    "name": "Clorură de cadmiu",
+    "bonusMult": 2.1,
+    "discoveryC": 25,
+    "tier": 8,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosită în trecut la fotografia pe placă și la unele pigmenți — manipulată azi cu precauții stricte."
+  },
+  {
+    "key": "GeH4|Ge:4(1:H:1,1:H:1,1:H:1,1:H:1)|H:1(1:Ge:4)|H:1(1:Ge:4)|H:1(1:Ge:4)|H:1(1:Ge:4)",
+    "formula": "GeH4",
+    "name": "German",
+    "bonusMult": 1.5,
+    "discoveryC": 12,
+    "tier": 8,
+    "tags": ["anorganic", "gaz"],
+    "flavor": "Analogul de germaniu al metanului și silanului — cei trei „veri\" ai grupei carbonului, fiecare mai instabil decât precedentul."
+  },
+  {
+    "key": "Cl4Ge|Cl:1(1:Ge:4)|Cl:1(1:Ge:4)|Cl:1(1:Ge:4)|Cl:1(1:Ge:4)|Ge:4(1:Cl:1,1:Cl:1,1:Cl:1,1:Cl:1)",
+    "formula": "Cl4Ge",
+    "name": "Tetraclorură de germaniu",
+    "bonusMult": 1.9,
+    "discoveryC": 15,
+    "tier": 8,
+    "tags": ["anorganic"],
+    "flavor": "Materia primă pentru fibra optică de înaltă performanță — dopează sticla de siliciu ca să-i mărească indicele de refracție."
   }
 ]

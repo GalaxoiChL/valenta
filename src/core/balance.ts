@@ -43,7 +43,13 @@ export const GENERATOR_BASE_COST: Record<string, number> = {
   Ni: 2000,
   Co: 2100,
   Cs: 2200,
-  B: 2300
+  B: 2300,
+  Au: 2400,
+  Ge: 2500,
+  Hg: 2600,
+  Cr: 2700,
+  Mn: 2800,
+  Cd: 2900
 };
 export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare

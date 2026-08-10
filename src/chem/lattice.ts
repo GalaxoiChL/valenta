@@ -57,7 +57,18 @@ const LATTICE_ENERGY: Record<string, number> = {
   CoO: 1815,
   CoCl2: 3572,
   CsCl: 2181,
-  CsBr: 2069
+  CsBr: 2069,
+  // Tier 8 — Au/Hg/Cr/Mn/Cd: aceeași metodă, țintă peste vârful tier 7
+  // (TiO2, eff 4,75).
+  AuCl3: 5371,
+  HgO: 2089,
+  HgCl2: 4091,
+  Cr2O3: 6630,
+  CrCl3: 5528,
+  MnO: 2226,
+  MnCl2: 4372,
+  CdO: 2259,
+  CdCl2: 4435
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;
