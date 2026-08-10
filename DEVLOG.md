@@ -30,7 +30,7 @@ Format per intrare:
 - 2 obiective noi: „Deblochează Yterbiul", „Sintetizează Oxid de europiu (Eu₂O₃)".
 - Test nou `tests/moleculeDB_tier14.test.ts` (2 teste).
 - `tsc --noEmit` curat; 176 de teste automate trec (25 fișiere).
-- Verificat live pe deploy-ul public, după push: vezi mai jos.
+- Verificat live pe deploy-ul public, după push: Eu₂O₃ construit și sintetizat manual (2×Eu³⁺ + 3×O²⁻), banner de descoperire corect, rată 40,8 E/s — exact valoarea calculată. Toate cele 10 lantanide (La/Ce/Nd/Gd + Pr/Sm/Eu/Tb/Dy/Yb) confirmate vizual una lângă alta în picker-ul Ionic, cu sarcinile corecte.
 
 **Decizii / abateri de la SPEC.md:**
 - Niciuna nouă — continuă exact tiparul stabilit la tier 13 pentru lantanide.
