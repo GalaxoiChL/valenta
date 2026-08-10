@@ -30,7 +30,7 @@ Format per intrare:
 - 2 obiective noi: „Deblochează Vanadiul", „Sintetizează Pentoxid de vanadiu (V₂O₅)".
 - Test nou `tests/moleculeDB_tier9.test.ts` (3 teste) — inclusiv cazurile WCl₆ (raport 1:6) și V₂O₅ (raport 2:5), primele sarcini ionice ≥5 din joc, validate fără nicio schimbare de cod (`validateIonicMix` e complet generic pe magnitudinea sarcinii).
 - `tsc --noEmit` curat; 159 de teste automate trec (20 fișiere).
-- **Verificat live pe deploy-ul public** (extensia de browser s-a reconectat) — vezi mai jos.
+- **Verificat live pe deploy-ul public** (extensia de browser s-a reconectat): construit și sintetizat V₂O₅ manual în Constructorul Ionic (2×V⁵⁺ + 5×O²⁻, primul raport 2:5 din joc), banner de descoperire corect, rată afișată 41,3 E/s — exact valoarea calculată. Toate cele 44 de elemente deblocate până la tier 9 confirmate vizual în picker-ul Ionic cu sarcinile corecte, inclusiv W⁶⁺ (prima sarcină +6).
 
 **Decizii / abateri de la SPEC.md:**
 - **V (Vanadiu) are un singur compus** (V₂O₅), ca Ti/Au — VCl₅ nu există ca sare simplă stabilă (vanadiu(V) nu formează ușor pentahalidele cu clor), deci evitat, consistent cu politica de onestitate chimică deja stabilită.
@@ -57,7 +57,7 @@ Format per intrare:
 - **Au (Aur) are un singur compus** (AuCl₃), nu doi ca majoritatea celorlalte elemente — aurul e notoriu de puțin reactiv, iar compușii lui stabili și simpli sunt rari; forțarea unui al doilea compus ar fi însemnat fie chimie inventată, fie o alegere mult mai exotică/instabilă. Al doilea precedent real de „un singur compus" după Ti (TiO₂ singur în tier 7) — o alegere recurentă de onestitate chimică, nu o excepție izolată.
 
 **Rămas de făcut / follow-up:**
-- **Verificare live UI reală pentru tier 8, restantă** — de făcut quando extensia claude-in-chrome se reconectează. Risc considerat redus (mecanism identic, verificat live de multiple ori pe tier-uri anterioare), dar e o lacună reală, nu doar o formalitate.
+- ~~Verificare live UI reală pentru tier 8, restantă~~ — **închis**: extensia s-a reconectat la sesiunea de tier 9; state-ul de test de acolo (toate elementele până la tier 9 deblocate) a confirmat vizual, în Constructorul Ionic, toate elementele tier 8 (Au³⁺, Hg²⁺, Cr³⁺, Mn²⁺, Cd²⁺) și Ge în Paleta covalentă, randate corect cu sarcinile corecte pe deploy-ul public.
 - Tot Tabelul Periodic rămas (peste 70 de poziții) rămâne siluete „?" — continuăm pe loturi.
 
 ---
