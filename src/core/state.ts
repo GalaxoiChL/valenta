@@ -11,7 +11,7 @@ import {
 import { validate } from "../chem/validator";
 import { moleculeKey, hillFormula } from "../chem/formula";
 import { bondEnergy } from "../chem/bonds";
-import { maxValence } from "../chem/elements";
+import { ELEMENTS, maxValence } from "../chem/elements";
 import moleculeDB from "../chem/moleculeDB.json";
 import {
   generatorCost,
@@ -193,6 +193,25 @@ export class GameStore {
 
   canAffordAtoms(costs: Record<string, number>): boolean {
     return Object.entries(costs).every(([el, n]) => (this.state.resources.atoms[el] ?? 0) >= n);
+  }
+
+  /** Deblochează un element din Tabelul Periodic, cheltuind Cunoaștere (§8.1). */
+  canUnlockElement(symbol: string): boolean {
+    if (this.state.unlockedElements.includes(symbol)) return false;
+    const def = ELEMENTS[symbol];
+    if (!def) return false;
+    return this.state.resources.knowledge >= def.unlockCost;
+  }
+
+  unlockElement(symbol: string): boolean {
+    if (!this.canUnlockElement(symbol)) return false;
+    const def = ELEMENTS[symbol];
+    this.state.resources.knowledge -= def.unlockCost;
+    this.state.unlockedElements.push(symbol);
+    this.state.generators[symbol] = this.state.generators[symbol] ?? 0;
+    this.emitResources();
+    this.events.emit("unlocked", symbol);
+    return true;
   }
 
   buyGenerator(element: string): boolean {

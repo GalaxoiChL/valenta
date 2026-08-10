@@ -379,6 +379,230 @@ body {
   opacity: 1;
 }
 
+/* ---------- Obiective ---------- */
+.objectives-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 18px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.objectives-heading {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.objectives-cards {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.objective-card {
+  background: var(--bg-panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.objective-desc {
+  color: var(--text);
+}
+
+.objective-meta {
+  color: var(--accent);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.objectives-done-all {
+  font-size: 12px;
+  color: var(--good);
+}
+
+/* ---------- Overlay-uri (Tabel Periodic, Setări) ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 16, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 950;
+  padding: 24px;
+}
+
+.overlay-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.overlay-header h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.overlay-close {
+  background: var(--bg-panel-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.overlay-close:hover {
+  border-color: var(--accent);
+}
+
+/* ---------- Tabel Periodic ---------- */
+.periodic-hint {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.periodic-grid {
+  display: grid;
+  gap: 4px;
+  width: min(90vw, 1000px);
+}
+
+.periodic-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  min-width: 0;
+}
+
+.periodic-cell.unknown {
+  background: #1a2030;
+  color: #3a4560;
+  border: 1px dashed #2a3448;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.periodic-cell.locked {
+  background: #232d42;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: default;
+}
+
+.periodic-cell.affordable {
+  border-color: var(--accent);
+  cursor: pointer;
+}
+
+.periodic-cell.affordable:hover {
+  background: #2a3650;
+}
+
+.periodic-cell.unlocked {
+  border: 1px solid var(--border);
+  cursor: default;
+}
+
+.periodic-cell .symbol {
+  width: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #0e1420;
+  background: #2a3448;
+}
+
+.periodic-cell.locked .symbol,
+.periodic-cell.affordable .symbol {
+  color: var(--text-dim);
+  background: transparent;
+}
+
+.periodic-cell .cost {
+  margin-top: 2px;
+  font-size: 9px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ---------- Setări ---------- */
+.settings-panel {
+  width: min(90vw, 420px);
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.settings-section button {
+  background: var(--bg-panel-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+}
+
+.settings-section button:hover {
+  border-color: var(--accent);
+}
+
+.settings-status {
+  font-size: 12px;
+  color: var(--good);
+  min-height: 16px;
+}
+
+.settings-status.bad {
+  color: var(--bad);
+}
+
 /* ---------- Banner descoperire ---------- */
 .discovery-banner {
   position: fixed;

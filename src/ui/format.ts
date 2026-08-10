@@ -1,10 +1,15 @@
 const SUFFIXES = ["", "K", "M", "B", "T", "Qa", "Qi"];
 
+// Prag sub care afișăm valoarea exactă (cu separator de mii) în loc de notația K/M/B —
+// altfel o cheltuială mică se pierde vizual sub rotunjirea la "1.2K" (semnalat ca
+// follow-up cosmetic după sesiunea M0, unde venitul mare masca vizual cumpărăturile mici).
+const PRECISE_THRESHOLD = 10_000;
+
 export function formatNumber(value: number): string {
   if (!Number.isFinite(value)) return "0";
   const sign = value < 0 ? "-" : "";
   const abs = Math.abs(value);
-  if (abs < 1000) return sign + trimDecimals(abs, abs < 10 ? 2 : 1);
+  if (abs < PRECISE_THRESHOLD) return sign + formatPrecise(abs);
 
   let tier = 0;
   let scaled = abs;
@@ -13,6 +18,13 @@ export function formatNumber(value: number): string {
     tier += 1;
   }
   return `${sign}${trimDecimals(scaled, 1)}${SUFFIXES[tier]}`;
+}
+
+function formatPrecise(value: number): string {
+  const decimals = value < 10 ? 2 : value < 100 ? 1 : 0;
+  const [intPart, decPart] = value.toFixed(decimals).split(".");
+  const withThousands = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return decPart ? `${withThousands},${decPart}` : withThousands;
 }
 
 function trimDecimals(value: number, decimals: number): string {

@@ -20,6 +20,32 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] M1 — Progresia: Tabel Periodic, obiective, export/import
+
+**Milestone:** M1
+**Făcut:**
+- **Tabelul Periodic** (`chem/periodicLayout.ts` + `ui/periodicTable.ts`): overlay cu layout-ul real (7 perioade + lantanide/actinide, 118 poziții). Elementele cu `ElementDef` (H, O, N, C, S) sunt clickabile: deblocate → colorate CPK, blocate → gri cu cost afișat (evidențiat cu contur accent dacă e afordabil). Elementele fără date de joc încă implementate se randează ca siluete „?", neclickabile — exact ca în §8.1. Deschis din butonul „Tabel Periodic" din HUD, închis cu Esc/click în afară.
+- **Deblocare elemente** (`GameStore.unlockElement`/`canUnlockElement` în `core/state.ts`): cheltuiește Cunoaștere = `ElementDef.unlockCost`, adaugă elementul în `unlockedElements` (Paleta și Laboratorul reacționează automat, deja ascultau acel array). Am eliminat `ELEMENT_UNLOCK_COST` din `balance.ts` — era o sursă de adevăr duplicată, nefolosită, față de `ElementDef.unlockCost`.
+- **`moleculeDB.json` extins de la 9 la 45 de intrări** (țintă M1: 40), toate compușii noi construibili din H/C/N/O (singurele deblocabile ≤ tier 2): metan, CO₂, etan/etenă/acetilenă, metanol, acid formic, etanol, HCN, acid acetic, benzen (Kekulé), cianogen, acetonitril, formamidă, alcani C3–C7, propenă/propină/alenă/1-butenă/butadienă/1-butină (izomeri cu chei DB distincte prin multiset-ul de ordine de legătură), acetonă, glicină (cel mai simplu aminoacid) și uree. Fiecare structură a fost verificată manual pe regulile de valență (H:1, O:2, N:3, C:4) și confirmată programatic într-un test nou (`tests/moleculeDB.test.ts`, 12 cazuri) care construiește graful real și verifică `validate().ok` + cheia calculată de motor față de DB.
+- **Obiective ghidate** (§8.3): `core/objectives.ts` — 10 obiective statice cu condiție de finalizare, recompensă unică în Cunoaștere și (opțional) progres afișabil (`3/10`). `activeObjectives()` întoarce primele 3 nefinalizate; `checkObjectives()` e apelat din `main.ts` la orice eveniment relevant (`resources`, `collection`, `generators`, `unlocked`) și acordă recompensa automat, fără acțiune manuală de „claim". UI nou: `ui/objectives.ts`, bară fixă jos, conform layout-ului din §10.1.
+- **Export/Import salvare** (`ui/settings.ts`, overlay nou deschis din „⚙"): Export descarcă `.json` prin `Blob`+link temporar; Import citește un fișier ales de utilizator și apelează `importSave()` din `save.ts` (deja exista, doar nu avea UI). Adăugat `tests/save.test.ts` pentru round-trip export→import.
+- **Precizie numere sub 10.000** (`ui/format.ts`): sub prag se afișează valoarea exactă cu separator de mii/zecimale (stil românesc: `.` la mii, `,` la zecimale) în loc să sară direct la notația K — rezolvă follow-up-ul cosmetic semnalat în sesiunea M0 („cumpărarea nu scade E" era doar o percepție cauzată de rotunjire).
+- Verificat integral în browser (Chrome, automatizare): tabel periodic (afordabil vs. blocat vs. necunoscut), click pe element neafordabil nu face nimic, Esc închide overlay-urile, sinteza H₂O declanșează bannerul de descoperire + acordă Cunoaștere din DB *și* din obiectivul „Sintetizează Apă" simultan, bara de obiective se actualizează live și trece la următoarele 3, Colecția arată noua intrare cu ×1/×10/×Max, Export salvare funcționează fără erori în consolă.
+- `tsc --noEmit` curat; 49 de teste automate trec (7 fișiere, +21 față de M0: `moleculeDB.test.ts`, `unlocks.test.ts`, `objectives.test.ts`, `save.test.ts`).
+
+**Decizii / abateri de la SPEC.md:**
+- **H, O, N rămân deblocate gratis de la start** (decizia M0 e păstrată, nu doar pentru M0): am descoperit în testare că un obiectiv „Deblochează Oxigenul/Azotul" se completa instant la pornire tocmai din acest motiv, mărturisind indirect că cerința reală de progresie a Tabelului Periodic din §8.2 (H la tier 0, O/N la tier 1) presupune ca *doar* H să pornească deblocat. Am ales explicit să NU refac această parte: pornirea cu un singur element (H) ar bloca economia de Cunoaștere, fiindcă singura moleculă construibilă doar din H e H₂ (fără bonus de descoperire repetat), iar costul de deblocare O (10 C) nu ar fi niciodată atins fără alte surse de Cunoaștere. Am eliminat în schimb cele două obiective triviale și am păstrat Carbonul (tier 2, cost 60 C) ca prima deblocare reală și semnificativă din joc.
+- **`tier` din `ElementDef` nu blochează deblocarea** — Sulful (tier 4, cost 250 C) e tehnic deblocabil din M1 dacă un jucător ajunge la 250 C, deși conținutul lui real (molecule cu S) nu există încă în DB. Nu am adăugat gating suplimentar pe tier fiindcă nu era cerut de criteriile M1 și ar fi complicat inutil `unlockElement` pentru un caz marginal (costul e oricum foarte mare comparativ cu Carbon).
+- **Recompensele de Cunoaștere ale obiectivelor** nu erau definite exact în §8.3 („recompense mici în C") — am ales valori 3–15 C, crescătoare cu dificultatea, calibrate empiric din testare (suficient cât Carbonul, 60 C, să rămână un scop pe termen mediu, nu instant).
+- **Layout-ul Tabelului Periodic** afișează toate cele 118 poziții standard (inclusiv lantanide/actinide) doar ca geometrie de referință (`chem/periodicLayout.ts`) — elementele fără `ElementDef` sunt siluete inerte, nu au date de joc. Asta respectă literal §8.1 („vederea întregului tabel de la început") fără să implice implementarea prematură a chimiei pentru elemente din tier-e viitoare.
+
+**Rămas de făcut / follow-up:**
+- M2: Auto-sintetizatoare, Analizatorul (molecule → C), progres offline cu panoul „Bine ai revenit" (calculul există în §4.3 dar nu are UI dedicat de bun venit — momentan `main.ts` doar aplică tick-ul offline silențios), upgrade-uri de generatoare.
+- De luat în calcul la M2/M3: dacă se adaugă gating pe tier pentru deblocare (ex. nu poți sări la S fără să deblochezi mai întâi tot tier-ul 2), acum e locul unde s-ar adăuga în `canUnlockElement`.
+- Obiectivele sunt încă o listă liniară fixă; dacă lista crește mult (M2+), ia în calcul gruparea pe tier-uri sau reînnoirea aleatorie a celor 3 active.
+
+---
+
 ## [2026-08-09] M0 — Fix: DOM instabil + persistență nefiabilă
 
 **Milestone:** M0 (follow-up)

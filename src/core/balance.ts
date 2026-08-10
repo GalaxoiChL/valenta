@@ -22,14 +22,6 @@ export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare
 export const GENERATOR_MILESTONE_MULT = 2;
 
-export const ELEMENT_UNLOCK_COST: Record<string, number> = {
-  H: 0,
-  O: 10,
-  N: 25,
-  C: 60,
-  S: 250
-};
-
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 export const OFFLINE_PRODUCTION_RATE = 0.5;
 

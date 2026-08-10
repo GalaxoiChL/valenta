@@ -88,5 +88,365 @@
     "tier": 1,
     "tags": ["anorganic", "industrial"],
     "flavor": "Un intermediar cheie în producția de nailon — și un agent reducător folosit în fotografie și electronică."
+  },
+  {
+    "key": "CH4|1,1,1,1",
+    "formula": "CH4",
+    "name": "Metan",
+    "bonusMult": 1.6,
+    "discoveryC": 6,
+    "tier": 2,
+    "tags": ["organic", "combustibil", "gaz"],
+    "flavor": "Componenta principală a gazului natural — o singură legătură C-H eliberează energie când arde."
+  },
+  {
+    "key": "CO2|2,2",
+    "formula": "CO2",
+    "name": "Dioxid de carbon",
+    "bonusMult": 1.4,
+    "discoveryC": 5,
+    "tier": 2,
+    "tags": ["anorganic", "gaz", "climă"],
+    "flavor": "Planta îl respiră ca noi oxigenul — și e motorul din spatele efectului de seră."
+  },
+  {
+    "key": "C2H6|1,1,1,1,1,1,1",
+    "formula": "C2H6",
+    "name": "Etan",
+    "bonusMult": 1.7,
+    "discoveryC": 7,
+    "tier": 2,
+    "tags": ["organic", "combustibil"],
+    "flavor": "A doua cea mai simplă hidrocarbură — component minor al gazului natural."
+  },
+  {
+    "key": "C2H4|1,1,1,1,2",
+    "formula": "C2H4",
+    "name": "Etenă",
+    "bonusMult": 1.9,
+    "discoveryC": 8,
+    "tier": 2,
+    "tags": ["organic", "industrial"],
+    "flavor": "Hormonul de coacere al plantelor — și materia primă pentru cel mai produs plastic din lume, polietilena."
+  },
+  {
+    "key": "C2H2|1,1,3",
+    "formula": "C2H2",
+    "name": "Acetilenă",
+    "bonusMult": 2.3,
+    "discoveryC": 9,
+    "tier": 2,
+    "tags": ["organic", "combustibil", "industrial"],
+    "flavor": "Arde atât de fierbinte încât sudorii o folosesc pentru a tăia oțel."
+  },
+  {
+    "key": "CH2O|1,1,2",
+    "formula": "CH2O",
+    "name": "Formaldehidă",
+    "bonusMult": 1.8,
+    "discoveryC": 7,
+    "tier": 2,
+    "tags": ["organic", "industrial"],
+    "flavor": "Conservant și materie primă pentru rășini — mirosul înțepător din multe materiale de construcție noi."
+  },
+  {
+    "key": "CH4O|1,1,1,1,1",
+    "formula": "CH4O",
+    "name": "Metanol",
+    "bonusMult": 2.0,
+    "discoveryC": 8,
+    "tier": 2,
+    "tags": ["organic", "combustibil", "toxic"],
+    "flavor": "Cel mai simplu alcool — combustibil de curse, dar toxic pentru oameni spre deosebire de etanol."
+  },
+  {
+    "key": "CH2O2|1,1,1,2",
+    "formula": "CH2O2",
+    "name": "Acid formic",
+    "bonusMult": 2.1,
+    "discoveryC": 8,
+    "tier": 2,
+    "tags": ["organic", "acid"],
+    "flavor": "Substanța din veninul furnicilor și al urzicilor — cel mai simplu acid carboxilic."
+  },
+  {
+    "key": "C2H6O|1,1,1,1,1,1,1,1",
+    "formula": "C2H6O",
+    "name": "Etanol",
+    "bonusMult": 2.4,
+    "discoveryC": 10,
+    "tier": 2,
+    "tags": ["organic", "viață", "combustibil"],
+    "flavor": "Alcoolul din băuturi — produs natural prin fermentația zaharurilor de către drojdii de mii de ani."
+  },
+  {
+    "key": "CHN|1,3",
+    "formula": "CHN",
+    "name": "Acid cianhidric",
+    "bonusMult": 2.2,
+    "discoveryC": 9,
+    "tier": 2,
+    "tags": ["organic", "toxic", "prebiotic"],
+    "flavor": "Extrem de toxic, dar și una dintre moleculele suspectate a fi prezente în chimia prebiotică a Pământului timpuriu."
+  },
+  {
+    "key": "CH5N|1,1,1,1,1,1",
+    "formula": "CH5N",
+    "name": "Metilamină",
+    "bonusMult": 1.9,
+    "discoveryC": 8,
+    "tier": 2,
+    "tags": ["organic", "industrial"],
+    "flavor": "Miroase a pește stricat — și e o piatră de temelie pentru sinteza multor medicamente."
+  },
+  {
+    "key": "C2H4O|1,1,1,1,1,2",
+    "formula": "C2H4O",
+    "name": "Acetaldehidă",
+    "bonusMult": 2.0,
+    "discoveryC": 9,
+    "tier": 2,
+    "tags": ["organic", "industrial"],
+    "flavor": "Produsă natural în corp la metabolizarea alcoolului — vinovată de multe din simptomele mahmurelii."
+  },
+  {
+    "key": "C2H4O2|1,1,1,1,1,1,2",
+    "formula": "C2H4O2",
+    "name": "Acid acetic",
+    "bonusMult": 2.3,
+    "discoveryC": 10,
+    "tier": 2,
+    "tags": ["organic", "acid", "viață"],
+    "flavor": "Componenta care dă oțetului gustul acru — unul dintre cei mai vechi compuși produși intenționat de om."
+  },
+  {
+    "key": "C3H8|1,1,1,1,1,1,1,1,1,1",
+    "formula": "C3H8",
+    "name": "Propan",
+    "bonusMult": 1.9,
+    "discoveryC": 9,
+    "tier": 2,
+    "tags": ["organic", "combustibil"],
+    "flavor": "Combustibilul din butelii de camping și grătare — lichid sub presiune, gaz la presiune normală."
+  },
+  {
+    "key": "C6H6|1,1,1,1,1,1,1,1,1,2,2,2",
+    "formula": "C6H6",
+    "name": "Benzen",
+    "bonusMult": 3.0,
+    "discoveryC": 18,
+    "tier": 2,
+    "tags": ["organic", "industrial", "aromatic"],
+    "flavor": "Inelul aromatic descoperit de Kekulé, spune legenda, într-un vis cu un șarpe care își mușca coada."
+  },
+  {
+    "key": "C2N2|1,3,3",
+    "formula": "C2N2",
+    "name": "Cianogen",
+    "bonusMult": 2.6,
+    "discoveryC": 12,
+    "tier": 2,
+    "tags": ["anorganic", "toxic"],
+    "flavor": "Unul dintre puținii compuși pseudohalogeni — arde cu una dintre cele mai fierbinți flăcări cunoscute la presiune normală."
+  },
+  {
+    "key": "C2H3N|1,1,1,1,3",
+    "formula": "C2H3N",
+    "name": "Acetonitril",
+    "bonusMult": 2.1,
+    "discoveryC": 9,
+    "tier": 2,
+    "tags": ["organic", "industrial", "solvent"],
+    "flavor": "Solvent de laborator omniprezent — și una dintre moleculele organice detectate în norii interstelari."
+  },
+  {
+    "key": "CH3NO|1,1,1,1,2",
+    "formula": "CH3NO",
+    "name": "Formamidă",
+    "bonusMult": 2.2,
+    "discoveryC": 9,
+    "tier": 2,
+    "tags": ["organic", "prebiotic"],
+    "flavor": "Unii cercetători o consideră un candidat-cheie pentru chimia prebiotică ce a dus la primele molecule ale vieții."
+  },
+  {
+    "key": "C4H10|1,1,1,1,1,1,1,1,1,1,1,1,1",
+    "formula": "C4H10",
+    "name": "Butan",
+    "bonusMult": 2.0,
+    "discoveryC": 10,
+    "tier": 2,
+    "tags": ["organic", "combustibil"],
+    "flavor": "Combustibilul din brichete — un lanț de patru carboni, puțin mai greu decât propanul."
+  },
+  {
+    "key": "C3H6|1,1,1,1,1,1,1,2",
+    "formula": "C3H6",
+    "name": "Propenă",
+    "bonusMult": 2.1,
+    "discoveryC": 10,
+    "tier": 2,
+    "tags": ["organic", "industrial"],
+    "flavor": "Materia primă pentru polipropilenă — al doilea cel mai produs plastic din lume."
+  },
+  {
+    "key": "C3H4|1,1,1,1,1,3",
+    "formula": "C3H4",
+    "name": "Propină",
+    "bonusMult": 2.4,
+    "discoveryC": 11,
+    "tier": 2,
+    "tags": ["organic", "combustibil"],
+    "flavor": "Un izomer al alenei — aceeași formulă, structură complet diferită."
+  },
+  {
+    "key": "C5H12|1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+    "formula": "C5H12",
+    "name": "Pentan",
+    "bonusMult": 2.1,
+    "discoveryC": 11,
+    "tier": 2,
+    "tags": ["organic", "solvent"],
+    "flavor": "Lichid volatil folosit ca solvent — component al benzinei brute."
+  },
+  {
+    "key": "C2H7N|1,1,1,1,1,1,1,1,1",
+    "formula": "C2H7N",
+    "name": "Dimetilamină",
+    "bonusMult": 2.0,
+    "discoveryC": 10,
+    "tier": 2,
+    "tags": ["organic", "industrial"],
+    "flavor": "Miros puternic de amoniac și pește — folosită la sinteza multor pesticide și medicamente."
+  },
+  {
+    "key": "C6H12|1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+    "formula": "C6H12",
+    "name": "Ciclohexan",
+    "bonusMult": 2.3,
+    "discoveryC": 12,
+    "tier": 2,
+    "tags": ["organic", "solvent"],
+    "flavor": "Un inel de șase carboni fără nicio legătură dublă — solventul industrial clasic pentru grăsimi."
+  },
+  {
+    "key": "C6H14|1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+    "formula": "C6H14",
+    "name": "Hexan",
+    "bonusMult": 2.2,
+    "discoveryC": 12,
+    "tier": 2,
+    "tags": ["organic", "solvent"],
+    "flavor": "Solvent folosit la extracția uleiului din semințe — extrem de inflamabil."
+  },
+  {
+    "key": "C3H8O|1,1,1,1,1,1,1,1,1,1,1",
+    "formula": "C3H8O",
+    "name": "1-Propanol",
+    "bonusMult": 2.2,
+    "discoveryC": 11,
+    "tier": 2,
+    "tags": ["organic", "solvent"],
+    "flavor": "Un alcool cu trei carboni, folosit ca dezinfectant și solvent industrial."
+  },
+  {
+    "key": "C3H6O|1,1,1,1,1,1,1,1,2",
+    "formula": "C3H6O",
+    "name": "Acetonă",
+    "bonusMult": 2.5,
+    "discoveryC": 12,
+    "tier": 2,
+    "tags": ["organic", "solvent"],
+    "flavor": "Dizolvantul de lac de unghii — și o cetonă produsă natural de corp în post prelungit."
+  },
+  {
+    "key": "C4H8|1,1,1,1,1,1,1,1,1,1,2",
+    "formula": "C4H8",
+    "name": "1-Butenă",
+    "bonusMult": 2.2,
+    "discoveryC": 11,
+    "tier": 2,
+    "tags": ["organic", "industrial"],
+    "flavor": "Comonomer folosit pentru a face polietilena mai flexibilă."
+  },
+  {
+    "key": "C4H6|1,1,1,1,1,1,1,2,2",
+    "formula": "C4H6",
+    "name": "Butadienă",
+    "bonusMult": 2.6,
+    "discoveryC": 13,
+    "tier": 2,
+    "tags": ["organic", "industrial"],
+    "flavor": "Materia primă a cauciucului sintetic — două legături duble alternante, gata să polimerizeze."
+  },
+  {
+    "key": "C2H5NO2|1,1,1,1,1,1,1,1,2",
+    "formula": "C2H5NO2",
+    "name": "Glicină",
+    "bonusMult": 3.5,
+    "discoveryC": 25,
+    "tier": 2,
+    "tags": ["organic", "viață", "aminoacid"],
+    "flavor": "Cel mai simplu aminoacid — o cărămidă de bază a tuturor proteinelor din corpul tău."
+  },
+  {
+    "key": "CH4N2O|1,1,1,1,1,1,2",
+    "formula": "CH4N2O",
+    "name": "Uree",
+    "bonusMult": 2.4,
+    "discoveryC": 12,
+    "tier": 2,
+    "tags": ["organic", "viață", "industrial"],
+    "flavor": "Prima substanță organică sintetizată artificial (Wöhler, 1828) — și produsul final al metabolismului azotului la mamifere."
+  },
+  {
+    "key": "C4H6|1,1,1,1,1,1,1,1,3",
+    "formula": "C4H6",
+    "name": "1-Butină",
+    "bonusMult": 2.5,
+    "discoveryC": 12,
+    "tier": 2,
+    "tags": ["organic", "combustibil"],
+    "flavor": "Un izomer al butadienei — aceeași rețetă de atomi, structură complet diferită, cu o legătură triplă."
+  },
+  {
+    "key": "C3H4|1,1,1,1,2,2",
+    "formula": "C3H4",
+    "name": "Alenă",
+    "bonusMult": 2.5,
+    "discoveryC": 12,
+    "tier": 2,
+    "tags": ["organic", "instabil"],
+    "flavor": "Are două legături duble consecutive pe același carbon central — o geometrie neobișnuită printre hidrocarburi."
+  },
+  {
+    "key": "C4H10O|1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+    "formula": "C4H10O",
+    "name": "Eter dietilic",
+    "bonusMult": 2.1,
+    "discoveryC": 11,
+    "tier": 2,
+    "tags": ["organic", "solvent", "anestezic"],
+    "flavor": "Primul anestezic general folosit pe scară largă în chirurgie, în secolul XIX."
+  },
+  {
+    "key": "C5H10|1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+    "formula": "C5H10",
+    "name": "Ciclopentan",
+    "bonusMult": 2.2,
+    "discoveryC": 11,
+    "tier": 2,
+    "tags": ["organic", "solvent"],
+    "flavor": "Un inel de cinci carboni, mai tensionat decât ciclohexanul, dar tot stabil la temperatura camerei."
+  },
+  {
+    "key": "C7H16|1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1",
+    "formula": "C7H16",
+    "name": "Heptan",
+    "bonusMult": 2.3,
+    "discoveryC": 13,
+    "tier": 2,
+    "tags": ["organic", "combustibil"],
+    "flavor": "Referința pentru cifra octanică 0 — cu cât benzina seamănă mai puțin cu heptanul pur, cu atât arde mai controlat."
   }
 ]
