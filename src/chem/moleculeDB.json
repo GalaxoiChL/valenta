@@ -2593,5 +2593,95 @@
     "tier": 14,
     "tags": ["ionic", "anorganic"],
     "flavor": "Un reactiv de laborator folosit ca acid Lewis blând în cataliza organică modernă."
+  },
+  {
+    "key": "Kr|Kr",
+    "formula": "Kr",
+    "name": "Kripton",
+    "bonusMult": 1.5,
+    "discoveryC": 5,
+    "tier": 15,
+    "tags": ["anorganic", "gaz", "nobil"],
+    "flavor": "Folosit la umplerea unor becuri cu halogen și a geamurilor izolante duble — mai greu decât aerul, deci mai bun izolator termic."
+  },
+  {
+    "key": "Tm2O3",
+    "formula": "Tm2O3",
+    "name": "Oxid de tuliu",
+    "bonusMult": 2.6,
+    "discoveryC": 42,
+    "tier": 15,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Una dintre cele mai rare și scumpe lantanide stabile — folosit în unele lasere medicale de precizie pentru chirurgie minim invazivă."
+  },
+  {
+    "key": "TmCl3",
+    "formula": "TmCl3",
+    "name": "Clorură de tuliu",
+    "bonusMult": 2.3,
+    "discoveryC": 40,
+    "tier": 15,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un intermediar în extragerea tuliului metalic — unul dintre cele mai rare elemente stabile din scoarța terestră."
+  },
+  {
+    "key": "Lu2O3",
+    "formula": "Lu2O3",
+    "name": "Oxid de lutețiu",
+    "bonusMult": 2.6,
+    "discoveryC": 42,
+    "tier": 15,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Ultima și cea mai grea dintre lantanide — cristalele dopate cu lutețiu sunt folosite ca detectoare în scanerele PET moderne."
+  },
+  {
+    "key": "LuCl3",
+    "formula": "LuCl3",
+    "name": "Clorură de lutețiu",
+    "bonusMult": 2.3,
+    "discoveryC": 40,
+    "tier": 15,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un precursor comun în cercetarea compușilor de lutețiu, cel mai dens și mai greu element din întreaga serie a lantanidelor."
+  },
+  {
+    "key": "ThO2",
+    "formula": "ThO2",
+    "name": "Oxid de toriu",
+    "bonusMult": 2.6,
+    "discoveryC": 44,
+    "tier": 15,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "A dat lumina alb-strălucitoare a manșoanelor de lampă cu gaz de la începutul secolului XX — folosite din plin înainte de becul electric obișnuit."
+  },
+  {
+    "key": "UO2",
+    "formula": "UO2",
+    "name": "Oxid de uraniu",
+    "bonusMult": 2.8,
+    "discoveryC": 45,
+    "tier": 15,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Sub formă de pastile ceramice, e combustibilul din inima majorității reactoarelor nucleare civile care produc energie electrică azi."
+  },
+  {
+    "key": "RaO",
+    "formula": "RaO",
+    "name": "Oxid de radiu",
+    "bonusMult": 2.2,
+    "discoveryC": 43,
+    "tier": 15,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Studiat de Marie și Pierre Curie — descoperirea radiului le-a adus al doilea Premiu Nobel al perechii, în Chimie, în 1911."
+  },
+  {
+    "key": "RaCl2",
+    "formula": "RaCl2",
+    "name": "Clorură de radiu",
+    "bonusMult": 2.1,
+    "discoveryC": 43,
+    "tier": 15,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Prima formă în care radiul a fost izolat efectiv de Curie, prin cristalizări fracționate repetate dintr-o tonă de minereu de uraniu."
   }
 ]

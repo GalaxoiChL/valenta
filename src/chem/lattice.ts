@@ -141,7 +141,18 @@ const LATTICE_ENERGY: Record<string, number> = {
   Dy2O3: 13027,
   DyCl3: 11109,
   Yb2O3: 13141,
-  YbCl3: 11207
+  YbCl3: 11207,
+  // Tier 15 — Tm/Lu (ultimele lantanide stabile), Ra/Th/U: aceeași metodă,
+  // țintă peste vârful tier 14 (Yb2O3, eff 8,25). Kr rămâne inert (ca He/
+  // Ne/Ar), fără compuși ionici sau energie de rețea.
+  Tm2O3: 14109,
+  TmCl3: 12326,
+  Lu2O3: 14351,
+  LuCl3: 12326,
+  ThO2: 7035,
+  UO2: 6487,
+  RaO: 4963,
+  RaCl2: 9545
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

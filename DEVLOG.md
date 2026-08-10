@@ -20,7 +20,24 @@ Format per intrare:
 
 ---
 
-## [2026-08-10] Tier 14 — Pr, Sm, Eu, Tb, Dy, Yb (al doilea lot de lantanide)
+## [2026-08-10] Tier 15 — Kr, Tm, Lu, Ra, Th, U (ultimul lot rezonabil de conținut chimic real)
+
+**Milestone:** post-tier 14 (continuare autonomă, „continua cu tier 15")
+**Făcut:**
+- **6 elemente noi**: **Kr** (inert, ca He/Ne/Ar — singurul compus relativ cunoscut, KrF₂, e mult prea instabil pentru a fi inclus, la fel cum s-a decis deja la tier 13), **Tm** și **Lu** (ultimele două lantanide stabile — lasere medicale, respectiv detectoare PET), **Ra** (+2, descoperit de Marie și Pierre Curie — al doilea Premiu Nobel al perechii), **Th** (+4, manșoanele de lampă cu gaz de acum un secol), **U** (+4, combustibilul reactoarelor nucleare civile — context factual/civil, nu de armament).
+- **9 compuși noi**: Kr (monoatomic, 0 E/s, ca He/Ne/Ar), Tm₂O₃/TmCl₃, Lu₂O₃/LuCl₃, ThO₂ (singur, ca Ti/Zr/Hf/Ce), UO₂ (singur), RaO/RaCl₂.
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 14 (Yb₂O₃, eff 8,25) — interval 8,35–8,70, UO₂ (cel mai „epic" din lot) la vârf.
+- 2 obiective noi: „Deblochează Uraniul", „Sintetizează Oxid de uraniu (UO₂)".
+- Test nou `tests/moleculeDB_tier15.test.ts` (4 teste).
+- `tsc --noEmit` curat; 180 de teste automate trec (26 fișiere).
+- Verificat live pe deploy-ul public, după push: vezi mai jos.
+
+**Decizii / abateri de la SPEC.md:**
+- **Th și U tratate cu context strict factual/civil** (istoric — manșoane de lampă; industrial — combustibil de reactor nuclear civil), nicio mențiune de arme sau îmbogățire — consistent cu tonul educativ al restului jocului (la fel cum Hg/Pb/As/Tl/Cd sunt tratate ca „chimie reală, cu precauție", nu evitate din cauza toxicității).
+- **Acesta e probabil ultimul lot rezonabil din acest arc de extindere.** După acest tier, elementele rămase din Tabelul Periodic sunt aproape exclusiv sintetice (majoritatea rândului 7) sau puternic radioactive cu timpi de înjumătățire de ordinul secundelor/minutelor (Fr, Ac, Pa, Np, Pu și restul actinidelor grele) — fără chimie simplă, reală, de manual, de adăugat în același stil ca loturile de până acum. Un lot viitor ar necesita fie o abordare diferită (poate doar câteva elemente „de decor", fără compuși reali, ca Fr cu un singur compus foarte incert), fie acceptarea explicită a unui compromis de acuratețe pe care jocul nu l-a făcut până acum.
+
+**Rămas de făcut / follow-up:**
+- Tabelul Periodic rămâne cu aproximativ 15-20 de poziții „?" — practic toate elementele sintetice/extrem de radioactive rămase. Following-up: dacă se dorește completarea totală a tabelului „doar de decor" (fără compuși, doar ElementDef + siluetă colorată în loc de „?"), ar fi un efort diferit de cel de până acum (fără verificare de eficiență, fără compuși noi în DB) — de discutat explicit dacă se dorește.
 
 **Milestone:** post-tier 13 (continuare autonomă, „continua cu tier 14")
 **Făcut:**

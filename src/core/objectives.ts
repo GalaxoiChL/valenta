@@ -240,6 +240,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Oxid de europiu (Eu₂O₃) — sursa fosforului roșu din ecrane",
     rewardC: 41,
     isComplete: (s) => collectionCopies(s, "Eu2O3") >= 1
+  },
+  {
+    id: "unlock_u",
+    description: "Deblochează Uraniul",
+    rewardC: 45,
+    isComplete: (s) => s.state.unlockedElements.includes("U")
+  },
+  {
+    id: "synth_uo2",
+    description: "Sintetizează Oxid de uraniu (UO₂) — combustibilul reactoarelor nucleare civile",
+    rewardC: 46,
+    isComplete: (s) => collectionCopies(s, "UO2") >= 1
   }
 ];
 

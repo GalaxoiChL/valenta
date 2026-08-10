@@ -922,6 +922,81 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 3350,
     flavor: "Amplificatorul din fibra optică a laserelor industriale de mare putere folosite la tăiat și sudat metal.",
     ionicCharge: 3
+  },
+
+  // --- tier 15: ultimele lantanide stabile, ultimul gaz nobil rezonabil,
+  // și primele actinide reale (Th/U — chimie de manual, context civil/istoric) ---
+  Kr: {
+    symbol: "Kr",
+    name: "Kripton",
+    Z: 36,
+    valences: [0],
+    mass: 83.798,
+    color: "#9affcc",
+    tier: 15,
+    unlockCost: 3400,
+    flavor: "Singurul compus relativ cunoscut al lui, KrF₂, e atât de instabil încât se descompune la temperatura camerei — spre deosebire de fluorurile de xenon, mult mai robuste.",
+    ionicCharge: 0
+  },
+  Tm: {
+    symbol: "Tm",
+    name: "Tuliu",
+    Z: 69,
+    valences: [],
+    mass: 168.934,
+    color: "#00d452",
+    tier: 15,
+    unlockCost: 3450,
+    flavor: "Una dintre cele mai rare lantanide stabile — folosit în unele lasere medicale de precizie, pentru chirurgie minim invazivă.",
+    ionicCharge: 3
+  },
+  Lu: {
+    symbol: "Lu",
+    name: "Lutețiu",
+    Z: 71,
+    valences: [],
+    mass: 174.967,
+    color: "#00bf38",
+    tier: 15,
+    unlockCost: 3500,
+    flavor: "Ultima și cea mai grea dintre lantanide — folosit ca detector în unele scanere PET (tomografie cu emisie de pozitroni).",
+    ionicCharge: 3
+  },
+  Ra: {
+    symbol: "Ra",
+    name: "Radiu",
+    Z: 88,
+    valences: [],
+    mass: 226,
+    color: "#007d00",
+    tier: 15,
+    unlockCost: 3550,
+    flavor: "Descoperit de Marie și Pierre Curie — vopseaua fosforescentă cu radiu de pe cadranele de ceas vechi e motivul pentru care azi radioactivitatea e strict reglementată.",
+    ionicCharge: 2
+  },
+  Th: {
+    symbol: "Th",
+    name: "Toriu",
+    Z: 90,
+    valences: [],
+    mass: 232.038,
+    color: "#00baff",
+    tier: 15,
+    unlockCost: 3600,
+    flavor: "Oxidul lui a dat lumina alb-strălucitoare a manșoanelor de lampă cu gaz de la începutul secolului XX, folosite din plin înainte de becul electric.",
+    ionicCharge: 4
+  },
+  U: {
+    symbol: "U",
+    name: "Uraniu",
+    Z: 92,
+    valences: [],
+    mass: 238.029,
+    color: "#008fff",
+    tier: 15,
+    unlockCost: 3650,
+    flavor: "Oxidul lui, sub formă de pastile ceramice, e combustibilul din inima majorității reactoarelor nucleare civile care produc energie electrică azi.",
+    ionicCharge: 4
   }
 };
 
