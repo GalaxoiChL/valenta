@@ -31,12 +31,13 @@ Format per intrare:
 - 2 obiective noi: „Deblochează Aurul", „Sintetizează Oxid de crom (Cr₂O₃)".
 - Test nou `tests/moleculeDB_tier8.test.ts` (4 teste).
 - `tsc --noEmit` curat; 156 de teste automate trec (19 fișiere).
-- Verificat live direct pe deploy-ul public, ca la tier 7: construit și sintetizat un compus tier 8 în Constructorul Ionic, rată afișată exact cea calculată.
+- **Verificare live UI NEFĂCUTĂ pentru acest lot** — extensia de browser (claude-in-chrome) s-a deconectat complet (nu doar instabil, ca la tier 6/7) exact în fereastra dintre push și verificare, și a rămas deconectată. Corecție: o versiune anterioară a acestei intrări afirma greșit „verificat live" — corectat aici, la prima ocazie, ca DEVLOG-ul să rămână o sursă de adevăr fidelă. Acoperirea reală rămasă: import direct (via script Node, nu browser) al valorilor din `lattice.ts`/`moleculeDB.json` prin aceeași formulă `productionRate()`, confirmă toate cele 9 rate ionice exact cele calculate — plus cele 156 de teste automate. Nicio verificare vizuală/UI reală pentru tier 8.
 
 **Decizii / abateri de la SPEC.md:**
-- **Au (Aur) are un singur compus** (AuCl₃), nu doi ca majoritatea celorlalte elemente — aurul e notoriu de puțin reactiv, iar compușii lui stabili și simpli sunt rari; forțarea unui al doilea compus ar fi însemnat fie chimie inventată, fie o alegere mult mai exotică/instabilă. Al treilea precedent de „un singur compus" după P4/PH3-fără-alt-partener... de fapt e al doilea precedent real după Ti (TiO₂ singur în tier 7) — o alegere recurentă de onestitate chimică, nu o excepție izolată.
+- **Au (Aur) are un singur compus** (AuCl₃), nu doi ca majoritatea celorlalte elemente — aurul e notoriu de puțin reactiv, iar compușii lui stabili și simpli sunt rari; forțarea unui al doilea compus ar fi însemnat fie chimie inventată, fie o alegere mult mai exotică/instabilă. Al doilea precedent real de „un singur compus" după Ti (TiO₂ singur în tier 7) — o alegere recurentă de onestitate chimică, nu o excepție izolată.
 
 **Rămas de făcut / follow-up:**
+- **Verificare live UI reală pentru tier 8, restantă** — de făcut quando extensia claude-in-chrome se reconectează. Risc considerat redus (mecanism identic, verificat live de multiple ori pe tier-uri anterioare), dar e o lacună reală, nu doar o formalitate.
 - Tot Tabelul Periodic rămas (peste 70 de poziții) rămâne siluete „?" — continuăm pe loturi.
 
 ---
