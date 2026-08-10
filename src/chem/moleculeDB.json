@@ -1973,5 +1973,115 @@
     "tier": 8,
     "tags": ["anorganic"],
     "flavor": "Materia primă pentru fibra optică de înaltă performanță — dopează sticla de siliciu ca să-i mărească indicele de refracție."
+  },
+  {
+    "key": "BeO",
+    "formula": "BeO",
+    "name": "Oxid de beriliu",
+    "bonusMult": 2.1,
+    "discoveryC": 26,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un conducător termic excelent pentru un ceramic — folosit în componente electronice de mare putere, manipulat cu grijă din cauza toxicității prafului."
+  },
+  {
+    "key": "BeCl2",
+    "formula": "BeCl2",
+    "name": "Clorură de beriliu",
+    "bonusMult": 2.0,
+    "discoveryC": 27,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid alb higroscopic — un intermediar folosit la extragerea beriliului metalic pur din minereu."
+  },
+  {
+    "key": "Ga2O3",
+    "formula": "Ga2O3",
+    "name": "Oxid de galiu",
+    "bonusMult": 2.6,
+    "discoveryC": 29,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un semiconductor cu bandă interzisă foarte largă, folosit în electronica de putere de ultimă generație — mai eficient decât siliciul la tensiuni mari."
+  },
+  {
+    "key": "GaCl3",
+    "formula": "GaCl3",
+    "name": "Clorură de galiu",
+    "bonusMult": 2.3,
+    "discoveryC": 27,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid care se topește aproape de temperatura camerei — moștenește punctul de topire neobișnuit de scăzut al galiului metalic."
+  },
+  {
+    "key": "In2O3",
+    "formula": "In2O3",
+    "name": "Oxid de indiu",
+    "bonusMult": 2.6,
+    "discoveryC": 29,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Combinat cu oxid de staniu formează ITO — stratul transparent și conductor electric din spatele fiecărui ecran tactil."
+  },
+  {
+    "key": "InCl3",
+    "formula": "InCl3",
+    "name": "Clorură de indiu",
+    "bonusMult": 2.3,
+    "discoveryC": 27,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un acid Lewis moderat, folosit ca un catalizator mai blând și mai puțin toxic decât mulți alți compuși similari."
+  },
+  {
+    "key": "Bi2O3",
+    "formula": "Bi2O3",
+    "name": "Oxid de bismut",
+    "bonusMult": 2.7,
+    "discoveryC": 30,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid galben folosit în glazuri ceramice și cosmetice ca înlocuitor netoxic pentru pigmenții tradiționali pe bază de plumb."
+  },
+  {
+    "key": "BiCl3",
+    "formula": "BiCl3",
+    "name": "Clorură de bismut",
+    "bonusMult": 2.4,
+    "discoveryC": 28,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Se hidrolizează în apă formând un solid alb — o reacție clasică folosită pentru identificarea sărurilor de bismut în laborator."
+  },
+  {
+    "key": "WO3",
+    "formula": "WO3",
+    "name": "Trioxid de wolfram",
+    "bonusMult": 2.5,
+    "discoveryC": 28,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid galben care devine albastru intens la aplicarea unui curent electric — baza geamurilor „inteligente\" care se întunecă la comandă."
+  },
+  {
+    "key": "WCl6",
+    "formula": "WCl6",
+    "name": "Hexaclorură de wolfram",
+    "bonusMult": 2.5,
+    "discoveryC": 30,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Cristale violet-albăstrui — sarcina neobișnuit de mare a wolframului (+6) cere șase cloruri pentru neutralitate."
+  },
+  {
+    "key": "V2O5",
+    "formula": "V2O5",
+    "name": "Pentoxid de vanadiu",
+    "bonusMult": 2.8,
+    "discoveryC": 32,
+    "tier": 9,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Catalizatorul industrial folosit la producția majorității acidului sulfuric din lume — sarcina +5 a vanadiului cere cinci oxigeni pentru doi atomi de vanadiu."
   }
 ]

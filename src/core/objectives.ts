@@ -168,6 +168,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Oxid de crom (Cr₂O₃) — pigmentul „verde crom”",
     rewardC: 30,
     isComplete: (s) => collectionCopies(s, "Cr2O3") >= 1
+  },
+  {
+    id: "unlock_v",
+    description: "Deblochează Vanadiul",
+    rewardC: 32,
+    isComplete: (s) => s.state.unlockedElements.includes("V")
+  },
+  {
+    id: "synth_v2o5",
+    description: "Sintetizează Pentoxid de vanadiu (V₂O₅) — catalizatorul din spatele majorității acidului sulfuric din lume",
+    rewardC: 35,
+    isComplete: (s) => collectionCopies(s, "V2O5") >= 1
   }
 ];
 

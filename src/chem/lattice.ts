@@ -68,7 +68,20 @@ const LATTICE_ENERGY: Record<string, number> = {
   MnO: 2226,
   MnCl2: 4372,
   CdO: 2259,
-  CdCl2: 4435
+  CdCl2: 4435,
+  // Tier 9 — Be/Ga/In/Bi/W/V: aceeași metodă, țintă peste vârful tier 8
+  // (Cr2O3, eff 5,30).
+  BeO: 2774,
+  BeCl2: 5449,
+  Ga2O3: 8178,
+  GaCl3: 6819,
+  In2O3: 8280,
+  InCl3: 6907,
+  Bi2O3: 7943,
+  BiCl3: 6582,
+  WO3: 6526,
+  WCl6: 13987,
+  V2O5: 12497
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

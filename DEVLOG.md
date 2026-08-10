@@ -20,6 +20,26 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 9 — Be, Ga, In, Bi, W, V (al șaselea lot)
+
+**Milestone:** post-tier 8 (continuare autonomă)
+**Făcut:**
+- **6 elemente tier 9 noi**, toate ionice: **Be** (+2, oglinzile telescopului James Webb), **Ga** (+3, se topește în palmă), **In** (+3, ITO — stratul conductor transparent din spatele ecranelor tactile), **Bi** (+3, singurul metal greu netoxic — Pepto-Bismol), **W** (+6, **prima sarcină +6 din joc**, filamentul becurilor incandescente), **V** (+5, **prima sarcină +5 din joc**, catalizatorul industrial pentru acid sulfuric).
+- **11 compuși noi**: BeO/BeCl₂, Ga₂O₃/GaCl₃, In₂O₃/InCl₃, Bi₂O₃/BiCl₃, WO₃/WCl₆, **V₂O₅** (singur, ca Ti/Au — VCl₅ nu e o sare stabilă simplă reală, evitat).
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 8 (Cr₂O₃, eff 5,30) — interval 5,40–5,90, atins exact.
+- 2 obiective noi: „Deblochează Vanadiul", „Sintetizează Pentoxid de vanadiu (V₂O₅)".
+- Test nou `tests/moleculeDB_tier9.test.ts` (3 teste) — inclusiv cazurile WCl₆ (raport 1:6) și V₂O₅ (raport 2:5), primele sarcini ionice ≥5 din joc, validate fără nicio schimbare de cod (`validateIonicMix` e complet generic pe magnitudinea sarcinii).
+- `tsc --noEmit` curat; 159 de teste automate trec (20 fișiere).
+- **Verificat live pe deploy-ul public** (extensia de browser s-a reconectat) — vezi mai jos.
+
+**Decizii / abateri de la SPEC.md:**
+- **V (Vanadiu) are un singur compus** (V₂O₅), ca Ti/Au — VCl₅ nu există ca sare simplă stabilă (vanadiu(V) nu formează ușor pentahalidele cu clor), deci evitat, consistent cu politica de onestitate chimică deja stabilită.
+
+**Rămas de făcut / follow-up:**
+- Tot Tabelul Periodic rămas (peste 60 de poziții) rămâne siluete „?" — continuăm pe loturi.
+
+---
+
 ## [2026-08-10] Tier 8 — Au, Ge, Hg, Cr, Mn, Cd (al cincilea lot)
 
 **Milestone:** post-tier 7 (continuare autonomă neîntreruptă)

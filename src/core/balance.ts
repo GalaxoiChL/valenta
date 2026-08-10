@@ -49,7 +49,13 @@ export const GENERATOR_BASE_COST: Record<string, number> = {
   Hg: 2600,
   Cr: 2700,
   Mn: 2800,
-  Cd: 2900
+  Cd: 2900,
+  Be: 3000,
+  Ga: 3100,
+  In: 3200,
+  Bi: 3300,
+  W: 3400,
+  V: 3500
 };
 export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare

@@ -479,6 +479,80 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 1550,
     flavor: "Un galben strălucitor folosit istoric ca pigment de pictură — dar toxic, motiv pentru care e azi strict reglementat.",
     ionicCharge: 2
+  },
+
+  // --- tier 9: al șaselea lot ---
+  Be: {
+    symbol: "Be",
+    name: "Beriliu",
+    Z: 4,
+    valences: [],
+    mass: 9.012,
+    color: "#c2ff00",
+    tier: 9,
+    unlockCost: 1600,
+    flavor: "Cel mai ușor metal alcalino-pământos — folosit în oglinzile telescopului spațial James Webb pentru rigiditatea lui extremă la greutate mică.",
+    ionicCharge: 2
+  },
+  Ga: {
+    symbol: "Ga",
+    name: "Galiu",
+    Z: 31,
+    valences: [],
+    mass: 69.723,
+    color: "#c28f8f",
+    tier: 9,
+    unlockCost: 1650,
+    flavor: "Se topește literalmente în palma mâinii — punctul lui de topire e sub temperatura corpului uman.",
+    ionicCharge: 3
+  },
+  In: {
+    symbol: "In",
+    name: "Indiu",
+    Z: 49,
+    valences: [],
+    mass: 114.818,
+    color: "#a67573",
+    tier: 9,
+    unlockCost: 1700,
+    flavor: "Oxidul lui de indiu-staniu (ITO) e stratul transparent și conductor din spatele fiecărui ecran tactil și LCD.",
+    ionicCharge: 3
+  },
+  Bi: {
+    symbol: "Bi",
+    name: "Bismut",
+    Z: 83,
+    valences: [],
+    mass: 208.98,
+    color: "#9e4fb0",
+    tier: 9,
+    unlockCost: 1750,
+    flavor: "Unul dintre puținele metale grele netoxice — ingredientul activ din medicamentele antiacide roz, sub formă de subsalicilat.",
+    ionicCharge: 3
+  },
+  W: {
+    symbol: "W",
+    name: "Wolfram",
+    Z: 74,
+    valences: [],
+    mass: 183.84,
+    color: "#2194d6",
+    tier: 9,
+    unlockCost: 1800,
+    flavor: "Cel mai înalt punct de topire dintre toate metalele — de-asta a fost folosit un secol întreg drept filament incandescent de bec.",
+    ionicCharge: 6
+  },
+  V: {
+    symbol: "V",
+    name: "Vanadiu",
+    Z: 23,
+    valences: [],
+    mass: 50.942,
+    color: "#a68ffc",
+    tier: 9,
+    unlockCost: 1850,
+    flavor: "Oxidul lui e catalizatorul industrial folosit la producția majorității acidului sulfuric din lume.",
+    ionicCharge: 5
   }
 };
 
