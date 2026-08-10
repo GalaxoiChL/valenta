@@ -32,6 +32,7 @@ interface CollectionRow {
 
 export function renderLab(container: HTMLElement, store: GameStore): void {
   let tab: Tab = "generators";
+  let query = "";
   container.innerHTML = "";
 
   const heading = document.createElement("h2");
@@ -45,13 +46,25 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
   colTabBtn.textContent = "Colecție";
   tabs.append(genTabBtn, colTabBtn);
 
+  // Căutare (§10, ca în Paletă/Constructorul Ionic): Generatoare poate ajunge
+  // la 80+ rânduri, Colecția la zeci de molecule descoperite — același
+  // filtru live, după textul deja randat al rândului (nume+simbol/formulă).
+  const searchInput = document.createElement("input");
+  searchInput.type = "text";
+  searchInput.className = "search-input";
+  searchInput.addEventListener("input", () => {
+    query = searchInput.value.trim().toLowerCase();
+    applyGeneratorFilter();
+    applyCollectionFilter();
+  });
+
   const generatorsBody = document.createElement("div");
   const collectionBody = document.createElement("div");
   const emptyCollectionMsg = document.createElement("div");
   emptyCollectionMsg.className = "rate";
   emptyCollectionMsg.textContent = "Nicio moleculă descoperită încă — sintetizează una în Constructor.";
 
-  container.append(heading, tabs, generatorsBody, collectionBody);
+  container.append(heading, tabs, searchInput, generatorsBody, collectionBody);
 
   function setTab(next: Tab): void {
     tab = next;
@@ -59,9 +72,22 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
     colTabBtn.classList.toggle("active", tab === "collection");
     generatorsBody.style.display = tab === "generators" ? "" : "none";
     collectionBody.style.display = tab === "collection" ? "" : "none";
+    searchInput.placeholder = tab === "generators" ? "Caută generator..." : "Caută moleculă...";
   }
   genTabBtn.addEventListener("click", () => setTab("generators"));
   colTabBtn.addEventListener("click", () => setTab("collection"));
+
+  function applyGeneratorFilter(): void {
+    for (const { row, label } of generatorRows.values()) {
+      row.classList.toggle("filtered-out", query !== "" && !label.textContent!.toLowerCase().includes(query));
+    }
+  }
+
+  function applyCollectionFilter(): void {
+    for (const { row, label } of collectionRows.values()) {
+      row.classList.toggle("filtered-out", query !== "" && !label.textContent!.toLowerCase().includes(query));
+    }
+  }
 
   // --- Upgrade de viteză a generatoarelor (M2, §7): un singur rând, deasupra listei ---
   const speedUpgradeRow = document.createElement("div");
@@ -124,6 +150,7 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
       buyBtn.disabled = store.state.resources.energy < cost;
       rateEl.textContent = `${def.symbol}: ${formatRate(rate)}  ·  stoc: ${formatNumber(store.state.resources.atoms[symbol] ?? 0)}`;
     }
+    applyGeneratorFilter();
   }
 
   // --- Deblocarea Automatizării (M2, §7): un singur buton, deasupra listei din Colecție ---
@@ -315,6 +342,7 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
       autoMinusBtn.disabled = entry.autoSynth.rate <= 0;
       autoPlusBtn.disabled = entry.autoSynth.rate >= MAX_AUTO_SYNTH_RATE;
     }
+    applyCollectionFilter();
   }
 
   function render(): void {

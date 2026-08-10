@@ -20,14 +20,15 @@ Format per intrare:
 
 ---
 
-## [2026-08-10] Căutare în Paletă și Constructorul Ionic — UX necesar la scara nouă (82 de elemente)
+## [2026-08-10] Căutare în Paletă, Constructorul Ionic, Generatoare și Colecție — UX necesar la scara nouă
 
 **Milestone:** post-tier 16 (răspuns la „continua cu ce crezi ca mai trebuie" — nu mai era conținut chimic real de adăugat, dar arcul de extindere a lăsat o lacună reală de UX)
 **Făcut:**
-- **Câmp de căutare nou**, atât în Paletă (elemente covalente) cât și în Constructorul Ionic (ioni) — cu 82 de elemente deblocabile (față de ~14 la începutul sesiunii de azi), un scroll lung fără filtru devenise impracticabil pentru găsirea unui element anume. Filtrare live, după nume sau simbol, fără sensibilitate la majuscule.
+- **Câmp de căutare nou în toate cele 4 liste care cresc cu numărul de elemente/molecule deblocate**: Paletă (elemente covalente), Constructorul Ionic (ioni), Generatoare (până la 82 de rânduri acum) și Colecție (până la 234 de molecule posibile, deși în practică doar cele descoperite efectiv). Cu 82 de elemente deblocabile (față de ~14 la începutul sesiunii de azi), un scroll lung fără filtru devenise impracticabil pentru găsirea unui element/moleculă anume. Filtrare live, după nume/simbol (Paletă, Ionic, Generatoare) sau nume/formulă (Colecție — filtrare directă pe textul deja randat al rândului, fără duplicare de date), fără sensibilitate la majuscule.
+- Generatoare și Colecție împart un singur câmp de căutare (panoul Laborator are un singur „ecran" cu tab-uri, ca la §10.1) — placeholder-ul se schimbă automat („Caută generator..." / „Caută moleculă...") la comutarea tab-ului, dar textul căutat rămâne același dacă utilizatorul comută înainte și înapoi.
 - Implementat cu tiparul deja existent în ambele fișiere (`ensureItem`/`ensureRow`, actualizare in-place): elementele/ionii nepotriviți primesc clasa `filtered-out` (`display:none`), nu sunt recreați/eliminați din DOM — filtrarea nu strică cache-ul de randare stabilit din M0.
 - Cele două câmpuri de căutare sunt independente (fiecare cu propria stare `query` locală), consistent cu faptul că Paleta și Constructorul Ionic au fost dintotdeauna module UI separate (§8.2).
-- Verificat live în dev server: „xen" în Paletă → doar Xenon rămâne vizibil; „osm" în picker-ul Ionic → doar Osmiu rămâne vizibil; ambele filtre independente, fără efecte secundare asupra selecției/mix-ului curent.
+- Verificat live în dev server: „xen" în Paletă → doar Xenon; „osm" în picker-ul Ionic → doar Osmiu; „reniu" în Generatoare → doar rândul de Reniu; sintetizat H₂O manual și „apă" în Colecție → doar acea intrare. Toate cele 4 filtre independente/corecte, fără efecte secundare asupra selecției/mix-ului/draft-ului curent.
 - `tsc --noEmit` curat; toate cele 183 de teste automate încă trec (nicio schimbare de logică de joc, doar UI).
 
 **Decizii / abateri de la SPEC.md:**
