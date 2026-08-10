@@ -192,6 +192,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Oxid de zirconiu (ZrO₂) — „zirconia cubică”, alternativa sintetică la diamant",
     rewardC: 34,
     isComplete: (s) => collectionCopies(s, "ZrO2") >= 1
+  },
+  {
+    id: "unlock_pt",
+    description: "Deblochează Platina",
+    rewardC: 36,
+    isComplete: (s) => s.state.unlockedElements.includes("Pt")
+  },
+  {
+    id: "synth_pto2",
+    description: "Sintetizează Dioxid de platină (PtO₂) — «catalizatorul lui Adams»",
+    rewardC: 38,
+    isComplete: (s) => collectionCopies(s, "PtO2") >= 1
   }
 ];
 

@@ -95,7 +95,19 @@ const LATTICE_ENERGY: Record<string, number> = {
   Sb2O3: 9115,
   SbCl3: 7713,
   Sc2O3: 9529,
-  ScCl3: 8122
+  ScCl3: 8122,
+  // Tier 11 — As/Se/Te/Y/Pd/Pt: aceeași metodă, țintă peste vârful tier 10
+  // (Nb2O5, eff 6,40).
+  As2O3: 10664,
+  AsCl3: 9206,
+  SeO2: 5853,
+  TeO2: 5567,
+  Y2O3: 10633,
+  YCl3: 9307,
+  PdO: 3615,
+  PdCl2: 6523,
+  PtO2: 5179,
+  PtCl4: 10855
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

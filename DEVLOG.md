@@ -20,6 +20,29 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 11 — As, Se, Te, Y, Pd, Pt (al optulea lot)
+
+**Milestone:** post-tier 10 (continuare autonomă, „continua")
+**Făcut:**
+- **6 elemente tier 11 noi**, toate ionice: **As** (+3, otrava clasică din romane polițiste — trioxidul de arsen), **Se** (+4, antioxidant esențial dar cu marjă de siguranță foarte îngustă), **Te** (+4, respirație cu miros de usturoi), **Y** (+3, cristale YAG pentru lasere), **Pd** (+2, absoarbe hidrogen ca un burete — convertoare catalitice), **Pt** (+4, «catalizatorul lui Adams»).
+- **10 compuși noi**: As₂O₃/AsCl₃, SeO₂ (singur), TeO₂ (singur), Y₂O₃/YCl₃, PdO/PdCl₂, PtO₂/PtCl₄.
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 10 (Nb₂O₅, eff 6,40) — interval 6,50–6,95, atins exact.
+- 2 obiective noi: „Deblochează Platina", „Sintetizează Dioxid de platină (PtO₂)".
+- Test nou `tests/moleculeDB_tier11.test.ts` (3 teste).
+- **Două greșeli mecanice găsite și reparate în acest lot, ambele prinse înainte de commit**:
+  1. Aceeași greșeală de ghilimele drepte ca la Cr/Zr, de data asta în flavor-ul Platinei — prinsă vizual la scriere (nu prin eroare de compilare de data asta, dar exact tiparul deja cunoscut), reparată cu «...» înainte să apuce să spargă ceva.
+  2. **Mai importantă**: pentru SeO₂/TeO₂/PtO₂/PtCl₄ am scris inițial formula în ordine Hill (alfabetică, „O2Se" etc.) — greșit pentru compuși ionici, unde `ionicFormula()` pune mereu **cationul primul**, indiferent de alfabet (ex. „SeO2", nu „O2Se"). Testul nou (`tests/moleculeDB_tier11.test.ts`) verifică explicit `result.formula` față de formula așteptată, exact ca să prindă acest tip de greșeală — și a prins-o, la prima rulare. Reparat înainte de commit.
+- `tsc --noEmit` curat; 165 de teste automate trec (22 fișiere).
+- Verificat live pe deploy-ul public, după push: vezi mai jos (se completează după verificare, nu înainte).
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nouă — continuă politica deja stabilită de calibrare și de „un compus per element cu chimie simplă reală".
+
+**Rămas de făcut / follow-up:**
+- Tot Tabelul Periodic rămas (peste 50 de poziții — lantanide, actinide, restul metalelor tranziționale grele, gaze rare) rămâne siluete „?".
+
+---
+
 ## [2026-08-10] Tier 10 — Rb, Sc, Zr, Sb, Mo, Nb (al șaptelea lot)
 
 **Milestone:** post-tier 9 (continuare autonomă, la cererea explicită „continua cu tier 10")

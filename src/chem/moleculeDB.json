@@ -2173,5 +2173,105 @@
     "tier": 10,
     "tags": ["ionic", "anorganic"],
     "flavor": "Cristale albe higroscopice — un intermediar în extragerea scandiului metalic pur, un proces industrial notoriu de dificil."
+  },
+  {
+    "key": "As2O3",
+    "formula": "As2O3",
+    "name": "Trioxid de arsen",
+    "bonusMult": 2.5,
+    "discoveryC": 33,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Otrava clasică din romanele polițiste victoriene — aproape imposibil de detectat înainte ca chimia analitică modernă să dezvolte teste specifice."
+  },
+  {
+    "key": "AsCl3",
+    "formula": "AsCl3",
+    "name": "Clorură de arsen",
+    "bonusMult": 2.2,
+    "discoveryC": 31,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un lichid incolor și fumegos — reacționează rapid cu umezeala din aer, eliberând acid clorhidric."
+  },
+  {
+    "key": "SeO2",
+    "formula": "SeO2",
+    "name": "Dioxid de seleniu",
+    "bonusMult": 2.3,
+    "discoveryC": 30,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un oxidant selectiv folosit în sinteza organică — capabil să transforme anumite grupări chimice fără să atace restul moleculei."
+  },
+  {
+    "key": "TeO2",
+    "formula": "TeO2",
+    "name": "Dioxid de telur",
+    "bonusMult": 2.4,
+    "discoveryC": 30,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid folosit în componente optice acustice — proprietățile lui neobișnuite manipulează lumina cu unde sonore."
+  },
+  {
+    "key": "Y2O3",
+    "formula": "Y2O3",
+    "name": "Oxid de ytriu",
+    "bonusMult": 2.6,
+    "discoveryC": 33,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Baza cristalelor YAG (ytriu-aluminiu-granat) din multe lasere industriale și medicale de precizie."
+  },
+  {
+    "key": "YCl3",
+    "formula": "YCl3",
+    "name": "Clorură de ytriu",
+    "bonusMult": 2.2,
+    "discoveryC": 31,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un intermediar folosit la extragerea și purificarea ytriului metalic din minereuri de pământuri rare."
+  },
+  {
+    "key": "PdO",
+    "formula": "PdO",
+    "name": "Oxid de paladiu",
+    "bonusMult": 2.1,
+    "discoveryC": 29,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un catalizator folosit la arderea completă a hidrocarburilor nearse din gazele de eșapament auto."
+  },
+  {
+    "key": "PdCl2",
+    "formula": "PdCl2",
+    "name": "Clorură de paladiu",
+    "bonusMult": 2.1,
+    "discoveryC": 30,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Folosită la detectarea urmelor de monoxid de carbon — reacționează vizibil, precipitând paladiu metalic negru."
+  },
+  {
+    "key": "PtO2",
+    "formula": "PtO2",
+    "name": "Dioxid de platină",
+    "bonusMult": 2.6,
+    "discoveryC": 32,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "«Catalizatorul lui Adams» — unul dintre cei mai folosiți catalizatori din chimia organică de laborator pentru reacții de hidrogenare."
+  },
+  {
+    "key": "PtCl4",
+    "formula": "PtCl4",
+    "name": "Clorură de platină",
+    "bonusMult": 2.6,
+    "discoveryC": 34,
+    "tier": 11,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid brun-roșiatic — punctul de plecare pentru sinteza multor compuși de platină folosiți în chimioterapie."
   }
 ]

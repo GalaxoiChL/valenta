@@ -627,6 +627,80 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 2150,
     flavor: "Devine supraconductor la temperaturi apropiate de zero absolut — folosit în magneții puternici ai scanerelor RMN.",
     ionicCharge: 5
+  },
+
+  // --- tier 11: al optulea lot ---
+  As: {
+    symbol: "As",
+    name: "Arsen",
+    Z: 33,
+    valences: [],
+    mass: 74.922,
+    color: "#bd80e3",
+    tier: 11,
+    unlockCost: 2200,
+    flavor: "Otrava clasică din romanele polițiste — trioxidul lui de arsen a fost, istoric, aproape imposibil de detectat înainte de chimia analitică modernă.",
+    ionicCharge: 3
+  },
+  Se: {
+    symbol: "Se",
+    name: "Seleniu",
+    Z: 34,
+    valences: [],
+    mass: 78.971,
+    color: "#ffa100",
+    tier: 11,
+    unlockCost: 2250,
+    flavor: "Un antioxidant esențial în cantități infime — dar toxic peste o doză mică, unul dintre elementele cu cea mai îngustă marjă sigură din nutriție.",
+    ionicCharge: 4
+  },
+  Te: {
+    symbol: "Te",
+    name: "Telur",
+    Z: 52,
+    valences: [],
+    mass: 127.6,
+    color: "#d47a00",
+    tier: 11,
+    unlockCost: 2300,
+    flavor: "Compușii lui volatili dau respirației un miros de usturoi imposibil de eliminat — chiar și urme infime, absorbite prin piele, sunt suficiente.",
+    ionicCharge: 4
+  },
+  Y: {
+    symbol: "Y",
+    name: "Ytriu",
+    Z: 39,
+    valences: [],
+    mass: 88.906,
+    color: "#94ffff",
+    tier: 11,
+    unlockCost: 2350,
+    flavor: "Oxidul lui e baza cristalelor YAG din multe lasere industriale și medicale de precizie.",
+    ionicCharge: 3
+  },
+  Pd: {
+    symbol: "Pd",
+    name: "Paladiu",
+    Z: 46,
+    valences: [],
+    mass: 106.42,
+    color: "#006985",
+    tier: 11,
+    unlockCost: 2400,
+    flavor: "Absoarbe hidrogen gazos ca un burete — până la 900 de ori propriul volum — folosit intens în convertoarele catalitice auto.",
+    ionicCharge: 2
+  },
+  Pt: {
+    symbol: "Pt",
+    name: "Platină",
+    Z: 78,
+    valences: [],
+    mass: 195.084,
+    color: "#d0d0e0",
+    tier: 11,
+    unlockCost: 2450,
+    flavor: "Dioxidul ei e «catalizatorul lui Adams» — unul dintre cei mai folosiți catalizatori din chimia organică de laborator pentru hidrogenare.",
+    ionicCharge: 4
   }
 };
 
