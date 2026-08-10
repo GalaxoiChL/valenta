@@ -72,7 +72,7 @@ describe("synthesizeDraft — sinteza consumă atomii stoichiometric", () => {
     expect(store.state.resources.atoms.O).toBe(2);
     expect(store.state.resources.knowledge).toBeGreaterThan(0);
 
-    const entry = store.state.collection["H2O|1,1"];
+    const entry = Object.values(store.state.collection)[0];
     expect(entry.copies).toBe(1);
     expect(entry.name).toBe("Apă");
   });
@@ -99,7 +99,7 @@ describe("synthesizeDraft — sinteza consumă atomii stoichiometric", () => {
 });
 
 describe("moleculeDB — compuși reali suplimentari (H/O/N)", () => {
-  it("Hidrazină H2N-NH2 → cheie H4N2|1,1,1,1,1", () => {
+  it("Hidrazină H2N-NH2 → recunoscută în DB ca Hidrazină", () => {
     const store = new GameStore(createInitialState());
     store.state.resources.atoms = { H: 4, O: 0, N: 2 };
     const n1 = store.placeAtomInDraft("N", 0, 0)!;
@@ -116,10 +116,10 @@ describe("moleculeDB — compuși reali suplimentari (H/O/N)", () => {
 
     const result = store.synthesizeDraft();
     expect(result.ok).toBe(true);
-    expect(store.state.collection["H4N2|1,1,1,1,1"]?.name).toBe("Hidrazină");
+    expect(Object.values(store.state.collection)[0]?.name).toBe("Hidrazină");
   });
 
-  it("Diazenă HN=NH → cheie H2N2|1,1,2", () => {
+  it("Diazenă HN=NH → recunoscută în DB ca Diazenă", () => {
     const store = new GameStore(createInitialState());
     store.state.resources.atoms = { H: 2, O: 0, N: 2 };
     const n1 = store.placeAtomInDraft("N", 0, 0)!;
@@ -132,10 +132,10 @@ describe("moleculeDB — compuși reali suplimentari (H/O/N)", () => {
 
     const result = store.synthesizeDraft();
     expect(result.ok).toBe(true);
-    expect(store.state.collection["H2N2|1,1,2"]?.name).toBe("Diazenă");
+    expect(Object.values(store.state.collection)[0]?.name).toBe("Diazenă");
   });
 
-  it("Hidroxilamină NH2-OH → cheie H3NO|1,1,1,1", () => {
+  it("Hidroxilamină NH2-OH → recunoscută în DB ca Hidroxilamină", () => {
     const store = new GameStore(createInitialState());
     store.state.resources.atoms = { H: 3, O: 1, N: 1 };
     const n = store.placeAtomInDraft("N", 0, 0)!;
@@ -150,7 +150,7 @@ describe("moleculeDB — compuși reali suplimentari (H/O/N)", () => {
 
     const result = store.synthesizeDraft();
     expect(result.ok).toBe(true);
-    expect(store.state.collection["H3NO|1,1,1,1"]?.name).toBe("Hidroxilamină");
+    expect(Object.values(store.state.collection)[0]?.name).toBe("Hidroxilamină");
   });
 });
 

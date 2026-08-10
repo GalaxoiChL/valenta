@@ -1,6 +1,7 @@
 import type { Atom, MoleculeGraph } from "../chem/molecule";
 import {
   createMolecule,
+  cloneMolecule,
   addAtom as addGraphAtom,
   removeAtom as removeGraphAtom,
   addBond as addGraphBond,
@@ -74,6 +75,8 @@ export interface CollectionEntry {
   flavor: string;
   /** M2 — Auto-sintetizator (§7): rate = copii/s țintă, progress = acumulator fracționar. */
   autoSynth: { rate: number; progress: number };
+  /** M4 — Grafic original (doar covalent, §6.5) — pentru "Încarcă în Constructor" ca șablon editabil. Absent pentru compuși ionici sau polimeri. */
+  graph?: MoleculeGraph;
 }
 
 export interface GameState {
@@ -157,6 +160,13 @@ function atomCounts(graph: MoleculeGraph): Record<string, number> {
   const counts: Record<string, number> = {};
   for (const atom of graph.atoms) counts[atom.element] = (counts[atom.element] ?? 0) + 1;
   return counts;
+}
+
+/** M4 — costul brut de atomi pentru n unități-monomer legate într-un lanț (§7). */
+function scalePolymerAtoms(atomsPerCopy: Record<string, number>, n: number): Record<string, number> {
+  const scaled: Record<string, number> = {};
+  for (const [el, count] of Object.entries(atomsPerCopy)) scaled[el] = count * n;
+  return scaled;
 }
 
 /**
@@ -363,6 +373,42 @@ export class GameStore {
     this.emitDraft();
   }
 
+  /**
+   * M4 — "Încarcă în Constructor" (§6.5): reconstruiește o moleculă din
+   * Colecție ca șablon editabil. Golește draftul curent (întoarce atomii lui
+   * în stoc), apoi rezervă din stoc atomii șablonului la fel ca la plasarea
+   * manuală (§6.1) — un șablon nu apare "din senin", trebuie să existe stoc.
+   * false dacă intrarea nu are graf salvat (compuși ionici/polimeri) sau
+   * dacă stocul nu ajunge pentru toți atomii șablonului.
+   */
+  loadTemplateIntoDraft(key: string): boolean {
+    const entry = this.state.collection[key];
+    if (!entry?.graph) return false;
+    if (!this.canAffordAtoms(entry.atomsPerCopy)) return false;
+
+    this.clearDraft();
+
+    const idMap = new Map<string, string>();
+    for (const atom of entry.graph.atoms) {
+      const placed = this.placeAtomInDraft(atom.element, atom.x, atom.y);
+      if (!placed) {
+        // nu ar trebui să se întâmple (canAffordAtoms verificat mai sus), dar defensiv:
+        this.clearDraft();
+        return false;
+      }
+      idMap.set(atom.id, placed.id);
+    }
+    for (const bond of entry.graph.bonds) {
+      const a = idMap.get(bond.a);
+      const b = idMap.get(bond.b);
+      if (!a || !b) continue;
+      this.setBondOrder(a, b, bond.order);
+    }
+
+    this.events.emit("load-template");
+    return true;
+  }
+
   /** Plasează un atom în Constructor, rezervându-l din stoc (§6.1). null dacă nu există stoc. */
   placeAtomInDraft(element: string, x: number, y: number): Atom | null {
     if ((this.state.resources.atoms[element] ?? 0) < 1) return null;
@@ -457,7 +503,8 @@ export class GameStore {
         sumBondEnergy: sumE,
         atomsPerCopy: costs,
         flavor: dbEntry?.flavor ?? "O moleculă nouă, în afara bazei de date cunoscute.",
-        autoSynth: { rate: 0, progress: 0 }
+        autoSynth: { rate: 0, progress: 0 },
+        graph: cloneMolecule(graph)
       };
       const tier = dbEntry ? dbEntry.tier : 0;
       const gained = dbEntry ? dbEntry.discoveryC : discoveryKnowledge(sumE, tier);
@@ -494,6 +541,73 @@ export class GameStore {
       this.events.emit("collection", key);
     }
     return synthesized;
+  }
+
+  /**
+   * M4 — Poate un monomer din Colecție fi polimerizat? Necesită graf salvat
+   * cu cel puțin o legătură dublă/triplă — semnul clasic al unui monomer de
+   * adiție (etenă, stiren...): legătura multiplă se "deschide" pentru a lega
+   * unitățile vecine (§7, §5.6).
+   */
+  canPolymerize(key: string): boolean {
+    const entry = this.state.collection[key];
+    return !!entry?.graph && entry.graph.bonds.some((b) => b.order >= 2);
+  }
+
+  canAffordPolymer(baseKey: string, n: number): boolean {
+    const base = this.state.collection[baseKey];
+    if (!base) return false;
+    return this.canAffordAtoms(scalePolymerAtoms(base.atomsPerCopy, n));
+  }
+
+  /**
+   * M4 — Unități polimerice repetitive (§7, simplificat): plătește direct
+   * n×atomsPerCopy atomi bruți — polimerizarea prin adiție nu pierde/creează
+   * atomi, doar rearanjează legăturile (§5.6) — și produce 1 copie a unui
+   * compus derivat nou, cu propria intrare în Colecție (compatibilă automat
+   * cu re-sinteză/Analizator/auto-sintetizator, la fel ca orice altă intrare).
+   */
+  polymerize(baseKey: string, n: number): SynthesisResult {
+    if (!Number.isInteger(n) || n < 2) return { ok: false, reason: "invalid_n" };
+    const base = this.state.collection[baseKey];
+    if (!base) return { ok: false, reason: "not_discovered" };
+    if (!this.canPolymerize(baseKey)) return { ok: false, reason: "not_polymerizable" };
+
+    const atomsPerCopy = scalePolymerAtoms(base.atomsPerCopy, n);
+    if (!this.canAffordAtoms(atomsPerCopy)) return { ok: false, reason: "insufficient_atoms" };
+
+    for (const [el, count] of Object.entries(atomsPerCopy)) {
+      this.state.resources.atoms[el] -= count;
+    }
+
+    const key = `${baseKey}×${n}`;
+    const isFirstDiscovery = !this.state.collection[key];
+    if (isFirstDiscovery) {
+      const energyMetric = base.sumBondEnergy * n * 0.9;
+      const formula = `(${base.formula})${n}`;
+      this.state.collection[key] = {
+        key,
+        formula,
+        name: `${base.name} — polimer ×${n}`,
+        copies: 0,
+        discovered: true,
+        ePerSecondPerCopy: productionRate(energyMetric, DEFAULT_BONUS_MULT),
+        sumBondEnergy: energyMetric,
+        atomsPerCopy,
+        flavor: `${n} unități de ${base.name} legate într-un lanț polimeric — atomii se rearanjează, nu se pierd (§5.6).`,
+        autoSynth: { rate: 0, progress: 0 }
+      };
+      this.state.resources.knowledge += discoveryKnowledge(energyMetric, 5);
+    }
+
+    this.state.collection[key].copies += 1;
+    this.emitResources();
+    this.events.emit("collection", key);
+    if (isFirstDiscovery) {
+      this.events.emit("discovery", { key, formula: this.state.collection[key].formula });
+    }
+
+    return { ok: true, isFirstDiscovery, formula: this.state.collection[key].formula };
   }
 
   maxSynthesizable(key: string): number {

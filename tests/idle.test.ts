@@ -3,6 +3,7 @@ import { GameStore, createInitialState } from "../src/core/state";
 import { tick } from "../src/core/economy";
 import { applyOfflineProgress } from "../src/core/offline";
 import { generatorRate, generatorSpeedUpgradeCost, OFFLINE_CAP_SECONDS } from "../src/core/balance";
+import { H2O_KEY } from "../src/chem/wellKnownKeys";
 
 function synthH2O(store: GameStore) {
   store.state.resources.atoms.H = (store.state.resources.atoms.H ?? 0) + 100;
@@ -14,8 +15,6 @@ function synthH2O(store: GameStore) {
   store.setBondOrder(o.id, h2.id, 1);
   return store.synthesizeDraft();
 }
-
-const H2O_KEY = "H2O|1,1";
 
 describe("M2 — Auto-sintetizatoare (§7)", () => {
   it("nu produce nimic dacă Automatizarea nu e deblocată", () => {

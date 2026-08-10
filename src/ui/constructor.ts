@@ -52,6 +52,10 @@ export function renderConstructor(
   ionicTabBtn.addEventListener("click", () => setMode("ionic"));
   setMode("covalent");
 
+  // M4, §6.5 — "Încarcă în Constructor" din Colecție trebuie să comute
+  // automat pe tab-ul Covalent, indiferent unde era jucătorul.
+  store.events.on("load-template", () => setMode("covalent"));
+
   renderIonicConstructor(ionicView, store);
 
   const statusBar = document.createElement("div");

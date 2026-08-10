@@ -3,7 +3,10 @@ import { usedValence } from "./molecule";
 import { getElement } from "./elements";
 import { hillFormula } from "./formula";
 
-const MAX_ATOMS = 40;
+// M4 (§12): limita a crescut de la 40 la 100 pentru a permite lanțuri
+// organice lungi și polimeri. SVG-ul canvas-ului rămâne suficient de rapid
+// la această scară — nu a fost nevoie de virtualizare (opțională în SPEC).
+const MAX_ATOMS = 100;
 
 export type ValidationResult =
   | { ok: true; formula: string }

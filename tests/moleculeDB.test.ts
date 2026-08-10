@@ -13,23 +13,28 @@ function build(atomSpecs: string[], bondSpecs: [number, number, 1 | 2 | 3][]): M
   return graph;
 }
 
-function expectKeyInDB(graph: MoleculeGraph): string {
+/**
+ * Verifică structura reală (valid + formula Hill) și că moleculeKey() —
+ * calculat cu hash-ul canonic (M4, §5.5) — se regăsește în moleculeDB.json.
+ * Nu se mai afirmă cheia literal (e un hash lung, nu un șir uman-lizibil).
+ */
+function expectMoleculeInDB(graph: MoleculeGraph, expectedFormula: string): void {
   const result = validate(graph);
   expect(result.ok).toBe(true);
-  const key = moleculeKey(graph);
-  expect(DB_KEYS.has(key)).toBe(true);
-  return key;
+  if (!result.ok) return;
+  expect(result.formula).toBe(expectedFormula);
+  expect(DB_KEYS.has(moleculeKey(graph))).toBe(true);
 }
 
 describe("moleculeDB — noile intrări M1 se pot construi valid din structurile reale", () => {
   it("Metan CH4", () => {
     const g = build(["C", "H", "H", "H", "H"], [[0, 1, 1], [0, 2, 1], [0, 3, 1], [0, 4, 1]]);
-    expect(expectKeyInDB(g)).toBe("CH4|1,1,1,1");
+    expectMoleculeInDB(g, "CH4");
   });
 
   it("Dioxid de carbon CO2 (O=C=O)", () => {
     const g = build(["O", "C", "O"], [[0, 1, 2], [1, 2, 2]]);
-    expect(expectKeyInDB(g)).toBe("CO2|2,2");
+    expectMoleculeInDB(g, "CO2");
   });
 
   it("Etan C2H6", () => {
@@ -37,7 +42,7 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
       ["C", "C", "H", "H", "H", "H", "H", "H"],
       [[0, 1, 1], [0, 2, 1], [0, 3, 1], [0, 4, 1], [1, 5, 1], [1, 6, 1], [1, 7, 1]]
     );
-    expect(expectKeyInDB(g)).toBe("C2H6|1,1,1,1,1,1,1");
+    expectMoleculeInDB(g, "C2H6");
   });
 
   it("Etenă C2H4 (C=C)", () => {
@@ -45,17 +50,17 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
       ["C", "C", "H", "H", "H", "H"],
       [[0, 1, 2], [0, 2, 1], [0, 3, 1], [1, 4, 1], [1, 5, 1]]
     );
-    expect(expectKeyInDB(g)).toBe("C2H4|1,1,1,1,2");
+    expectMoleculeInDB(g, "C2H4");
   });
 
   it("Acetilenă C2H2 (C≡C)", () => {
     const g = build(["C", "C", "H", "H"], [[0, 1, 3], [0, 2, 1], [1, 3, 1]]);
-    expect(expectKeyInDB(g)).toBe("C2H2|1,1,3");
+    expectMoleculeInDB(g, "C2H2");
   });
 
   it("Acid cianhidric HCN (H-C≡N)", () => {
     const g = build(["H", "C", "N"], [[0, 1, 1], [1, 2, 3]]);
-    expect(expectKeyInDB(g)).toBe("CHN|1,3");
+    expectMoleculeInDB(g, "CHN");
   });
 
   it("Metanol CH4O (C-O-H + 3×C-H)", () => {
@@ -63,7 +68,7 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
       ["C", "O", "H", "H", "H", "H"],
       [[0, 1, 1], [1, 2, 1], [0, 3, 1], [0, 4, 1], [0, 5, 1]]
     );
-    expect(expectKeyInDB(g)).toBe("CH4O|1,1,1,1,1");
+    expectMoleculeInDB(g, "CH4O");
   });
 
   it("Acid acetic C2H4O2 (CH3-COOH)", () => {
@@ -77,7 +82,7 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
         [6, 7, 1] // O-H
       ]
     );
-    expect(expectKeyInDB(g)).toBe("C2H4O2|1,1,1,1,1,1,2");
+    expectMoleculeInDB(g, "C2H4O2");
   });
 
   it("Benzen C6H6 (Kekulé)", () => {
@@ -90,7 +95,7 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
         [0, 6, 1], [1, 7, 1], [2, 8, 1], [3, 9, 1], [4, 10, 1], [5, 11, 1]
       ]
     );
-    expect(expectKeyInDB(g)).toBe("C6H6|1,1,1,1,1,1,1,1,1,2,2,2");
+    expectMoleculeInDB(g, "C6H6");
   });
 
   it("Glicină C2H5NO2 (NH2-CH2-COOH)", () => {
@@ -106,7 +111,7 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
         [8, 9, 1] // O-H
       ]
     );
-    expect(expectKeyInDB(g)).toBe("C2H5NO2|1,1,1,1,1,1,1,1,2");
+    expectMoleculeInDB(g, "C2H5NO2");
   });
 
   it("Uree CH4N2O ((NH2)2C=O)", () => {
@@ -114,10 +119,10 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
       ["C", "O", "N", "H", "H", "N", "H", "H"],
       [[0, 1, 2], [0, 2, 1], [2, 3, 1], [2, 4, 1], [0, 5, 1], [5, 6, 1], [5, 7, 1]]
     );
-    expect(expectKeyInDB(g)).toBe("CH4N2O|1,1,1,1,1,1,2");
+    expectMoleculeInDB(g, "CH4N2O");
   });
 
-  it("1-Butină și Butadienă — izomeri C4H6 cu chei DB distincte", () => {
+  it("1-Butină și Butadienă — izomeri C4H6 cu chei DB distincte (hash canonic Morgan, §5.5)", () => {
     // 1-Butină: HC≡C-CH2-CH3
     const butyne = build(
       ["C", "H", "C", "C", "H", "H", "C", "H", "H", "H"],
@@ -129,7 +134,7 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
         [6, 7, 1], [6, 8, 1], [6, 9, 1]
       ]
     );
-    expect(expectKeyInDB(butyne)).toBe("C4H6|1,1,1,1,1,1,1,1,3");
+    expectMoleculeInDB(butyne, "C4H6");
 
     // 1,3-Butadienă: CH2=CH-CH=CH2
     const butadiene = build(
@@ -143,38 +148,41 @@ describe("moleculeDB — noile intrări M1 se pot construi valid din structurile
         [7, 8, 1], [7, 9, 1] // C4H2
       ]
     );
-    expect(expectKeyInDB(butadiene)).toBe("C4H6|1,1,1,1,1,1,1,2,2");
+    expectMoleculeInDB(butadiene, "C4H6");
+
+    // Aceeași formulă (C4H6), structuri diferite → chei diferite (nu doar coincidență de multiset).
+    expect(moleculeKey(butyne)).not.toBe(moleculeKey(butadiene));
   });
 });
 
 describe("moleculeDB — noile intrări covalente M3 (tier 3: Cl, F)", () => {
   it("Acid clorhidric HCl (H-Cl)", () => {
     const g = build(["H", "Cl"], [[0, 1, 1]]);
-    expect(expectKeyInDB(g)).toBe("ClH|1");
+    expectMoleculeInDB(g, "ClH");
   });
 
   it("Acid fluorhidric HF (H-F)", () => {
     const g = build(["H", "F"], [[0, 1, 1]]);
-    expect(expectKeyInDB(g)).toBe("FH|1");
+    expectMoleculeInDB(g, "FH");
   });
 
   it("Clor Cl2 (Cl-Cl)", () => {
     const g = build(["Cl", "Cl"], [[0, 1, 1]]);
-    expect(expectKeyInDB(g)).toBe("Cl2|1");
+    expectMoleculeInDB(g, "Cl2");
   });
 
   it("Fluor F2 (F-F)", () => {
     const g = build(["F", "F"], [[0, 1, 1]]);
-    expect(expectKeyInDB(g)).toBe("F2|1");
+    expectMoleculeInDB(g, "F2");
   });
 
   it("Heliu — atom singur, moleculă monoatomică validă", () => {
     const g = build(["He"], []);
-    expect(expectKeyInDB(g)).toBe("He|");
+    expectMoleculeInDB(g, "He");
   });
 
   it("Neon — atom singur, moleculă monoatomică validă", () => {
     const g = build(["Ne"], []);
-    expect(expectKeyInDB(g)).toBe("Ne|");
+    expectMoleculeInDB(g, "Ne");
   });
 });

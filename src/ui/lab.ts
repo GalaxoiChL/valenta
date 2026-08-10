@@ -21,6 +21,9 @@ interface CollectionRow {
   btn10: HTMLButtonElement;
   btnMax: HTMLButtonElement;
   analyzeBtn: HTMLButtonElement;
+  loadBtn: HTMLButtonElement;
+  polymerRow: HTMLElement;
+  polymerBtns: HTMLButtonElement[];
   autoRow: HTMLElement;
   autoRateEl: HTMLElement;
   autoMinusBtn: HTMLButtonElement;
@@ -172,16 +175,35 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
     const analyzeBtn = document.createElement("button");
     analyzeBtn.className = "analyze-btn";
     analyzeBtn.textContent = "Analizează ×1";
+    const loadBtn = document.createElement("button");
+    loadBtn.className = "load-btn";
+    loadBtn.textContent = "Încarcă";
     btn1.addEventListener("click", () => store.synthesizeFromCollection(key, 1));
     btn10.addEventListener("click", () => store.synthesizeFromCollection(key, 10));
     btnMax.addEventListener("click", () => store.synthesizeFromCollection(key, store.maxSynthesizable(key)));
     analyzeBtn.addEventListener("click", () => store.analyzeMolecule(key, 1));
+    loadBtn.addEventListener("click", () => store.loadTemplateIntoDraft(key));
     attachTooltip(btnMax, () => `Sintetizează ${store.maxSynthesizable(key)} copii, limitat de stocul de atomi`);
     attachTooltip(
       analyzeBtn,
       () => `Consumă 1 copie, produce ${formatNumber(analysisKnowledge(store.state.collection[key]?.sumBondEnergy ?? 0))} C — pierzi producția ei de E/s`
     );
-    actions.append(btn1, btn10, btnMax, analyzeBtn);
+    attachTooltip(loadBtn, "Încarcă molecula ca șablon editabil în Constructor (§6.5) — rezervă atomii din stoc.");
+    actions.append(btn1, btn10, btnMax, analyzeBtn, loadBtn);
+
+    // --- M4 — Polimerizare (§7): doar pentru monomeri cu legătură dublă/triplă ---
+    const polymerRow = document.createElement("div");
+    polymerRow.className = "polymer-row";
+    const polymerLabel = document.createElement("span");
+    polymerLabel.textContent = "Polimerizează:";
+    const polymerBtns = [2, 5, 10].map((n) => {
+      const btn = document.createElement("button");
+      btn.textContent = `×${n}`;
+      btn.addEventListener("click", () => store.polymerize(key, n));
+      attachTooltip(btn, () => `Leagă ${n} unități — costă ${n}× atomii unei copii, produce 1 copie de polimer`);
+      return btn;
+    });
+    polymerRow.append(polymerLabel, ...polymerBtns);
 
     const autoRow = document.createElement("div");
     autoRow.className = "auto-synth-row";
@@ -207,7 +229,7 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
     flavorEl.className = "flavor";
     flavorEl.textContent = flavor;
 
-    row.append(top, meta, actions, autoRow, flavorEl);
+    row.append(top, meta, actions, polymerRow, autoRow, flavorEl);
     collectionBody.appendChild(row);
 
     const entry: CollectionRow = {
@@ -218,6 +240,9 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
       btn10,
       btnMax,
       analyzeBtn,
+      loadBtn,
+      polymerRow,
+      polymerBtns,
       autoRow,
       autoRateEl,
       autoMinusBtn,
@@ -237,8 +262,21 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
     emptyCollectionMsg.remove();
 
     for (const entry of entries) {
-      const { label, meta, btn1, btn10, btnMax, analyzeBtn, autoRow, autoRateEl, autoMinusBtn, autoPlusBtn } =
-        ensureCollectionRow(entry.key, entry.flavor);
+      const {
+        label,
+        meta,
+        btn1,
+        btn10,
+        btnMax,
+        analyzeBtn,
+        loadBtn,
+        polymerRow,
+        polymerBtns,
+        autoRow,
+        autoRateEl,
+        autoMinusBtn,
+        autoPlusBtn
+      } = ensureCollectionRow(entry.key, entry.flavor);
       label.textContent = `${entry.name} — ${entry.formula} ×${entry.copies}`;
       const totalRate = entry.copies * entry.ePerSecondPerCopy;
       meta.textContent = `${formatRate(entry.ePerSecondPerCopy)}/copie · total ${formatRate(totalRate)}`;
@@ -247,6 +285,19 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
       btn10.disabled = maxAvailable < 10;
       btnMax.disabled = maxAvailable < 1;
       analyzeBtn.disabled = entry.copies < 1;
+
+      // M4 — "Încarcă" doar pentru intrări cu graf salvat (covalente; nu ionice/polimeri).
+      loadBtn.style.display = entry.graph ? "" : "none";
+      loadBtn.disabled = !store.canAffordAtoms(entry.atomsPerCopy);
+
+      const polymerizable = store.canPolymerize(entry.key);
+      polymerRow.style.display = polymerizable ? "" : "none";
+      if (polymerizable) {
+        for (const btn of polymerBtns) {
+          const n = Number(btn.textContent!.slice(1));
+          btn.disabled = !store.canAffordPolymer(entry.key, n);
+        }
+      }
 
       autoRow.style.display = store.state.autoSynthUnlocked ? "" : "none";
       autoRateEl.textContent = `${entry.autoSynth.rate}/s`;

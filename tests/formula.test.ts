@@ -52,13 +52,31 @@ describe("formula Hill", () => {
     expect(toUnicodeSubscript("C2H6O")).toBe("C₂H₆O");
   });
 
-  it("moleculeKey combină formula cu multiset-ul ordinelor de legătură", () => {
+  it("moleculeKey combină formula cu hash-ul canonic de graf (M4, §5.5) — începe cu formula", () => {
     const m = createMolecule();
     const h1 = addAtom(m, "H");
     const o = addAtom(m, "O");
     const h2 = addAtom(m, "H");
     addBond(m, h1.id, o.id, 1);
     addBond(m, o.id, h2.id, 1);
-    expect(moleculeKey(m)).toBe("H2O|1,1");
+    expect(moleculeKey(m)).toMatch(/^H2O\|/);
+  });
+
+  it("moleculeKey e stabilă (aceeași moleculă → aceeași cheie) și distinge izomeri (etanol vs dimetil-eter)", () => {
+    const dimethylEther = (() => {
+      const m = createMolecule();
+      const c1 = addAtom(m, "C");
+      const o = addAtom(m, "O");
+      const c2 = addAtom(m, "C");
+      addBond(m, c1.id, o.id, 1);
+      addBond(m, o.id, c2.id, 1);
+      for (const atom of [c1, c1, c1, c2, c2, c2]) {
+        const h = addAtom(m, "H");
+        addBond(m, atom.id, h.id, 1);
+      }
+      return m;
+    })();
+    expect(moleculeKey(ethanol())).toBe(moleculeKey(ethanol()));
+    expect(moleculeKey(ethanol())).not.toBe(moleculeKey(dimethylEther));
   });
 });

@@ -1,4 +1,5 @@
 import type { MoleculeGraph } from "./molecule";
+import { canonicalGraphHash } from "./canonical";
 
 const SUBSCRIPT_DIGITS: Record<string, string> = {
   "0": "₀",
@@ -50,10 +51,12 @@ export function toUnicodeSubscript(formula: string): string {
 }
 
 /**
- * Cheia de identificare pentru baza de date de molecule (MVP, §5.5):
- * formulă + multiset-ul ordinelor de legătură, sortat crescător.
+ * Cheia de identificare pentru baza de date de molecule (§5.5, M4): formulă +
+ * hash canonic de graf (Morgan simplificat, `canonical.ts`). Spre deosebire
+ * de MVP-ul din M0-M3 (formulă + multiset de ordine de legătură, care
+ * confunda izomeri ca etanol/dimetil-eter), acesta distinge structuri
+ * diferite cu aceeași formulă.
  */
 export function moleculeKey(graph: MoleculeGraph): string {
-  const orders = graph.bonds.map((b) => b.order).sort((a, b) => a - b);
-  return `${hillFormula(graph)}|${orders.join(",")}`;
+  return `${hillFormula(graph)}|${canonicalGraphHash(graph)}`;
 }

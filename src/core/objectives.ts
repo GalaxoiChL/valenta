@@ -1,4 +1,5 @@
 import type { GameStore } from "./state";
+import { H2O_KEY, CH4_KEY } from "../chem/wellKnownKeys";
 
 export interface ObjectiveDef {
   id: string;
@@ -22,7 +23,7 @@ export const OBJECTIVES: ObjectiveDef[] = [
     id: "first_h2o",
     description: "Sintetizează Apă (H₂O)",
     rewardC: 3,
-    isComplete: (s) => collectionCopies(s, "H2O|1,1") >= 1
+    isComplete: (s) => collectionCopies(s, H2O_KEY) >= 1
   },
   {
     id: "own_10_h_generators",
@@ -35,8 +36,8 @@ export const OBJECTIVES: ObjectiveDef[] = [
     id: "synth_10_h2o",
     description: "Sintetizează 10× Apă (H₂O)",
     rewardC: 5,
-    isComplete: (s) => collectionCopies(s, "H2O|1,1") >= 10,
-    progress: (s) => `${Math.min(collectionCopies(s, "H2O|1,1"), 10)}/10`
+    isComplete: (s) => collectionCopies(s, H2O_KEY) >= 10,
+    progress: (s) => `${Math.min(collectionCopies(s, H2O_KEY), 10)}/10`
   },
   {
     id: "reach_50_eps",
@@ -74,7 +75,7 @@ export const OBJECTIVES: ObjectiveDef[] = [
     id: "synth_ch4",
     description: "Sintetizează Metan (CH₄)",
     rewardC: 6,
-    isComplete: (s) => collectionCopies(s, "CH4|1,1,1,1") >= 1
+    isComplete: (s) => collectionCopies(s, CH4_KEY) >= 1
   },
   {
     id: "reach_1000_energy",
