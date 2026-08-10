@@ -38,7 +38,7 @@ Format per intrare:
 - **Verificarea UI live incompletă a doua oară la rând** — de această dată clar o problemă de mediu (unealta de browser a devenit nefolosibilă, nu doar lentă), nu o alegere. Semnalat explicit ca risc rămas mai jos.
 
 **Rămas de făcut / follow-up:**
-- **Verificare UI live completă restantă pentru tier 6 ȘI tier 7** — de făcut într-o sesiune viitoare când unealta de automatizare a browserului e stabilă din nou. Risc considerat redus (mecanism identic, deja verificat de multiple ori pe tier-uri anterioare), dar rămâne o verificare reală nefăcută, nu doar teoretic echivalentă.
+- ~~Verificare UI live completă restantă pentru tier 6 ȘI tier 7~~ — **închis**: unealta de browser s-a stabilizat mai târziu în aceeași sesiune; verificat live direct pe deploy-ul public (https://valenta-five.vercel.app), nu doar local — construit și sintetizat TiO₂ manual în Constructorul Ionic (1×Ti⁴⁺ + 2×O²⁻), banner de descoperire corect, rată afișată 14,3 E/s — exact valoarea calculată. Toate elementele tier 5/6/7 confirmate vizual în picker-ul Ionic cu sarcinile corecte (Ti⁴⁺, Sr²⁺, Ni²⁺, Co²⁺, Cs⁺ etc.), inclusiv B (Bor) vizibil corect în Paleta covalentă. `localStorage` de test șters după verificare.
 - Tot Tabelul Periodic rămas (peste 80 de poziții) rămâne siluete „?" — continuăm pe loturi.
 
 ---
