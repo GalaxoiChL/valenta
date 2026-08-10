@@ -701,6 +701,80 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 2450,
     flavor: "Dioxidul ei e «catalizatorul lui Adams» — unul dintre cei mai folosiți catalizatori din chimia organică de laborator pentru hidrogenare.",
     ionicCharge: 4
+  },
+
+  // --- tier 12: al nouălea lot ---
+  Tl: {
+    symbol: "Tl",
+    name: "Taliu",
+    Z: 81,
+    valences: [],
+    mass: 204.38,
+    color: "#a6544d",
+    tier: 12,
+    unlockCost: 2500,
+    flavor: "Poreclit «otrava otrăvitorilor» — incolor, inodor, fără gust, cu simptome ușor confundate cu alte boli obișnuite.",
+    ionicCharge: 1
+  },
+  Hf: {
+    symbol: "Hf",
+    name: "Hafniu",
+    Z: 72,
+    valences: [],
+    mass: 178.49,
+    color: "#4dc2ff",
+    tier: 12,
+    unlockCost: 2550,
+    flavor: "Oxidul lui a înlocuit dioxidul de siliciu ca izolator în cele mai avansate tranzistoare din cipurile moderne.",
+    ionicCharge: 4
+  },
+  Ru: {
+    symbol: "Ru",
+    name: "Rutheniu",
+    Z: 44,
+    valences: [],
+    mass: 101.07,
+    color: "#248f8f",
+    tier: 12,
+    unlockCost: 2600,
+    flavor: "Un metal din familia platinei, folosit ca aliaj de întărire pentru bijuteriile din platină și paladiu.",
+    ionicCharge: 3
+  },
+  Ta: {
+    symbol: "Ta",
+    name: "Tantal",
+    Z: 73,
+    valences: [],
+    mass: 180.948,
+    color: "#4da6ff",
+    tier: 12,
+    unlockCost: 2650,
+    flavor: "Extrem de rezistent la coroziune — folosit la condensatoarele miniaturale din aproape orice telefon mobil.",
+    ionicCharge: 5
+  },
+  Ir: {
+    symbol: "Ir",
+    name: "Iridiu",
+    Z: 77,
+    valences: [],
+    mass: 192.217,
+    color: "#3d7fbf",
+    tier: 12,
+    unlockCost: 2700,
+    flavor: "Un strat neobișnuit de bogat în iridiu marchează granița geologică exactă a extincției dinozaurilor — dovada impactului asteroidului.",
+    ionicCharge: 3
+  },
+  Re: {
+    symbol: "Re",
+    name: "Reniu",
+    Z: 75,
+    valences: [],
+    mass: 186.207,
+    color: "#267dbf",
+    tier: 12,
+    unlockCost: 2750,
+    flavor: "Atinge sarcina +7, cea mai mare din tot jocul — al doilea cel mai înalt punct de topire dintre toate metalele, după wolfram.",
+    ionicCharge: 7
   }
 };
 

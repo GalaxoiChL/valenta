@@ -20,6 +20,26 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 12 — Tl, Hf, Ru, Ta, Ir, Re (al nouălea lot)
+
+**Milestone:** post-tier 11 (continuare autonomă, „continua cu tier 12")
+**Făcut:**
+- **6 elemente tier 12 noi**, toate ionice: **Tl** (+1, «otrava otrăvitorilor» — incoloră, inodoră, fără gust), **Hf** (+4, izolatorul de poartă din cipurile moderne), **Ru** (+3, aliaj de întărire pentru bijuterii de platină), **Ta** (+5, condensatoarele miniaturale din telefoane), **Ir** (+3, stratul geologic care marchează extincția dinozaurilor), **Re** (**+7, cea mai mare sarcină ionică din tot jocul**, al doilea cel mai înalt punct de topire după wolfram).
+- **9 compuși noi**: TlCl/TlBr, HfO₂ (singur — HfCl₄ e covalent/molecular în realitate, ca Ti/Zr), Ta₂O₅ (singur), **Re₂O₇** (singur, sarcina +7 cere 7 oxigeni la 2 atomi de reniu), Ru₂O₃/RuCl₃, Ir₂O₃/IrCl₃.
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 11 (PtCl₄, eff 6,95) — interval 7,00–7,50, atins exact.
+- 2 obiective noi: „Deblochează Reniul", „Sintetizează Heptoxid de reniu (Re₂O₇)".
+- Test nou `tests/moleculeDB_tier12.test.ts` (3 teste) — inclusiv cazul Re₂O₇ (raport 2:7), prima sarcină ionică ≥7 din joc.
+- `tsc --noEmit` curat; 168 de teste automate trec (23 fișiere).
+- Verificat live pe deploy-ul public, după push: vezi mai jos.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nouă — continuă politica deja stabilită.
+
+**Rămas de făcut / follow-up:**
+- Tot Tabelul Periodic rămas (peste 40 de poziții — lantanide, actinide, câteva metale de tranziție grele rămase, gaze rare) rămâne siluete „?".
+
+---
+
 ## [2026-08-10] Tier 11 — As, Se, Te, Y, Pd, Pt (al optulea lot)
 
 **Milestone:** post-tier 10 (continuare autonomă, „continua")

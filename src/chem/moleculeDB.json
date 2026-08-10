@@ -2273,5 +2273,95 @@
     "tier": 11,
     "tags": ["ionic", "anorganic"],
     "flavor": "Un solid brun-roșiatic — punctul de plecare pentru sinteza multor compuși de platină folosiți în chimioterapie."
+  },
+  {
+    "key": "TlCl",
+    "formula": "TlCl",
+    "name": "Clorură de taliu",
+    "bonusMult": 2.0,
+    "discoveryC": 34,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid alb, aproape insolubil în apă rece — istoric folosit (și interzis mai târziu) ca otravă pentru rozătoare, incoloră și fără gust."
+  },
+  {
+    "key": "TlBr",
+    "formula": "TlBr",
+    "name": "Bromură de taliu",
+    "bonusMult": 2.1,
+    "discoveryC": 35,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Transparentă la infraroșu într-un domeniu larg — folosită în componente optice pentru instrumente de detecție termică."
+  },
+  {
+    "key": "HfO2",
+    "formula": "HfO2",
+    "name": "Oxid de hafniu",
+    "bonusMult": 2.4,
+    "discoveryC": 36,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "A înlocuit dioxidul de siliciu ca izolator de poartă în cele mai avansate tranzistoare din cipurile moderne."
+  },
+  {
+    "key": "Ta2O5",
+    "formula": "Ta2O5",
+    "name": "Pentoxid de tantal",
+    "bonusMult": 2.8,
+    "discoveryC": 38,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un dielectric excelent — baza condensatoarelor miniaturale din aproape orice telefon mobil modern."
+  },
+  {
+    "key": "Re2O7",
+    "formula": "Re2O7",
+    "name": "Heptoxid de reniu",
+    "bonusMult": 2.9,
+    "discoveryC": 40,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Sarcina +7 a reniului cere șapte oxigeni pentru doi atomi de metal — cea mai mare sarcină ionică din tot jocul."
+  },
+  {
+    "key": "Ru2O3",
+    "formula": "Ru2O3",
+    "name": "Oxid de rutheniu",
+    "bonusMult": 2.6,
+    "discoveryC": 37,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid negru-albăstrui — rutheniul din familia platinei rămâne unul dintre cele mai puțin studiate metale prețioase."
+  },
+  {
+    "key": "RuCl3",
+    "formula": "RuCl3",
+    "name": "Clorură de rutheniu",
+    "bonusMult": 2.3,
+    "discoveryC": 35,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un reactiv de plecare comun pentru sinteza altor compuși de rutheniu folosiți în cataliză și cercetare."
+  },
+  {
+    "key": "Ir2O3",
+    "formula": "Ir2O3",
+    "name": "Oxid de iridiu",
+    "bonusMult": 2.7,
+    "discoveryC": 37,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Iridiul e unul dintre cele mai dense elemente naturale — un strat neobișnuit de bogat marchează geologic granița extincției dinozaurilor."
+  },
+  {
+    "key": "IrCl3",
+    "formula": "IrCl3",
+    "name": "Clorură de iridiu",
+    "bonusMult": 2.4,
+    "discoveryC": 36,
+    "tier": 12,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid verde-măsliniu — un precursor comun pentru catalizatorii de iridiu folosiți în chimia organometalică."
   }
 ]

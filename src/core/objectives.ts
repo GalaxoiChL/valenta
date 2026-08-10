@@ -204,6 +204,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Dioxid de platină (PtO₂) — «catalizatorul lui Adams»",
     rewardC: 38,
     isComplete: (s) => collectionCopies(s, "PtO2") >= 1
+  },
+  {
+    id: "unlock_re",
+    description: "Deblochează Reniul — sarcina ionică +7, cea mai mare din joc",
+    rewardC: 40,
+    isComplete: (s) => s.state.unlockedElements.includes("Re")
+  },
+  {
+    id: "synth_re2o7",
+    description: "Sintetizează Heptoxid de reniu (Re₂O₇)",
+    rewardC: 42,
+    isComplete: (s) => collectionCopies(s, "Re2O7") >= 1
   }
 ];
 

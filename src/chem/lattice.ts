@@ -107,7 +107,18 @@ const LATTICE_ENERGY: Record<string, number> = {
   PdO: 3615,
   PdCl2: 6523,
   PtO2: 5179,
-  PtCl4: 10855
+  PtCl4: 10855,
+  // Tier 12 — Tl/Hf/Ru/Ta/Ir/Re: aceeași metodă, țintă peste vârful tier 11
+  // (PtCl4, eff 6,95). Re2O7 e prima sarcină +7 din joc.
+  TlCl: 4309,
+  TlBr: 4060,
+  HfO2: 6170,
+  Ta2O5: 16940,
+  Re2O7: 23979,
+  Ru2O3: 11304,
+  RuCl3: 9597,
+  Ir2O3: 10818,
+  IrCl3: 9122
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;
