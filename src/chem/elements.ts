@@ -997,6 +997,35 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 3650,
     flavor: "Oxidul lui, sub formă de pastile ceramice, e combustibilul din inima majorității reactoarelor nucleare civile care produc energie electrică azi.",
     ionicCharge: 4
+  },
+
+  // --- tier 16: ultimele 2 metale stabile din familia platinei, omise din
+  // greșeală din loturile anterioare (Ru/Pd/Ir/Pt erau deja acoperite) —
+  // acestea închid practic tot conținutul chimic real, simplu, de manual,
+  // pe care Tabelul Periodic îl mai poate oferi la acest nivel de joc ---
+  Rh: {
+    symbol: "Rh",
+    name: "Rodiu",
+    Z: 45,
+    valences: [],
+    mass: 102.906,
+    color: "#0a7d8c",
+    tier: 16,
+    unlockCost: 3700,
+    flavor: "Cel mai scump metal prețios de pe piață — esențial în convertoarele catalitice auto pentru reducerea oxizilor de azot din gazele de eșapament.",
+    ionicCharge: 3
+  },
+  Os: {
+    symbol: "Os",
+    name: "Osmiu",
+    Z: 76,
+    valences: [],
+    mass: 190.23,
+    color: "#266696",
+    tier: 16,
+    unlockCost: 3750,
+    flavor: "Cel mai dens element natural stabil — tetroxidul lui, extrem de volatil și toxic, e folosit în microscopie pentru a colora dublele legături din țesuturi biologice.",
+    ionicCharge: 8
   }
 };
 

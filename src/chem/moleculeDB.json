@@ -2683,5 +2683,35 @@
     "tier": 15,
     "tags": ["ionic", "anorganic"],
     "flavor": "Prima formă în care radiul a fost izolat efectiv de Curie, prin cristalizări fracționate repetate dintr-o tonă de minereu de uraniu."
+  },
+  {
+    "key": "Rh2O3",
+    "formula": "Rh2O3",
+    "name": "Oxid de rodiu",
+    "bonusMult": 2.6,
+    "discoveryC": 46,
+    "tier": 16,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un solid gri — rodiul metalic e cel mai scump metal prețios de pe piață, folosit intens în convertoarele catalitice auto."
+  },
+  {
+    "key": "RhCl3",
+    "formula": "RhCl3",
+    "name": "Clorură de rodiu",
+    "bonusMult": 2.3,
+    "discoveryC": 44,
+    "tier": 16,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un precursor comun pentru catalizatorii de rodiu folosiți în hidroformilare, un proces industrial major din chimia organică."
+  },
+  {
+    "key": "OsO4",
+    "formula": "OsO4",
+    "name": "Tetroxid de osmiu",
+    "bonusMult": 3.0,
+    "discoveryC": 48,
+    "tier": 16,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Sarcina +8 a osmiului — cea mai mare din tot jocul — cere patru oxigeni pentru un singur atom de metal. Extrem de volatil și toxic, folosit în microscopie pentru a colora dublele legături din țesuturi biologice."
   }
 ]

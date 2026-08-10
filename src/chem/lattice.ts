@@ -152,7 +152,12 @@ const LATTICE_ENERGY: Record<string, number> = {
   ThO2: 7035,
   UO2: 6487,
   RaO: 4963,
-  RaCl2: 9545
+  RaCl2: 9545,
+  // Tier 16 — Rh/Os: ultimele 2 metale stabile din familia platinei. OsO4
+  // e prima sarcină +8 din joc — cea mai mare posibilă în modelul actual.
+  Rh2O3: 15332,
+  RhCl3: 13388,
+  OsO4: 13209
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

@@ -91,7 +91,9 @@ export const GENERATOR_BASE_COST: Record<string, number> = {
   Lu: 6100,
   Ra: 6150,
   Th: 6200,
-  U: 6250
+  U: 6250,
+  Rh: 6300,
+  Os: 6350
 };
 export const GENERATOR_BASE_RATE = 0.5; // atomi/s per generator
 export const GENERATOR_MILESTONE_STEP = 10; // la fiecare 10 generatoare

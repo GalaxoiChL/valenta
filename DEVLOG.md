@@ -20,6 +20,26 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] Tier 16 — Rh, Os (ultimele 2 metale reale, lacună găsită prin recitirea completă a tabelului)
+
+**Milestone:** post-tier 15 (continuare autonomă, „continua" — la recitirea completă a Tabelului Periodic pentru a confirma că tier 15 a fost cu adevărat ultimul lot, am găsit o lacună reală: Rh și Os, ambele stabile, ambele din familia platinei ca Ru/Pd/Ir/Pt deja acoperite, omise din greșeală)
+**Făcut:**
+- **2 elemente noi**: **Rh** (Rodiu, +3 — cel mai scump metal prețios de pe piață, esențial în convertoarele catalitice auto), **Os** (Osmiu, **+8 — cea mai mare sarcină ionică posibilă în tot jocul**, cel mai dens element natural stabil, tetroxidul lui e folosit în microscopie pentru colorarea dublelor legături din țesuturi).
+- **3 compuși noi**: Rh₂O₃/RhCl₃, **OsO₄** (singur — sarcina +8 cere 4 oxigeni la 1 atom de metal, cel mai extrem raport din joc).
+- Recalibrare cu aceeași metodă, țintă peste vârful tier 15 (UO₂, eff 8,70) — interval 8,85–9,20, OsO₄ la vârful absolut al întregii curbe de eficiență din joc.
+- 2 obiective noi: „Deblochează Osmiul", „Sintetizează Tetroxid de osmiu (OsO₄)".
+- Test nou `tests/moleculeDB_tier16.test.ts` (3 teste).
+- `tsc --noEmit` curat; 183 de teste automate trec (27 fișiere).
+- Verificat live pe deploy-ul public, după push: vezi mai jos.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nouă.
+
+**Rămas de făcut / follow-up:**
+- **Acesta chiar închide arcul de extindere a elementelor.** Verificare finală: din cele 118 poziții ale Tabelului Periodic, toate elementele stabile cu chimie simplă reală, notabilă la nivel de manual de liceu/facultate, sunt acum acoperite (80+2=82 de elemente jucabile). Rămân doar: gazele nobile radioactive (Rn), metalele alcaline extrem de instabile (Fr), restul actinidelor (Ac, Pa, Np, Pu — ultimele două sensibile tematic, evitate deliberat), și tot rândul 7 (elemente sintetice, create doar în laborator, cu timpi de înjumătățire de secunde). Niciunul nu oferă conținut de adăugat în același stil (compuși reali, cunoscuți, cu aplicații verificabile) fără compromisuri pe care jocul nu le-a făcut până acum.
+
+---
+
 ## [2026-08-10] Tier 15 — Kr, Tm, Lu, Ra, Th, U (ultimul lot rezonabil de conținut chimic real)
 
 **Milestone:** post-tier 14 (continuare autonomă, „continua cu tier 15")

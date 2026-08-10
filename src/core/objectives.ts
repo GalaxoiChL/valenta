@@ -252,6 +252,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Oxid de uraniu (UO₂) — combustibilul reactoarelor nucleare civile",
     rewardC: 46,
     isComplete: (s) => collectionCopies(s, "UO2") >= 1
+  },
+  {
+    id: "unlock_os",
+    description: "Deblochează Osmiul — sarcina ionică +8, cea mai mare posibilă în joc",
+    rewardC: 48,
+    isComplete: (s) => s.state.unlockedElements.includes("Os")
+  },
+  {
+    id: "synth_oso4",
+    description: "Sintetizează Tetroxid de osmiu (OsO₄)",
+    rewardC: 50,
+    isComplete: (s) => collectionCopies(s, "OsO4") >= 1
   }
 ];
 
