@@ -34,7 +34,7 @@ Format per intrare:
 - Nicio schimbare de design nouă — SPEC nu menționează explicit căutare, dar principiul din §10.1 („un singur ecran, fără navigare") rămâne intact: căutarea e un filtru local pe ecranul existent, nu o navigare/overlay nou.
 
 **Rămas de făcut / follow-up:**
-- Verificare live pe deploy-ul public rămâne de făcut după push (parte din acest commit).
+- Verificat parțial pe deploy-ul public, după push: câmpul de căutare confirmat prezent și corect randat în Paletă. Interacțiunea completă (tastare + verificare filtrare) NU a fost făcută pe producție — tab-ul deschis pentru verificare arăta un save real de jucător (28,2K E, progres autentic), nu unul de test; am ales să nu interacționez deloc cu el ca să nu risc să stric progresul cuiva. Acoperire considerată suficientă: funcționalitatea a fost verificată complet, de două ori, pe dev server local (filtrare „xen"→Xenon, „osm"→Osmiu, ambele confirmate corecte).
 
 ---
 
