@@ -32,7 +32,7 @@ Format per intrare:
 - Test nou `tests/moleculeDB_tier13.test.ts` (6 teste) — inclusiv Ar ca „moleculă" monoatomică și toate cele 3 fluoruri de Xe.
 - **A treia greșeală de ghilimele drepte găsită și reparată în acest lot** (Xenon, în `elements.ts`) — de data asta prinsă vizual la scriere, înainte de orice rulare de test. Tiparul e acum bine cunoscut; regula din DEVLOG-ul de la tier 10 rămâne activă.
 - `tsc --noEmit` curat; 174 de teste automate trec (24 fișiere).
-- Verificat live pe deploy-ul public, după push: vezi mai jos.
+- Verificat live pe deploy-ul public, după push: CeO₂ construit și sintetizat manual (1×Ce⁴⁺ + 2×O²⁻), banner de descoperire corect, rată 23,7 E/s — exact valoarea calculată. Ar confirmat vizual în Paletă covalentă; Xe confirmat vizual atât în Paletă cât și în Tabelul Periodic (corect absent din picker-ul Ionic — e complet covalent). Fluorurile de Xe (XeF₂/XeF₄/XeF₆) nu au fost construite manual prin clickuri — mecanismul de valențe multiple e deja dovedit live din M6 (Sulf), iar structura lor e validată de testele automate.
 
 **Decizii / abateri de la SPEC.md:**
 - **Ce (Ceriu) primește sarcina +4, nu +3** ca restul lantanidelor din acest lot — CeO₂ (forma +4) e mult mai iconică/folosită industrial (convertoare catalitice, lustruire sticlă) decât Ce₂O₃ (forma +3). Consistent cu simplificarea deja stabilită de „o singură sarcină per element", doar că aleasă pe criteriul „cea mai faimoasă formă reală", nu implicit cea mai comună generic.
