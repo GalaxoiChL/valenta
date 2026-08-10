@@ -17,9 +17,18 @@ function isStuck(state: GameState): boolean {
   return noAtoms && noGenerators && noCollection && state.resources.energy <= 0;
 }
 
-/** Migrează un save mai vechi la schema curentă. Pentru M0 există o singură versiune. */
+/**
+ * Migrează un save mai vechi la schema curentă. SAVE_VERSION n-a mai fost
+ * incrementat din M0, deși schema a crescut la fiecare milestone (stars,
+ * generatorSpeedLevel, autoSynthUnlocked...) — verificarea pe `version` lăsa
+ * neatinse (fără merge de defaults) exact save-urile vechi care au nevoie de
+ * el. Găsit prin verificare live: un save pre-M2 producea NaN la orice
+ * moleculă nou sintetizată (`state.stars` lipsă → `undefined * 0.1 = NaN` în
+ * `globalProductionMultiplier()`). Merge necondiționat, mereu sigur: valorile
+ * reale din `raw` au mereu prioritate față de default.
+ */
 function migrate(raw: GameState): GameState {
-  const state = raw.version === SAVE_VERSION ? raw : { ...createInitialState(), ...raw, version: SAVE_VERSION };
+  const state = { ...createInitialState(), ...raw, version: SAVE_VERSION };
   if (isStuck(state)) {
     state.resources.atoms = { ...state.resources.atoms, ...STARTING_ATOMS };
   }

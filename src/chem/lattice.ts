@@ -8,12 +8,18 @@ const LATTICE_ENERGY: Record<string, number> = {
   NaF: 923,
   // M6 — oxizi/cloruri de metale tier 4: sarcini mai mari → rețele mult mai
   // energice decât NaCl/NaF (proporțional cu produsul sarcinilor ionilor).
-  MgO: 3795,
-  MgCl2: 2526,
-  CuO: 3300,
-  CuCl2: 2400,
-  FeCl3: 3900,
-  Fe2O3: 14300
+  // Recalibrate în trecerea de echilibrare numerică (post-M6): valorile reale
+  // inițiale (Fe2O3 = 14300 etc.) sunt corecte chimic, dar prin productionRate()
+  // (exponent 0.7) dădeau o eficiență E/s-per-atom de 3-4× peste orice altă
+  // moleculă din joc, inclusiv Adenina (finalul tematic din §8.2) — vezi DEVLOG.
+  // Coborâte ca eficiența tier 4 ionic să rămână puțin peste tier 3 (NaCl/NaF)
+  // și sub Adenină, păstrând progresia monotonă pe tot jocul.
+  MgO: 1285,
+  MgCl2: 2346,
+  CuO: 1175,
+  CuCl2: 2448,
+  FeCl3: 3390,
+  Fe2O3: 4075
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;
