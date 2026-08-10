@@ -33,7 +33,7 @@ Format per intrare:
   1. Aceeași greșeală de ghilimele drepte ca la Cr/Zr, de data asta în flavor-ul Platinei — prinsă vizual la scriere (nu prin eroare de compilare de data asta, dar exact tiparul deja cunoscut), reparată cu «...» înainte să apuce să spargă ceva.
   2. **Mai importantă**: pentru SeO₂/TeO₂/PtO₂/PtCl₄ am scris inițial formula în ordine Hill (alfabetică, „O2Se" etc.) — greșit pentru compuși ionici, unde `ionicFormula()` pune mereu **cationul primul**, indiferent de alfabet (ex. „SeO2", nu „O2Se"). Testul nou (`tests/moleculeDB_tier11.test.ts`) verifică explicit `result.formula` față de formula așteptată, exact ca să prindă acest tip de greșeală — și a prins-o, la prima rulare. Reparat înainte de commit.
 - `tsc --noEmit` curat; 165 de teste automate trec (22 fișiere).
-- Verificat live pe deploy-ul public, după push: vezi mai jos (se completează după verificare, nu înainte).
+- Verificat live pe deploy-ul public, după push: PtO₂ construit și sintetizat manual (1×Pt⁴⁺ + 2×O²⁻), banner de descoperire corect (textul cu ghilimele franceze «Catalizatorul lui Adams» afișat corect), rată 20,7 E/s — exact valoarea calculată. Toate cele 55 de elemente deblocate până la tier 11 confirmate vizual cu sarcinile corecte.
 
 **Decizii / abateri de la SPEC.md:**
 - Niciuna nouă — continuă politica deja stabilită de calibrare și de „un compus per element cu chimie simplă reală".
