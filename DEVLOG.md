@@ -20,6 +20,31 @@ Format per intrare:
 
 ---
 
+## [2026-08-10] M2 — Idle adevărat: auto-sintetizatoare, Analizator, offline plafonat
+
+**Milestone:** M2
+**Făcut:**
+- **Auto-sintetizatoare** (§7): deblocare globală unică (`GameStore.unlockAutoSynth`, 15 C), apoi fiecare moleculă din Colecție primește o rată ajustabilă (`−1`/`+1`, plafonată la 50 copii/s prin `MAX_AUTO_SYNTH_RATE`). `economy.tick()` acumulează fracționar (`progress += rate*dt`) și sintetizează doar copii întregi, cât timp există atomi — rata e un plafon de producție, nu o coadă: dacă lipsesc atomii, backlogul se aruncă, nu se acumulează la infinit.
+- **Analizatorul** (§7): `GameStore.analyzeMolecule(key, count)` consumă copii din Colecție și produce Cunoaștere proporțională cu suma energiilor de legătură (`K_ANALYSIS_PER_ENERGY = 0.01`), calibrat puțin peste bonusul de primă descoperire ca decizia „producție acum vs. Cunoaștere acum" (pierzi E/s-ul acelei copii) să fie reală. Buton „Analizează ×1" nou în fiecare rând din Colecție.
+- **Upgrade de viteză a generatoarelor** (§7): nivel global (`generatorSpeedLevel`), cost geometric (500 E × 2.2ⁿ), fiecare nivel înmulțește TOATE ratele de generator cu ×1.5. Rând nou, fix deasupra listei de generatoare.
+- **Progres offline plafonat la 50%** (§4.3, `core/offline.ts`): înlocuiește tick-ul offline din M0/M1 (care rula la 100%, neplafonat) cu `min(Δt, 8h) × 0.5`, rulat prin `economy.tick()` complet (atomi + energie + auto-sintetizatoare, nu doar Energia — decizie de consistență, vezi mai jos). Panou nou „Bine ai revenit!" cu Energia câștigată și durata reală absentată, dispare automat după 6s sau la click.
+- 2 obiective ghidate noi (§8.3): „Deblochează Automatizarea" și „Cumpără un upgrade de viteză a generatoarelor" — altfel jucătorul putea trece pe lângă ambele mecanici fără să afle că există.
+- **Bug real descoperit prin testare în browser** (nu la M0/M1, la mecanica de bază a Constructorului): ciclarea unei legături duble/triple prin click cade prin la „plasează atom nou" dacă jucătorul dă click exact pe centrul geometric al legăturii. Cauza: liniile SVG vizuale pentru order 2/3 sunt desenate offset de centrul real (`bondOffsets`), lăsând un gol neclickabil exact pe mijloc — un click acolo nu găsește elementul `[data-bond]`, iar handler-ul de mousedown cade prin la „canvas gol + paletă selectată" → plasează un atom parazit. Reparat în `ui/constructor.ts`: o linie invizibilă suplimentară (`.bond-hit`, stroke-width 14, transparentă), desenată exact pe centrul geometric al legăturii, cu aceleași atribute `data-bond`/`data-a`/`data-b`, ca zonă de hit extinsă. Verificat live: click central pe N≡N acum ciclează corect ordinul, fără atomi paraziți.
+- Verificat integral în browser: construit manual H₂, O₂, N₂ (legătură triplă — aici a apărut bugul de mai sus), NH₃, H₂O; deblocat Automatizarea; setat rată 3/s pe Apă și confirmat că numărul de copii crește singur, fără click manual; folosit Analizează (consumă 1 copie, +9 C, tooltip corect); cumpărat upgrade de viteză (rata H a crescut vizibil de la 0,50/s la 0,75/s); testat panoul offline real — tab închis, așteptat ~52s wall-clock, redeschis: panoul „Bine ai revenit! +9.659 E — Ai lipsit 52 s" a apărut corect. Zero erori în consolă pe tot parcursul.
+- `tsc --noEmit` curat; 61 de teste automate trec (8 fișiere, +12 față de M1: `tests/idle.test.ts` acoperă auto-sintetizatoare, Analizator, upgrade de viteză și progres offline cu matematică exactă — cap la 8h, producție la 50%).
+
+**Decizii / abateri de la SPEC.md:**
+- **Progresul offline scalează TOT tick-ul economic la 50%, nu doar Energia** — §4.3 menționează explicit doar formula pentru E, dar atomii deja se comportau așa din M0/M1 (tick unificat), iar a trata auto-sintetizatoarele diferit ar fi fost inconsistent și greu de explicat jucătorului. Documentat ca generalizare deliberată, nu literă de literă din SPEC.
+- **Auto-sintetizatoarele nu păstrează backlog** când lipsesc atomii (rata e un plafon de producție, nu o coadă) — nespecificat în SPEC; ales pentru simplitate și pentru că evită explozii de producție surprinzătoare când jucătorul revine cu stoc de atomi după o perioadă fără.
+- **Constanta de calibrare a Analizatorului** (`K_ANALYSIS_PER_ENERGY = 0.01`) nu era specificată exact — aleasă empiric în testare ca analiza unei molecule medii (H₂O) să dea o recompensă comparabilă cu bonusul de primă descoperire, făcând tradeoff-ul „producție continuă vs. Cunoaștere acum" din §7 vizibil real, nu neglijabil.
+
+**Rămas de făcut / follow-up:**
+- M3: Chimia ionică (Na⁺/Cl⁻, validare prin neutralitate), tier 3 complet, UI distinct pentru compuși ionici.
+- De luat în calcul la M3+: gating pe tier pentru deblocarea elementelor din Tabelul Periodic (acum orice element cu `ElementDef` e deblocabil imediat ce ai Cunoaștere, indiferent de ordine) — semnalat deja ca follow-up în intrarea M1.
+- Bug-ul de hit-testing pe legături reparat aici a fost prezent de la M0 fără să fi fost prins până acum — merită o trecere similară (verificare hit-testing SVG) dacă se adaugă vreodată alte elemente clickabile suprapuse pe canvas.
+
+---
+
 ## [2026-08-10] M1 — Progresia: Tabel Periodic, obiective, export/import
 
 **Milestone:** M1

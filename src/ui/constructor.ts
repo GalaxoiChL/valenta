@@ -254,6 +254,23 @@ export function renderConstructor(
       const len = Math.hypot(dx, dy) || 1;
       const nx = -dy / len;
       const ny = dx / len;
+
+      // Zonă de hit invizibilă, mai groasă, pe centrul real al legăturii —
+      // pentru order 2/3 liniile vizuale sunt desenate offset de centru
+      // (vezi bondOffsets), lăsând un gol neclickabil exact pe mijloc. Fără
+      // asta, un click acolo nu găsește legătura și cade prin la "plasează
+      // atom nou pe canvas gol" (bug descoperit prin testare în browser).
+      const hitLine = document.createElementNS(svgNS, "line");
+      hitLine.setAttribute("class", "bond-hit");
+      hitLine.setAttribute("data-bond", "1");
+      hitLine.setAttribute("data-a", bond.a);
+      hitLine.setAttribute("data-b", bond.b);
+      hitLine.setAttribute("x1", String(a.x));
+      hitLine.setAttribute("y1", String(a.y));
+      hitLine.setAttribute("x2", String(b.x));
+      hitLine.setAttribute("y2", String(b.y));
+      svg.appendChild(hitLine);
+
       for (const offset of bondOffsets(bond.order)) {
         const line = document.createElementNS(svgNS, "line");
         line.setAttribute("class", "bond-line");

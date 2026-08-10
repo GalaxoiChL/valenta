@@ -53,10 +53,22 @@ export const OBJECTIVES: ObjectiveDef[] = [
     progress: (s) => `${Math.min(Object.keys(s.state.collection).length, 5)}/5`
   },
   {
+    id: "unlock_auto_synth",
+    description: "Deblochează Automatizarea (auto-sintetizatoare)",
+    rewardC: 5,
+    isComplete: (s) => s.state.autoSynthUnlocked
+  },
+  {
     id: "unlock_c",
     description: "Deblochează Carbonul",
     rewardC: 8,
     isComplete: (s) => s.state.unlockedElements.includes("C")
+  },
+  {
+    id: "generator_speed_upgrade",
+    description: "Cumpără un upgrade de viteză a generatoarelor",
+    rewardC: 6,
+    isComplete: (s) => s.state.generatorSpeedLevel >= 1
   },
   {
     id: "synth_ch4",

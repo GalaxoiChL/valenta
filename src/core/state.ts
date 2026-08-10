@@ -16,10 +16,14 @@ import moleculeDB from "../chem/moleculeDB.json";
 import {
   generatorCost,
   discoveryKnowledge,
+  analysisKnowledge,
+  generatorSpeedUpgradeCost,
   DEFAULT_BONUS_MULT,
   K_PROD,
   PRODUCTION_EXPONENT,
-  STARTING_ATOMS
+  STARTING_ATOMS,
+  AUTO_SYNTH_UNLOCK_COST,
+  MAX_AUTO_SYNTH_RATE
 } from "./balance";
 
 export interface MoleculeDBEntry {
@@ -45,6 +49,9 @@ const DB_BY_KEY = new Map<string, MoleculeDBEntry>(
  */
 export function reconcileCollectionWithDB(state: GameState): void {
   for (const entry of Object.values(state.collection)) {
+    // Save-uri pre-M2 nu au câmpul autoSynth — completat aici, singurul loc
+    // rulat necondiționat la fiecare încărcare de save (vezi migrate() în save.ts).
+    entry.autoSynth = entry.autoSynth ?? { rate: 0, progress: 0 };
     const dbEntry = DB_BY_KEY.get(entry.key);
     if (!dbEntry) continue;
     entry.name = dbEntry.name;
@@ -63,6 +70,8 @@ export interface CollectionEntry {
   sumBondEnergy: number;
   atomsPerCopy: Record<string, number>;
   flavor: string;
+  /** M2 — Auto-sintetizator (§7): rate = copii/s țintă, progress = acumulator fracționar. */
+  autoSynth: { rate: number; progress: number };
 }
 
 export interface GameState {
@@ -75,6 +84,8 @@ export interface GameState {
   };
   unlockedElements: string[];
   generators: Record<string, number>;
+  generatorSpeedLevel: number;
+  autoSynthUnlocked: boolean;
   collection: Record<string, CollectionEntry>;
   constructorDraft: MoleculeGraph;
   objectivesDone: string[];
@@ -97,6 +108,8 @@ export function createInitialState(): GameState {
     },
     unlockedElements: ["H", "O", "N"],
     generators: { H: 0, O: 0, N: 0 },
+    generatorSpeedLevel: 0,
+    autoSynthUnlocked: false,
     collection: {},
     constructorDraft: createMolecule(),
     objectivesDone: [],
@@ -225,6 +238,59 @@ export class GameStore {
     return true;
   }
 
+  /** M2 — Upgrade de viteză a generatoarelor (§7): nivel global, +50% rată per nivel. */
+  canBuyGeneratorSpeedUpgrade(): boolean {
+    return this.state.resources.energy >= generatorSpeedUpgradeCost(this.state.generatorSpeedLevel);
+  }
+
+  buyGeneratorSpeedUpgrade(): boolean {
+    if (!this.canBuyGeneratorSpeedUpgrade()) return false;
+    this.state.resources.energy -= generatorSpeedUpgradeCost(this.state.generatorSpeedLevel);
+    this.state.generatorSpeedLevel += 1;
+    this.emitResources();
+    this.events.emit("generators");
+    return true;
+  }
+
+  /** M2 — Automatizare (§7): deblocare unică cu Cunoaștere a auto-sintetizatoarelor. */
+  canUnlockAutoSynth(): boolean {
+    return !this.state.autoSynthUnlocked && this.state.resources.knowledge >= AUTO_SYNTH_UNLOCK_COST;
+  }
+
+  unlockAutoSynth(): boolean {
+    if (!this.canUnlockAutoSynth()) return false;
+    this.state.resources.knowledge -= AUTO_SYNTH_UNLOCK_COST;
+    this.state.autoSynthUnlocked = true;
+    this.emitResources();
+    this.events.emit("generators");
+    return true;
+  }
+
+  /** Setează rata (copii/s) de auto-sintetizare pentru o moleculă din Colecție, plafonată. */
+  setAutoSynthRate(key: string, rate: number): void {
+    const entry = this.state.collection[key];
+    if (!entry) return;
+    entry.autoSynth.rate = Math.max(0, Math.min(MAX_AUTO_SYNTH_RATE, Math.round(rate)));
+    this.events.emit("collection", key);
+  }
+
+  /** M2 — Analizatorul (§7): consumă `count` copii, produce Cunoaștere proporțională cu complexitatea. */
+  canAnalyze(key: string, count = 1): boolean {
+    const entry = this.state.collection[key];
+    return !!entry && entry.copies >= count;
+  }
+
+  analyzeMolecule(key: string, count = 1): number {
+    const entry = this.state.collection[key];
+    if (!entry || entry.copies < count) return 0;
+    entry.copies -= count;
+    const gained = count * analysisKnowledge(entry.sumBondEnergy);
+    this.state.resources.knowledge += gained;
+    this.emitResources();
+    this.events.emit("collection", key);
+    return gained;
+  }
+
   draft(): MoleculeGraph {
     return this.state.constructorDraft;
   }
@@ -327,7 +393,8 @@ export class GameStore {
         ePerSecondPerCopy,
         sumBondEnergy: sumE,
         atomsPerCopy: costs,
-        flavor: dbEntry?.flavor ?? "O moleculă nouă, în afara bazei de date cunoscute."
+        flavor: dbEntry?.flavor ?? "O moleculă nouă, în afara bazei de date cunoscute.",
+        autoSynth: { rate: 0, progress: 0 }
       };
       const tier = dbEntry ? dbEntry.tier : 0;
       const gained = dbEntry ? dbEntry.discoveryC : discoveryKnowledge(sumE, tier);

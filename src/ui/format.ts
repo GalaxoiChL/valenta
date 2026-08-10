@@ -35,3 +35,13 @@ function trimDecimals(value: number, decimals: number): string {
 export function formatRate(value: number): string {
   return `${formatNumber(value)}/s`;
 }
+
+/** Durată prietenoasă pentru panoul „Bine ai revenit" (§4.3): "3 h 12 min", "45 min", "20 s". */
+export function formatDuration(totalSeconds: number): string {
+  const seconds = Math.max(0, Math.round(totalSeconds));
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  if (hours > 0) return minutes > 0 ? `${hours} h ${minutes} min` : `${hours} h`;
+  if (minutes > 0) return `${minutes} min`;
+  return `${seconds} s`;
+}

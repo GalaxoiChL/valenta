@@ -3,6 +3,7 @@ import { createStore, startAutosave } from "./core/save";
 import { tick } from "./core/economy";
 import { ECONOMY_TICK_MS } from "./core/balance";
 import { checkObjectives } from "./core/objectives";
+import { applyOfflineProgress } from "./core/offline";
 import { renderHud } from "./ui/hud";
 import { renderPalette } from "./ui/palette";
 import { renderConstructor } from "./ui/constructor";
@@ -11,6 +12,7 @@ import { renderObjectives } from "./ui/objectives";
 import { renderPeriodicTable } from "./ui/periodicTable";
 import { renderSettings } from "./ui/settings";
 import { toUnicodeSubscript } from "./chem/formula";
+import { formatNumber, formatDuration } from "./ui/format";
 
 const app = document.getElementById("app")!;
 
@@ -74,11 +76,19 @@ store.events.on("discovery", (payload: unknown) => {
   banner.onclick = () => banner.classList.remove("visible");
 });
 
-// --- progres offline (§4.3) ---
-const OFFLINE_THRESHOLD_MS = 15_000;
-const elapsedSinceSave = Date.now() - store.state.savedAt;
-if (elapsedSinceSave > OFFLINE_THRESHOLD_MS) {
-  tick(store, elapsedSinceSave / 1000);
+// --- progres offline, plafonat la 8h, 50% producție (§4.3) ---
+const offlineReport = applyOfflineProgress(store);
+if (offlineReport && offlineReport.energyGained > 0) {
+  const welcomeBanner = document.createElement("div");
+  welcomeBanner.className = "discovery-banner welcome-back-banner visible";
+  welcomeBanner.innerHTML = `
+    <div class="title">Bine ai revenit!</div>
+    <div class="name">+${formatNumber(offlineReport.energyGained)} E</div>
+    <div class="flavor">Ai lipsit ${formatDuration(offlineReport.realSeconds)} — laboratorul a produs offline, la jumătate din ritm.</div>
+  `;
+  document.body.appendChild(welcomeBanner);
+  welcomeBanner.onclick = () => welcomeBanner.remove();
+  setTimeout(() => welcomeBanner.remove(), 6000);
 }
 
 // --- bucla economiei: setInterval + dt real măsurat, robust la tab inactiv ---

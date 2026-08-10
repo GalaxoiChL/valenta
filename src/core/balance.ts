@@ -29,17 +29,43 @@ export const AUTOSAVE_INTERVAL_MS = 15_000;
 export const ECONOMY_TICK_MS = 100;
 export const MAX_UNDO_STEPS = 20;
 
+// M2 — Auto-sintetizatoare (§7): deblocare unică cu Cunoaștere, apoi o rată
+// (copii/s) ajustabilă per moleculă din Colecție.
+export const AUTO_SYNTH_UNLOCK_COST = 15; // C
+export const MAX_AUTO_SYNTH_RATE = 50; // copii/s, per moleculă
+
+// M2 — Analizatorul (§7): consumă o copie din Colecție, produce Cunoaștere
+// proporțional cu complexitatea moleculei (suma energiilor de legătură).
+// Calibrat puțin peste bonusul de primă descoperire, ca prețul (pierderea
+// producției de E/s a acelei copii) să aibă o recompensă vizibilă.
+export const K_ANALYSIS_PER_ENERGY = 0.01;
+
+// M2 — Upgrade de viteză a generatoarelor: nivel global, cost geometric,
+// fiecare nivel înmulțește rata TUTUROR generatoarelor.
+export const GENERATOR_SPEED_UPGRADE_BASE_COST = 500; // E
+export const GENERATOR_SPEED_UPGRADE_GROWTH = 2.2;
+export const GENERATOR_SPEED_UPGRADE_MULT = 1.5; // +50% rată per nivel
+
 export function generatorCost(element: string, owned: number): number {
   const base = GENERATOR_BASE_COST[element] ?? 100;
   return base * Math.pow(GENERATOR_COST_GROWTH, owned);
 }
 
-export function generatorRate(owned: number): number {
+export function generatorRate(owned: number, speedLevel = 0): number {
   const milestones = Math.floor(owned / GENERATOR_MILESTONE_STEP);
-  return owned * GENERATOR_BASE_RATE * Math.pow(GENERATOR_MILESTONE_MULT, milestones);
+  const base = owned * GENERATOR_BASE_RATE * Math.pow(GENERATOR_MILESTONE_MULT, milestones);
+  return base * Math.pow(GENERATOR_SPEED_UPGRADE_MULT, speedLevel);
+}
+
+export function generatorSpeedUpgradeCost(level: number): number {
+  return GENERATOR_SPEED_UPGRADE_BASE_COST * Math.pow(GENERATOR_SPEED_UPGRADE_GROWTH, level);
 }
 
 export function discoveryKnowledge(sumBondEnergy: number, tier: number): number {
   const multiplicatorTier = tier + 1;
   return 1 + Math.floor(Math.pow(sumBondEnergy / 200, 1.1)) * multiplicatorTier;
+}
+
+export function analysisKnowledge(sumBondEnergy: number): number {
+  return Math.max(1, Math.round(K_ANALYSIS_PER_ENERGY * sumBondEnergy));
 }
