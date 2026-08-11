@@ -20,6 +20,22 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] Verificare live restantă: Autopilot funcționează corect
+
+**Milestone:** follow-up (restanță semnalată în ultimele 2 sesiuni — „continua" după tier 17)
+**Făcut:**
+- Verificat live, într-un save de test complet izolat (server dev secundar pe portul 5174, deci origine separată de save-ul de dezvoltare de pe 5173, care pare folosit concurent — evită orice risc de coruperi încrucișate): pornit cu un save nou, injectat 5.000 E / 205 C direct în `localStorage` pentru un test rapid, activat togglul Autopilot din Setări.
+- **Confirmat vizual, în câteva secunde**: Autopilot a deblocat automat Carbon și Heliu (au apărut singure în Paletă) și a cumpărat repetat generatoare de H/O/N/C (×18/×10/×7/×3), epuizând bugetul de E și C disponibil fără niciun clic manual — exact comportamentul descris în Setări („Deblochează elemente și cumpără generatoare automat, cel mai ieftin întâi"). Dezactivat togglul → confirmat că E/C rămân neschimbate după aceea (doar producția pasivă de atomi din generatoarele deja cumpărate continuă, cum e de așteptat). Zero erori în consolă.
+- **Notă tehnică utilă, descoperită incidental în timpul acestei verificări**: injectarea directă de resurse prin `localStorage.setItem` urmată de `reload()`/`navigate()` pe **același tab** nu funcționează fiabil — handler-ul `beforeunload` din `save.ts` (`startAutosave`) rescrie imediat `localStorage` cu starea *veche*, încă din memorie, chiar în timp ce pagina se descarcă, anulând injectarea. Motivul real, cel mai probabil, al episodului „autosave dintr-o altă instanță" semnalat ieri la tier 17 — nu neapărat o altă filă/tab deschisă de utilizator, ci chiar tab-ul curent rescriindu-și propria stare stale la reload. Soluție care a funcționat: editează `localStorage`, apoi deschide un **tab nou** (fără store propriu în memorie) pentru citire, abia apoi închide tab-ul vechi.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna — verificare pură, fără schimbări de cod.
+
+**Rămas de făcut / follow-up:**
+- Nimic restant pe Autopilot. Singura restanță reală rămasă din arcul recent e sinteza live a Ho₂O₃/ErCl₃ (tier 17), semnalată deja ca fiind de prioritate scăzută (chei ionice simple, deja acoperite corect de teste automate pe același cod pe care l-ar exercita UI-ul).
+
+---
+
 ## [2026-08-11] Tier 17 — Ho, Er (lacună reală găsită la recitirea completă a tabelului)
 
 **Milestone:** post-verificare-live (utilizatorul a semnalat că mai văzuse poziții „?" și a întrebat ce mai e de făcut)
