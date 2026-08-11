@@ -523,9 +523,11 @@ Un tab nou, complet separat de motorul chimic (atomi/legături) — biologie mol
 
 **8.1 Mecanica**
 - Ecran overlay nou, „ADN/ARN" (tipar `OverlayController`, ca Reacții/Tabel Periodic), gratis de la început.
-- Secvența de ADN e un șir de baze (A/T/G/C), randată ca o bandă de „plăcuțe" clickabile — click pe o placă ciclează baza (A→T→G→C→A), un „✕" pe fiecare placă șterge acea bază, un buton „+" adaugă o bază nouă la capăt. Fără poziționare 3D a dublei elice — o bandă liniară simplă, suficientă pentru concept (§5.6, aceeași filosofie de simplificare asumată deschis).
-- Sub bandă, două rânduri derivate, actualizate live, niciodată editabile direct: **ARNm** (transcriere: fiecare T devine U, restul neschimbat) și **Proteina** (traducere: codoni de 3 baze citiți din capătul secvenței, prin codul genetic standard, până la primul codon STOP sau capătul secvenței).
+- Secvența de ADN e un șir de baze (A/T/G/C), randată ca o bandă de „plăcuțe". Fără poziționare 3D a dublei elice — o bandă liniară simplă, suficientă pentru concept (§5.6, aceeași filosofie de simplificare asumată deschis).
+- **Editare rapidă**: click simplu pe o placă îi ciclează baza (A→T→G→C→A); un „✕" pe fiecare placă șterge acea bază; un buton „+" adaugă o bază nouă la capăt.
+- **Înlocuire vizibilă de segment**: click-drag peste mai multe plăcuțe selectează un segment (evidențiat), deschide un panou cu segmentul curent pre-completat, jucătorul scrie înlocuirea (orice lungime — de aceeași lungime = substituție, mai scurtă = deleție parțială, mai lungă = inserție la orice poziție, nu doar la capăt) și confirmă — o bucată dintr-odată, nu bază-cu-bază.
 - La fiecare editare de o singură bază (substituție), un mesaj live clasifică mutația la nivelul codonului afectat: **silențioasă** (codon diferit, același aminoacid — redundanța codului genetic), **cu sens greșit** (aminoacid diferit) sau **non-sens** (apare un codon STOP prematur, proteina se scurtează).
+- Sub bandă, două rânduri derivate, actualizate live, niciodată editabile direct: **ARNm** (transcriere: fiecare T devine U, restul neschimbat) și **Proteina** (traducere: codoni de 3 baze citiți din capătul secvenței, prin codul genetic standard, până la primul codon STOP sau capătul secvenței).
 - La orice inserție/ștergere care schimbă lungimea secvenței cu un număr ne-multiplu de 3 față de secvența încărcată inițial, un mesaj separat semnalează **decalajul cadrului de citire** (frameshift) — toți codonii de după punctul editat se recitesc greșit, exact fenomenul real.
 - O listă mică de **mutații reale cunoscute** (`src/bio/mutationDB.json`, tipar identic cu `reactionDB.json`), fiecare cu un buton „Încarcă secvența" (pune secvența ei normală în bandă) și o stare de „descoperit"/nu: descoperită quando secvența curentă a jucătorului produce, la codonul relevant, exact schimbarea de aminoacid a acelei mutații reale. Prima descoperire acordă un mic bonus de Cunoaștere (tipar identic cu bonusul de primă sinteză, §4.2) — nu la fiecare editare, o singură dată per mutație.
 
@@ -541,17 +543,18 @@ Un tab nou, complet separat de motorul chimic (atomi/legături) — biologie mol
 - **Fibroza chistică, ΔF508** (gena CFTR): deleție de 3 baze care elimină exact codonul fenilalaninei de la poziția 508 — deleție „în cadru" (in-frame), pierde un aminoacid întreg fără să decaleze cadrul de citire, spre deosebire de o deleție obișnuită.
 
 **8.4 Criterii de acceptare**
-- [x] Overlay „ADN/ARN" deschis din HUD; bandă de ADN editabilă (ciclare bază, ștergere, adăugare).
+- [x] Overlay „ADN/ARN" deschis din HUD; bandă de ADN editabilă (click = ciclare rapidă, ștergere, adăugare la capăt).
+- [x] Click-drag peste mai multe baze selectează un segment și deschide un panou de înlocuire; confirmarea aplică exact înlocuirea scrisă, de orice lungime.
 - [x] ARNm și Proteina se actualizează live, corect, la orice editare.
-- [x] Clasificarea silențioasă/sens greșit/non-sens apare corect la substituție.
-- [x] Decalajul de cadru (frameshift) semnalat corect la inserție/ștergere ne-multiplu de 3.
+- [x] Clasificarea silențioasă/sens greșit/non-sens apare corect la substituție de o singură bază.
+- [x] Decalajul de cadru (frameshift) semnalat corect la orice editare ne-multiplu de 3 față de secvența încărcată.
 - [x] Ambele mutații din `mutationDB.json` se pot „descoperi" prin editare, cu banner + Cunoaștere o singură dată.
 - [x] `tsc --noEmit` curat; toată suita de teste (inclusiv teste noi pentru codul genetic/traducere) trece, fără regresii.
 
-**Confirmat** — vezi DEVLOG „[2026-08-11] M8 — ADN/ARN: editor de secvențe și mutații reale". Verificat live: încărcat secvența Anemia falciformă, editat baza corectă → banner „Ai descoperit — Anemia falciformă (HBB) (Glu₆Val)" + status live „Codon 6: GAG → GUG — mutație cu sens greșit"; încărcat ΔF508, șters exact cele 3 baze ale codonului Phe → banner de descoperire + proteina scurtată cu un aminoacid, fără decalaj de cadru (deleție multiplu de 3); ștergerea unei a 4-a baze a declanșat corect avertismentul de frameshift. Zero erori în consolă.
+**Confirmat** — vezi DEVLOG „[2026-08-11] M8 — ADN/ARN: editor de secvențe și mutații reale" (versiunea inițială, ciclare bază-cu-bază) și „[2026-08-11] M8 v2 — ADN/ARN: înlocuire vizibilă de segment" (rescrierea cerută explicit de utilizator). Verificat live: click-drag peste 3 plăcuțe (codonul 6 al Anemiei falciforme) → panou „Bazele 16–18 (GAG)" cu input pre-completat, înlocuit cu „GTG" → banner „Anemia falciformă (HBB) (Glu₆Val)" + Cunoaștere; înlocuire test cu caractere invalide filtrată live (doar A/T/G/C rămân); înlocuire a 2 baze cu 4 (inserție la mijlocul secvenței, nu la capăt) → avertisment de frameshift corect. Zero erori în consolă.
 
 **8.5 Ce NU intră în M8 v1 (risc de scope creep, §14)**
-Dubla elice completă cu catenă complementară, editor de poziție arbitrară pentru inserție (doar capăt + ștergere oriunde în v1), reglare genică, epigenetică, alte mutații în afara celor 2 curate, orice pretenție de coordonate genomice exacte. Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
+Dubla elice completă cu catenă complementară, reglare genică, epigenetică, alte mutații în afara celor 2 curate, orice pretenție de coordonate genomice exacte. (Inserția la orice poziție, nu doar la capăt, a fost adăugată în M8 v2 prin înlocuirea de segment — nu mai e o restricție.) Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
 
 ### M9 — Anatomie: explorator vizual al corpului uman
 

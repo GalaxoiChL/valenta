@@ -20,6 +20,25 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] M8 v2 — ADN/ARN: înlocuire vizibilă de segment (feedback direct al utilizatorului)
+
+**Milestone:** M8 (rescriere UI, cerută explicit după feedback pe M7/M8/M9 inițiale — a doua din cele 3 direcții confirmate)
+**Făcut:**
+- **Context**: utilizatorul a cerut explicit ca la ADN/ARN „să pot să înlocuiesc vizibil o bucată din ADN și s-o înlocuiesc cu altceva ca să existe un altfel de output" — versiunea M8 inițială avea doar ciclare bază-cu-bază (click pe o placă → A→T→G→C), nu o înlocuire de bucată. Confirmat cu utilizatorul (întrebare directă, sesiunea trecută): click-drag selectează un segment, apoi jucătorul tastează înlocuirea.
+- **`src/core/state.ts`**: `replaceDnaSegment(start, end, replacement)` — nou, generic, înlocuiește orice interval `[start, end)` cu o secvență de **orice lungime**. Acoperă tot ce acoperea `cycleDnaBase`/`deleteDnaBase`/`appendDnaBase` (păstrate, tot folosite pentru editarea rapidă cu un singur click) plus, pentru prima dată, **inserție la orice poziție** — nu doar la capăt, depășind explicit restricția din M8 v1 (§8.5), fără o mecanică nouă separată: e tot o substituție de segment, doar de lungime variabilă între original și înlocuire. Validează caracterele înlocuirii (doar A/T/G/C), respinge intervale invalide, fără să atingă secvența dacă ceva nu e valid.
+- **`src/ui/genetics.ts`** rescris: click simplu pe o placă tot ciclează rapid (comportamentul din v1, păstrat pentru editări mici); click-drag peste mai multe plăcuțe selectează un segment (evidențiat vizual, tipar `mousedown`/`mousemove`/`mouseup` + `document.elementFromPoint()`, al doilea loc din proiect care reosește exact tiparul de selecție introdus la M7 v2 pentru drag&drop) și deschide un panou dedicat: „Bazele N–M (secvența curentă) — scrie ce le înlocuiește", cu un input care filtrează live orice caracter care nu e A/T/G/C, și butoane „Înlocuiește"/„Anulează".
+- Teste noi: 6 cazuri pentru `replaceDnaSegment` în `tests/genetics.test.ts` — înlocuire de lungime diferită, caractere invalide respinse fără efect, interval invalid respins, inserție la mijlocul secvenței (nu la capăt), descoperire de mutație declanșată corect prin această cale nouă.
+- `tsc --noEmit` curat; 256 de teste automate trec (33 fișiere, +5 față de M7 v2).
+- **Verificat live pe dev server**: încărcat secvența Anemiei falciforme, selectat prin drag exact codonul 6 (3 plăcuțe, „GAG"), panoul a arătat corect „Bazele 16–18 (GAG)" cu input pre-completat, înlocuit cu „GTG" → banner „Anemia falciformă (HBB) (Glu₆Val)" + Cunoaștere, exact ca la M8 v1 dar prin fluxul nou. Testat filtrarea de caractere invalide („xZq123gAtC" → filtrat live la „GATC"). Testat inserție la mijlocul secvenței (2 baze înlocuite cu 4) → avertisment de frameshift corect, confirmând că restricția „doar la capăt" din v1 chiar a fost depășită. Zero erori în consolă.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nedocumentată — SPEC §8.1/§8.4/§8.5 rescrise direct să reflecte mecanica nouă și restricția de inserție ridicată.
+
+**Rămas de făcut / follow-up:**
+- Anatomia rămâne cu feedback-ul utilizatorului neadresat — asset-uri vizuale reale din domeniul public (Gray's Anatomy 1918), în loc de forme desenate manual, direcție deja confirmată de utilizator.
+
+---
+
 ## [2026-08-11] M7 v2 — Reacții: paletă vizuală + drag&drop (feedback direct al utilizatorului)
 
 **Milestone:** M7 (rescriere UI, cerută explicit după ce utilizatorul a văzut versiunea M7/M8/M9 inițială)

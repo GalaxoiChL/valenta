@@ -21,7 +21,7 @@ import type { ReactionDefinition } from "../chem/reactions";
 import { maxReactionRuns as computeMaxReactionRuns } from "../chem/reactions";
 import mutationDB from "../bio/mutationDB.json";
 import type { Base, MutationDefinition } from "../bio/genetics";
-import { BASES, matchesMutation } from "../bio/genetics";
+import { BASES, matchesMutation, isValidBase } from "../bio/genetics";
 import anatomyDB from "../bio/anatomyDB.json";
 import { BODY_SYSTEMS, type AnatomyPart } from "../bio/anatomy";
 import {
@@ -581,6 +581,25 @@ export class GameStore {
     this.state.dnaSequence = seq.slice(0, index) + seq.slice(index + 1);
     this.events.emit("dna");
     this.checkGeneticDiscoveries();
+  }
+
+  /**
+   * Înlocuiește vizibil un segment [start, end) cu o secvență nouă, de orice
+   * lungime — o singură bucată dintr-odată, nu bază-cu-bază. Acoperă
+   * substituție (lungime egală), ștergere (înlocuire cu ""), inserție la
+   * orice poziție (înlocuire mai lungă decât originalul) — depășește
+   * restricția din §8.5 M8 v1 ("doar capăt"), fără o mecanică nouă separată:
+   * e tot o substituție de segment, doar de lungime variabilă.
+   */
+  replaceDnaSegment(start: number, end: number, replacement: string): boolean {
+    const seq = this.state.dnaSequence;
+    if (start < 0 || end > seq.length || start >= end) return false;
+    const upper = replacement.toUpperCase();
+    if (![...upper].every((ch) => isValidBase(ch))) return false;
+    this.state.dnaSequence = seq.slice(0, start) + upper + seq.slice(end);
+    this.events.emit("dna");
+    this.checkGeneticDiscoveries();
+    return true;
   }
 
   loadMutationExample(id: string): boolean {

@@ -149,6 +149,49 @@ describe("GameStore — ADN/ARN (§8)", () => {
     expect(store.dnaSequence()).toBe("A");
   });
 
+  it("replaceDnaSegment înlocuiește o bucată dintr-odată, cu o secvență de altă lungime", () => {
+    const store = new GameStore(createInitialState());
+    store.setDnaSequence("AAAATTTTGGGG");
+    const ok = store.replaceDnaSegment(4, 8, "CC"); // scoate "TTTT", pune "CC"
+    expect(ok).toBe(true);
+    expect(store.dnaSequence()).toBe("AAAACCGGGG");
+  });
+
+  it("replaceDnaSegment respinge caractere invalide, fără să modifice secvența", () => {
+    const store = new GameStore(createInitialState());
+    store.setDnaSequence("AAAA");
+    const ok = store.replaceDnaSegment(1, 3, "XZ");
+    expect(ok).toBe(false);
+    expect(store.dnaSequence()).toBe("AAAA");
+  });
+
+  it("replaceDnaSegment respinge un interval invalid (start >= end, sau în afara secvenței)", () => {
+    const store = new GameStore(createInitialState());
+    store.setDnaSequence("AAAA");
+    expect(store.replaceDnaSegment(2, 2, "T")).toBe(false);
+    expect(store.replaceDnaSegment(0, 10, "T")).toBe(false);
+    expect(store.dnaSequence()).toBe("AAAA");
+  });
+
+  it("replaceDnaSegment poate insera baze suplimentare la mijlocul secvenței (segment mai scurt înlocuit cu unul mai lung) — depășește restricția \"doar la capăt\" din M8 v1", () => {
+    const store = new GameStore(createInitialState());
+    store.setDnaSequence("AATT");
+    const ok = store.replaceDnaSegment(2, 3, "GGGG"); // scoate un singur "T" (index 2), pune "GGGG"
+    expect(ok).toBe(true);
+    expect(store.dnaSequence()).toBe("AAGGGGT");
+  });
+
+  it("replaceDnaSegment declanșează o descoperire dacă rezultatul reproduce o mutație cunoscută", () => {
+    const store = new GameStore(createInitialState());
+    store.loadMutationExample("sickle_cell_hbb");
+    const before = store.state.resources.knowledge;
+    // codonul 6 (index 5, bazele 15-17) GAG → GTG: înlocuiește baza din mijloc (index 16)
+    const ok = store.replaceDnaSegment(16, 17, "T");
+    expect(ok).toBe(true);
+    expect(store.state.geneticsDiscovered).toContain("sickle_cell_hbb");
+    expect(store.state.resources.knowledge).toBeGreaterThan(before);
+  });
+
   it("loadMutationExample încarcă secvența sălbatică a unei mutații cunoscute", () => {
     const store = new GameStore(createInitialState());
     const ok = store.loadMutationExample("sickle_cell_hbb");

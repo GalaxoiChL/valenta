@@ -897,10 +897,28 @@ body {
   font-weight: 700;
   cursor: pointer;
   font-size: 13px;
+  user-select: none;
 }
 
 .dna-tile:hover {
   border-color: var(--accent);
+}
+
+.dna-tile.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 25%, var(--bg-panel-2));
+}
+
+.segment-replace-panel {
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+  background: var(--bg-panel-2);
+}
+
+.segment-replace-panel input {
+  margin: 6px 0;
 }
 
 .dna-delete {
