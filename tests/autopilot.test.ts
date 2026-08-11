@@ -29,11 +29,24 @@ describe("Autopilot", () => {
     const store = new GameStore(createInitialState());
     store.state.settings.autopilot = true;
     const cheapestLocked = Object.values(ELEMENTS)
-      .filter((def) => !store.state.unlockedElements.includes(def.symbol))
+      .filter((def) => !def.decorative && !store.state.unlockedElements.includes(def.symbol))
       .reduce((min, def) => (def.unlockCost < min.unlockCost ? def : min));
     store.state.resources.knowledge = cheapestLocked.unlockCost;
     tick(store, 0.001);
     expect(store.state.unlockedElements).toContain(cheapestLocked.symbol);
+  });
+
+  it("activat: nu deblochează niciodată elemente decorative, deși au unlockCost 0 (cel mai mic posibil)", () => {
+    const store = new GameStore(createInitialState());
+    store.state.settings.autopilot = true;
+    store.state.resources.knowledge = 999_999;
+    tick(store, 0.001);
+    const decorativeSymbols = Object.values(ELEMENTS)
+      .filter((def) => def.decorative)
+      .map((def) => def.symbol);
+    for (const symbol of decorativeSymbols) {
+      expect(store.state.unlockedElements).not.toContain(symbol);
+    }
   });
 
   it("respectă plafonul de siguranță AUTOPILOT_MAX_PURCHASES_PER_TICK într-un singur apel de tick()", () => {

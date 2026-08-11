@@ -238,7 +238,7 @@ export class GameStore {
   canUnlockElement(symbol: string): boolean {
     if (this.state.unlockedElements.includes(symbol)) return false;
     const def = ELEMENTS[symbol];
-    if (!def) return false;
+    if (!def || def.decorative) return false;
     return this.state.resources.knowledge >= def.unlockCost;
   }
 

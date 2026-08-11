@@ -30,4 +30,12 @@ describe("GameStore.unlockElement — deblocare din Tabelul Periodic (§8.1)", (
     store.state.resources.knowledge = 999999;
     expect(store.unlockElement("Xx")).toBe(false);
   });
+
+  it("refuză deblocarea unui element decorativ, chiar cu Cunoaștere suficientă (unlockCost 0)", () => {
+    const store = new GameStore(createInitialState());
+    store.state.resources.knowledge = 999999;
+    expect(store.canUnlockElement("Fr")).toBe(false);
+    expect(store.unlockElement("Fr")).toBe(false);
+    expect(store.state.unlockedElements).not.toContain("Fr");
+  });
 });

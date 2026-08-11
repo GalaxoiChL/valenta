@@ -74,6 +74,7 @@ function autopilotUnlockElements(store: GameStore): void {
     let cheapestCost = Infinity;
     for (const symbol in ELEMENTS) {
       if (store.state.unlockedElements.includes(symbol)) continue;
+      if (ELEMENTS[symbol].decorative) continue;
       if (ELEMENTS[symbol].unlockCost < cheapestCost) {
         cheapest = symbol;
         cheapestCost = ELEMENTS[symbol].unlockCost;

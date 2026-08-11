@@ -28,7 +28,8 @@ export function renderPeriodicTable(store: GameStore): OverlayController {
 
   const hint = document.createElement("div");
   hint.className = "periodic-hint";
-  hint.textContent = "Click pe un element deblocabil (gri, cu cost afișat) ca să-l cumperi cu Cunoaștere.";
+  hint.textContent =
+    "Click pe un element deblocabil (gri, cu cost afișat) ca să-l cumperi cu Cunoaștere. Elementele radioactive/sintetice fără chimie jucabilă apar colorate, doar informativ.";
 
   const grid = document.createElement("div");
   grid.className = "periodic-grid";
@@ -73,6 +74,18 @@ export function renderPeriodicTable(store: GameStore): OverlayController {
       return;
     }
 
+    if (def.decorative) {
+      cell.classList.add("decorative");
+      const symbolEl = document.createElement("div");
+      symbolEl.className = "symbol";
+      symbolEl.textContent = def.symbol;
+      symbolEl.style.background = def.color;
+      cell.appendChild(symbolEl);
+      attachTooltip(cell, () => `${def.name} (${def.symbol}) — fără chimie jucabilă. ${def.flavor}`);
+      grid.appendChild(cell);
+      return;
+    }
+
     const symbolEl = document.createElement("div");
     symbolEl.className = "symbol";
     const costEl = document.createElement("div");
@@ -96,7 +109,7 @@ export function renderPeriodicTable(store: GameStore): OverlayController {
     for (const slot of PERIODIC_LAYOUT) {
       ensureCell(slot);
       const def = ELEMENTS[slot.symbol];
-      if (!def) continue;
+      if (!def || def.decorative) continue;
       const entry = cells.get(slot.symbol)!;
       const unlocked = store.state.unlockedElements.includes(slot.symbol);
       const affordable = !unlocked && store.canUnlockElement(slot.symbol);

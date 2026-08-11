@@ -15,6 +15,14 @@ export interface ElementDef {
    * formează ioni în acest model (include gazele nobile, inerte).
    */
   ionicCharge?: number;
+  /**
+   * Elemente radioactive/sintetice fără chimie reală, accesibilă, de adăugat
+   * (fără izotop stabil, timp de înjumătățire de secunde, sau produse doar
+   * artificial în laborator) — randate colorat în Tabelul Periodic (nu mai
+   * ca siluetă "?"), dar NEinteractive: fără cost de deblocare, fără loc în
+   * `unlockedElements`, fără compuși în DB. Pur informativ/decor.
+   */
+  decorative?: boolean;
 }
 
 // Set MVP (M0): H, O, N. Restul tier 1–2 e pregătit pentru M1, dar rămâne
@@ -1054,6 +1062,182 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 3850,
     flavor: "Dopantul din inima amplificatoarelor cu fibră optică ce fac posibil internetul global pe cablu submarin.",
     ionicCharge: 3
+  },
+
+  // --- decorative: ultimele 33 de poziții din Tabelul Periodic, fără chimie
+  // reală accesibilă de adăugat (fără izotop stabil, radioactive rare, sau
+  // sintetice cu timp de înjumătățire de secunde/minute). Randate colorat,
+  // dar neinteractive — vezi comentariul de pe `decorative` din interfață.
+  // Verificate exhaustiv: nu mai lipsește niciun element real din tabel.
+  Tc: {
+    symbol: "Tc", name: "Tehnețiu", Z: 43, valences: [], mass: 98, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Primul element artificial produs vreodată (1937) — fără niciun izotop stabil. Izotopul Tc-99m e cel mai folosit trasor radioactiv din medicina nucleară.",
+    decorative: true
+  },
+  Pm: {
+    symbol: "Pm", name: "Promețiu", Z: 61, valences: [], mass: 145, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Singura lantanidă fără niciun izotop stabil — sursa de lumină din unele baterii nucleare miniaturale (betavoltaice), folosite acolo unde o baterie normală nu poate fi schimbată ani de zile.",
+    decorative: true
+  },
+  Po: {
+    symbol: "Po", name: "Poloniu", Z: 84, valences: [], mass: 209, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Descoperit de Marie Curie — extrem de radioactiv și toxic, un singur gram degajă suficientă căldură cât să se încingă la roșu de la sine.",
+    decorative: true
+  },
+  At: {
+    symbol: "At", name: "Astatiniu", Z: 85, valences: [], mass: 210, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Cel mai rar element natural din scoarța terestră — se estimează că mai puțin de 30 de grame există pe toată planeta la un moment dat.",
+    decorative: true
+  },
+  Rn: {
+    symbol: "Rn", name: "Radon", Z: 86, valences: [], mass: 222, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Gaz nobil radioactiv, produs natural din degradarea uraniului din sol — a doua cauză de cancer pulmonar la nivel mondial, după fumat.",
+    decorative: true
+  },
+  Fr: {
+    symbol: "Fr", name: "Franciu", Z: 87, valences: [], mass: 223, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Cel mai instabil element natural — timpul de înjumătățire al celui mai stabil izotop e de doar 22 de minute.",
+    decorative: true
+  },
+  Ac: {
+    symbol: "Ac", name: "Actiniu", Z: 89, valences: [], mass: 227, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Dă numele întregii serii a actinidelor — strălucește slab albăstrui în întuneric, din propria radioactivitate.",
+    decorative: true
+  },
+  Pa: {
+    symbol: "Pa", name: "Protactiniu", Z: 91, valences: [], mass: 231.036, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Unul dintre cele mai rare și mai scumpe elemente naturale — extrem de radioactiv și toxic, izolat pentru prima dată abia în 1934.",
+    decorative: true
+  },
+  Np: {
+    symbol: "Np", name: "Neptuniu", Z: 93, valences: [], mass: 237.048, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Primul element transuranic descoperit — numit, ca și Uraniul dinaintea lui, după o planetă (Neptun).",
+    decorative: true
+  },
+  Pu: {
+    symbol: "Pu", name: "Plutoniu", Z: 94, valences: [], mass: 244, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Al doilea element transuranic — căldura pe care o degajă constant alimentează sonde spațiale ca Voyager, aflate azi în afara Sistemului Solar.",
+    decorative: true
+  },
+  Am: {
+    symbol: "Am", name: "Americiu", Z: 95, valences: [], mass: 243, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Singurul element transuranic din uz casnic — o cantitate infimă se află în majoritatea detectoarelor de fum cu ionizare.",
+    decorative: true
+  },
+  Cm: {
+    symbol: "Cm", name: "Curiu", Z: 96, valences: [], mass: 247, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit în onoarea lui Marie și Pierre Curie — folosit ca sursă de energie pentru instrumente științifice ale roverelor de pe Marte.",
+    decorative: true
+  },
+  Bk: {
+    symbol: "Bk", name: "Berkeliu", Z: 97, valences: [], mass: 247, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după orașul Berkeley, California, unde a fost sintetizat prima dată — produs istoric doar câțiva atomi odată.",
+    decorative: true
+  },
+  Cf: {
+    symbol: "Cf", name: "Californiu", Z: 98, valences: [], mass: 251, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Sursa de neutroni folosită la pornirea unor reactoare nucleare — unul dintre cele mai scumpe materiale din lume.",
+    decorative: true
+  },
+  Es: {
+    symbol: "Es", name: "Einsteiniu", Z: 99, valences: [], mass: 252, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Descoperit în resturile radioactive ale primului test cu bombă cu hidrogen, în 1952.",
+    decorative: true
+  },
+  Fm: {
+    symbol: "Fm", name: "Fermiu", Z: 100, valences: [], mass: 257, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Ultimul element care mai poate fi produs prin bombardarea cu neutroni a unei ținte — cele de după el se fac exclusiv prin coliziuni directe de nuclee.",
+    decorative: true
+  },
+  Md: {
+    symbol: "Md", name: "Mendeleviu", Z: 101, valences: [], mass: 258, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după Dmitri Mendeleev, creatorul Tabelului Periodic — produs istoric un singur atom odată.",
+    decorative: true
+  },
+  No: {
+    symbol: "No", name: "Nobeliu", Z: 102, valences: [], mass: 259, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după Alfred Nobel — timpul de înjumătățire al celui mai stabil izotop e de doar câteva ore.",
+    decorative: true
+  },
+  Lr: {
+    symbol: "Lr", name: "Lawrenciu", Z: 103, valences: [], mass: 266, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Ultimul element din seria actinidelor — încheie rândul deschis de Actiniu.",
+    decorative: true
+  },
+  Rf: {
+    symbol: "Rf", name: "Rutherfordiu", Z: 104, valences: [], mass: 267, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Primul element transactinidic, dincolo de seria actinidelor — numit după fizicianul Ernest Rutherford.",
+    decorative: true
+  },
+  Db: {
+    symbol: "Db", name: "Dubniu", Z: 105, valences: [], mass: 268, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după orașul rusesc Dubna, unul dintre principalele centre mondiale de sinteză a elementelor supergrele.",
+    decorative: true
+  },
+  Sg: {
+    symbol: "Sg", name: "Seaborgiu", Z: 106, valences: [], mass: 269, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după Glenn Seaborg — practic singurul om căruia i s-a dat numele unui element cât încă trăia.",
+    decorative: true
+  },
+  Bh: {
+    symbol: "Bh", name: "Bohriu", Z: 107, valences: [], mass: 270, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după fizicianul danez Niels Bohr, unul dintre părinții fizicii cuantice.",
+    decorative: true
+  },
+  Hs: {
+    symbol: "Hs", name: "Hassiu", Z: 108, valences: [], mass: 269, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după landul german Hessen, unde se află institutul GSI care l-a sintetizat.",
+    decorative: true
+  },
+  Mt: {
+    symbol: "Mt", name: "Meitneriu", Z: 109, valences: [], mass: 278, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după fizica Lise Meitner, una dintre puținele femei onorate cu numele unui element.",
+    decorative: true
+  },
+  Ds: {
+    symbol: "Ds", name: "Darmstadtiu", Z: 110, valences: [], mass: 281, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după orașul german Darmstadt, sediul institutului GSI unde a fost sintetizat.",
+    decorative: true
+  },
+  Rg: {
+    symbol: "Rg", name: "Roentgeniu", Z: 111, valences: [], mass: 282, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după Wilhelm Röntgen, descoperitorul razelor X.",
+    decorative: true
+  },
+  Cn: {
+    symbol: "Cn", name: "Coperniciu", Z: 112, valences: [], mass: 285, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după astronomul Nicolaus Copernicus.",
+    decorative: true
+  },
+  Nh: {
+    symbol: "Nh", name: "Nihoniu", Z: 113, valences: [], mass: 286, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după Japonia („Nihon”) — primul element descoperit într-o țară asiatică.",
+    decorative: true
+  },
+  Fl: {
+    symbol: "Fl", name: "Flerroviu", Z: 114, valences: [], mass: 289, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după fizicianul Gheorghi Flerov, fondatorul laboratorului rusesc dedicat sintezei elementelor supergrele.",
+    decorative: true
+  },
+  Mc: {
+    symbol: "Mc", name: "Moscoviu", Z: 115, valences: [], mass: 290, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după regiunea Moscovei, unde se află laboratorul care l-a co-descoperit.",
+    decorative: true
+  },
+  Lv: {
+    symbol: "Lv", name: "Livermoriu", Z: 116, valences: [], mass: 293, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după Laboratorul Național Lawrence Livermore din California.",
+    decorative: true
+  },
+  Ts: {
+    symbol: "Ts", name: "Tenessin", Z: 117, valences: [], mass: 294, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Numit după statul american Tennessee, unde se află Oak Ridge National Laboratory.",
+    decorative: true
+  },
+  Og: {
+    symbol: "Og", name: "Oganesson", Z: 118, valences: [], mass: 294, color: "#5a5f6e", tier: 99, unlockCost: 0,
+    flavor: "Cel mai greu element descoperit până acum — numit după fizicianul Yuri Oganessian, onorat în timpul vieții, la fel ca Seaborg.",
+    decorative: true
   }
 };
 

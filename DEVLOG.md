@@ -20,6 +20,28 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] Completare decorativă a Tabelului Periodic — zero „?" rămase
+
+**Milestone:** răspuns la „continua cu ce mai este nedeblocat" (utilizatorul a remarcat pozițiile „?" rămase)
+**Făcut:**
+- Audit exhaustiv, programatic (nu manual): comparat lista standard a celor 118 elemente cu `PERIODIC_LAYOUT`/`ELEMENTS` — confirmat 118/118 poziții acoperite acum, dintre care **34 decorative** (fără chimie reală accesibilă: fără izotop stabil, radioactive rare, sau sintetice cu timp de înjumătățire de secunde/minute) și 84 jucabile.
+- **Decizie de scop clarificată cu utilizatorul înainte de implementare** (nu presupusă): completarea celor 34 de poziții rămase drept elemente normale, deblocabile cu Cunoaștere, ar fi creat un „element mort" real — arhitectura curentă (`periodicTable.ts`) leagă strict orice `ElementDef` de sistemul de deblocare cu C, iar aceste elemente nu au niciun compus de construit după deblocare. Utilizatorul a ales varianta decorativă: colorate, cu tooltip informativ, dar **neinteractive**.
+- **Câmp nou `decorative?: boolean` pe `ElementDef`** (`chem/elements.ts`) + 34 de intrări noi (Tc, Pm, Po, At, Rn, Fr, Ac, Pa, Np, Pu, Am, Cm, Bk, Cf, Es, Fm, Md, No, Lr, și tot rândul 7 sintetic Rf→Og) — fiecare cu Z/masă reale și un flavor text factual (de ex. Am: „singurul element transuranic din uz casnic — detectoarele de fum cu ionizare"), dar `valences: []`, fără `ionicCharge`, `unlockCost: 0` (nefolosit).
+- **`periodicTable.ts`**: celulele cu `def.decorative` se randează colorat (simbol + culoare, ca un element deblocat), dar fără rând de cost, fără `click`-listener de deblocare, tooltip separat („fără chimie jucabilă"). Hint-ul din capul overlay-ului actualizat să explice distincția.
+- **Bug prins înainte de a ajunge la utilizator, prin teste, nu prin verificare live**: `autopilotUnlockElements` (`economy.ts`) și `canUnlockElement` (`state.ts`) iterau/verificau `ELEMENTS` fără să excludă `decorative` — cum toate cele 34 au `unlockCost: 0` (cel mai mic cost posibil), Autopilot le-ar fi „deblocat" gratuit pe toate la primul tick, iar un test existent (`autopilot.test.ts`, „deblochează cel mai ieftin element afordabil”) chiar pica exact din acest motiv la prima rulare — semnal clar, nu presupunere. Reparat cu un guard explicit `decorative` în ambele funcții, plus corectat testul care nu excludea decorativele din propriul calcul.
+- **A treia greșeală de ghilimele curbe** din acest proiect (după cele din tier 10/13) — de data asta prinsă instant de `tsc`, nu de test/verificare live: un ghilimea dreaptă „ folosită ca închidere într-un string literal a spart parsarea fișierului. Corectată imediat.
+- Teste noi: `tests/periodicTable.test.ts` (3 cazuri — toate cele 118 poziții au `ElementDef`, elementele decorative nu au valențe/sarcină/cost real, exact 34 decorative + 84 jucabile) + 2 cazuri noi în `unlocks.test.ts`/`autopilot.test.ts` (refuz explicit de deblocare manuală și via Autopilot pentru un element decorativ, chiar cu Cunoaștere nelimitată).
+- `tsc --noEmit` curat; 196 de teste automate trec (30 fișiere, +6).
+- **Verificat live pe dev server**: Tabelul Periodic deschis — confirmat vizual (captură de ecran) toate cele 118 poziții pline, zero „?", elementele decorative (Fr, Tc, Pm, tot rândul 7 etc.) colorate discret, fără cost afișat. Verificat prin DOM/JS direct (`0 .unknown`, `34 .decorative`, `118 total`) — mai fiabil decât capturile de ecran, care au avut timeout-uri intermitente în această sesiune (glitch de extensie, nereprodus la reconectare, fără legătură cu codul). Click repetat pe o celulă decorativă confirmat fără efect (niciun listener atașat). Zero erori în consolă.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nouă — extensie pur vizuală/informativă, fără mecanică de joc nouă. Consistentă cu principiul „onestitate chimică peste completitudine" aplicat constant în tot arcul de extindere a elementelor (SiO₂ neadăugat la M6, KrF₂ evitat la tier 13 etc.) — aici aplicat invers: onestitate în privința *lipsei* de chimie jucabilă, nu ascunsă sub un „?" etern, dar nici simulată fals ca joc real.
+
+**Rămas de făcut / follow-up:**
+- Nimic. Tabelul Periodic e acum complet (118/118), fără nicio poziție neexplicată — fiecare „?" de dinainte fie a devenit conținut real (85 de elemente jucabile de-a lungul întregului arc de extindere), fie e acum vizibil ca decorativ, cu motivul explicat în tooltip.
+
+---
+
 ## [2026-08-11] Verificare live restantă: sinteza Ho₂O₃/ErCl₃ (tier 17)
 
 **Milestone:** follow-up (ultima restanță semnalată explicit la finalul sesiunii tier 17)
