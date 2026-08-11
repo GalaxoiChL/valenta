@@ -503,11 +503,13 @@ Bucla jocului până acum e „atomi → moleculă → Laborator". M7 adaugă o 
 16 reacții reale, construibile integral din formule deja prezente în `moleculeDB.json` (zero intrări noi necesare pentru v1): ardere (CH₄, C₆H₆, CH₃OH, H₂S), sinteză directă (H₂+O₂, N₂+H₂, H₂+Cl₂, H₂+F₂), hidrogenare (C₂H₂→C₂H₄→C₂H₆), descompunere (H₂O₂), procesul de contact (SO₂→SO₃→H₂SO₄), hidroliză (COS), neutralizare acid-bază (MgO/CuO + HCl).
 
 **7.4 Criterii de acceptare**
-- [ ] Overlay „Reacții" deschis din HUD, listă completă (rulabile ȘI nerulabile, cu mesaj clar ce lipsește).
-- [ ] „Rulează ×1/×10/×Max" consumă/produce exact conform coeficienților.
-- [ ] Produs nou → banner de descoperire + Cunoaștere + intrare nouă, cu E/s calculată din structura reală.
-- [ ] Produs deja cunoscut → doar copii în plus, fără bonus repetat de C.
-- [ ] `tsc --noEmit` curat; toată suita de teste (inclusiv `tests/reactions.test.ts`) trece, fără regresii.
+- [x] Overlay „Reacții" deschis din HUD, listă completă (rulabile ȘI nerulabile, cu mesaj clar ce lipsește).
+- [x] „Rulează ×1/×10/×Max" consumă/produce exact conform coeficienților.
+- [x] Produs nou → banner de descoperire + Cunoaștere + intrare nouă, cu E/s calculată din structura reală.
+- [x] Produs deja cunoscut → doar copii în plus, fără bonus repetat de C.
+- [x] `tsc --noEmit` curat; toată suita de teste (inclusiv `tests/reactions.test.ts`) trece, fără regresii.
+
+**Confirmat** — vezi DEVLOG „[2026-08-11] M7 — Reacții chimice: compuși din Colecție reacționează între ei", plus verificare live suplimentară a ×10/×Max (nu doar ×1): 100 copii H₂/O₂ seedate, ×10 a scăzut disponibilul de la 50 la 40 rulări exact, ×Max a consumat tot H₂-ul rămas (40 rulări), afișând corect „lipsește: H₂" după epuizare.
 
 **7.5 Ce NU intră în M7 v1 (risc de scope creep, §14)**
 Cinetică, temperatură/presiune/pH, catalizatori mecanici, reacții reversibile/echilibru, reacții inventate fără bază reală, editor de reacții pentru jucător. Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
