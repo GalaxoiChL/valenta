@@ -1,0 +1,561 @@
+[
+  {
+    "id": "water_synthesis",
+    "name": "Sinteza apei",
+    "reactants": [
+      { "formula": "H2", "coef": 2 },
+      { "formula": "O2", "coef": 1 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "H2O",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "o1", "b": "h1", "order": 1 },
+            { "a": "o1", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["sinteză"],
+    "flavor": "2H₂ + O₂ → 2H₂O — reacția care a distrus dirijabilul Hindenburg și alimentează rachetele criogenice moderne."
+  },
+  {
+    "id": "ammonia_synthesis",
+    "name": "Procesul Haber-Bosch",
+    "reactants": [
+      { "formula": "N2", "coef": 1 },
+      { "formula": "H2", "coef": 3 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "H3N",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "n1", "element": "N", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 },
+            { "id": "h3", "element": "H", "x": 0, "y": 1 }
+          ],
+          "bonds": [
+            { "a": "n1", "b": "h1", "order": 1 },
+            { "a": "n1", "b": "h2", "order": 1 },
+            { "a": "n1", "b": "h3", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["sinteză"],
+    "flavor": "N₂ + 3H₂ → 2NH₃ — procesul industrial care hrănește azi jumătate din populația lumii, prin îngrășăminte sintetice."
+  },
+  {
+    "id": "methane_combustion",
+    "name": "Arderea metanului",
+    "reactants": [
+      { "formula": "CH4", "coef": 1 },
+      { "formula": "O2", "coef": 2 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "CO2",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "c1", "element": "C", "x": 0, "y": 0 },
+            { "id": "o1", "element": "O", "x": 1, "y": 0 },
+            { "id": "o2", "element": "O", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "c1", "b": "o1", "order": 2 },
+            { "a": "c1", "b": "o2", "order": 2 }
+          ]
+        }
+      },
+      {
+        "kind": "covalent",
+        "formula": "H2O",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "o1", "b": "h1", "order": 1 },
+            { "a": "o1", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["ardere"],
+    "flavor": "CH₄ + 2O₂ → CO₂ + 2H₂O — gazul natural arzând, principala sursă de căldură casnică la nivel mondial."
+  },
+  {
+    "id": "benzene_combustion",
+    "name": "Arderea benzenului",
+    "reactants": [
+      { "formula": "C6H6", "coef": 2 },
+      { "formula": "O2", "coef": 15 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "CO2",
+        "coef": 12,
+        "graph": {
+          "atoms": [
+            { "id": "c1", "element": "C", "x": 0, "y": 0 },
+            { "id": "o1", "element": "O", "x": 1, "y": 0 },
+            { "id": "o2", "element": "O", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "c1", "b": "o1", "order": 2 },
+            { "a": "c1", "b": "o2", "order": 2 }
+          ]
+        }
+      },
+      {
+        "kind": "covalent",
+        "formula": "H2O",
+        "coef": 6,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "o1", "b": "h1", "order": 1 },
+            { "a": "o1", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["ardere"],
+    "flavor": "2C₆H₆ + 15O₂ → 12CO₂ + 6H₂O — arderea completă a unui hidrocarbon aromatic, cu funingine mult mai puțină decât o ardere incompletă."
+  },
+  {
+    "id": "methanol_combustion",
+    "name": "Arderea metanolului",
+    "reactants": [
+      { "formula": "CH4O", "coef": 2 },
+      { "formula": "O2", "coef": 3 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "CO2",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "c1", "element": "C", "x": 0, "y": 0 },
+            { "id": "o1", "element": "O", "x": 1, "y": 0 },
+            { "id": "o2", "element": "O", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "c1", "b": "o1", "order": 2 },
+            { "a": "c1", "b": "o2", "order": 2 }
+          ]
+        }
+      },
+      {
+        "kind": "covalent",
+        "formula": "H2O",
+        "coef": 4,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "o1", "b": "h1", "order": 1 },
+            { "a": "o1", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["ardere"],
+    "flavor": "2CH₃OH + 3O₂ → 2CO₂ + 4H₂O — combustibilul unor reșouri de camping și al mașinilor de curse din categoria Indy."
+  },
+  {
+    "id": "h2s_combustion",
+    "name": "Arderea hidrogenului sulfurat",
+    "reactants": [
+      { "formula": "H2S", "coef": 2 },
+      { "formula": "O2", "coef": 3 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "O2S",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "s1", "element": "S", "x": 0, "y": 0 },
+            { "id": "o1", "element": "O", "x": 1, "y": 0 },
+            { "id": "o2", "element": "O", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "s1", "b": "o1", "order": 2 },
+            { "a": "s1", "b": "o2", "order": 2 }
+          ]
+        }
+      },
+      {
+        "kind": "covalent",
+        "formula": "H2O",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "o1", "b": "h1", "order": 1 },
+            { "a": "o1", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["ardere"],
+    "flavor": "2H₂S + 3O₂ → 2SO₂ + 2H₂O — gazul cu miros de ouă stricate, ars pe torțe la rafinăriile de petrol pentru siguranță."
+  },
+  {
+    "id": "peroxide_decomposition",
+    "name": "Descompunerea apei oxigenate",
+    "reactants": [{ "formula": "H2O2", "coef": 2 }],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "H2O",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "o1", "b": "h1", "order": 1 },
+            { "a": "o1", "b": "h2", "order": 1 }
+          ]
+        }
+      },
+      {
+        "kind": "covalent",
+        "formula": "O2",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "o2", "element": "O", "x": 1, "y": 0 }
+          ],
+          "bonds": [{ "a": "o1", "b": "o2", "order": 2 }]
+        }
+      }
+    ],
+    "tags": ["descompunere"],
+    "flavor": "2H₂O₂ → 2H₂O + O₂ — de asta apa oxigenată spumegă pe o rană: o enzimă din sânge grăbește exact această descompunere."
+  },
+  {
+    "id": "hcl_synthesis",
+    "name": "Sinteza acidului clorhidric",
+    "reactants": [
+      { "formula": "H2", "coef": 1 },
+      { "formula": "Cl2", "coef": 1 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "ClH",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "cl1", "element": "Cl", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 }
+          ],
+          "bonds": [{ "a": "cl1", "b": "h1", "order": 1 }]
+        }
+      }
+    ],
+    "tags": ["sinteză"],
+    "flavor": "H₂ + Cl₂ → 2HCl — o reacție în lanț declanșată de lumină, suficient de violentă cât să fie folosită demonstrativ ca „bombă cu clor”."
+  },
+  {
+    "id": "hf_synthesis",
+    "name": "Sinteza acidului fluorhidric",
+    "reactants": [
+      { "formula": "H2", "coef": 1 },
+      { "formula": "F2", "coef": 1 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "FH",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "f1", "element": "F", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 }
+          ],
+          "bonds": [{ "a": "f1", "b": "h1", "order": 1 }]
+        }
+      }
+    ],
+    "tags": ["sinteză"],
+    "flavor": "H₂ + F₂ → 2HF — printre cele mai exoterme reacții de sinteză directă din chimie, exact din cauza legăturii F-F extrem de slabe."
+  },
+  {
+    "id": "acetylene_hydrogenation",
+    "name": "Hidrogenarea acetilenei",
+    "reactants": [
+      { "formula": "C2H2", "coef": 1 },
+      { "formula": "H2", "coef": 1 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "C2H4",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "c1", "element": "C", "x": 0, "y": 0 },
+            { "id": "c2", "element": "C", "x": 1, "y": 0 },
+            { "id": "h1", "element": "H", "x": -1, "y": 0.5 },
+            { "id": "h2", "element": "H", "x": -1, "y": -0.5 },
+            { "id": "h3", "element": "H", "x": 2, "y": 0.5 },
+            { "id": "h4", "element": "H", "x": 2, "y": -0.5 }
+          ],
+          "bonds": [
+            { "a": "c1", "b": "c2", "order": 2 },
+            { "a": "c1", "b": "h1", "order": 1 },
+            { "a": "c1", "b": "h2", "order": 1 },
+            { "a": "c2", "b": "h3", "order": 1 },
+            { "a": "c2", "b": "h4", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["hidrogenare"],
+    "flavor": "C₂H₂ + H₂ → C₂H₄ — primul pas al hidrogenării industriale, oprit deliberat la etenă cu un catalizator otrăvit parțial (Lindlar)."
+  },
+  {
+    "id": "ethylene_hydrogenation",
+    "name": "Hidrogenarea etenei",
+    "reactants": [
+      { "formula": "C2H4", "coef": 1 },
+      { "formula": "H2", "coef": 1 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "C2H6",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "c1", "element": "C", "x": 0, "y": 0 },
+            { "id": "c2", "element": "C", "x": 1, "y": 0 },
+            { "id": "h1", "element": "H", "x": -1, "y": 0.5 },
+            { "id": "h2", "element": "H", "x": -1, "y": -0.5 },
+            { "id": "h3", "element": "H", "x": -1, "y": 0 },
+            { "id": "h4", "element": "H", "x": 2, "y": 0.5 },
+            { "id": "h5", "element": "H", "x": 2, "y": -0.5 },
+            { "id": "h6", "element": "H", "x": 2, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "c1", "b": "c2", "order": 1 },
+            { "a": "c1", "b": "h1", "order": 1 },
+            { "a": "c1", "b": "h2", "order": 1 },
+            { "a": "c1", "b": "h3", "order": 1 },
+            { "a": "c2", "b": "h4", "order": 1 },
+            { "a": "c2", "b": "h5", "order": 1 },
+            { "a": "c2", "b": "h6", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["hidrogenare"],
+    "flavor": "C₂H₄ + H₂ → C₂H₆ — pasul final de hidrogenare, folosit industrial și pentru a transforma uleiuri vegetale nesaturate în grăsimi solide."
+  },
+  {
+    "id": "so2_oxidation",
+    "name": "Procesul de contact — pasul 1",
+    "reactants": [
+      { "formula": "O2S", "coef": 2 },
+      { "formula": "O2", "coef": 1 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "O3S",
+        "coef": 2,
+        "graph": {
+          "atoms": [
+            { "id": "s1", "element": "S", "x": 0, "y": 0 },
+            { "id": "o1", "element": "O", "x": 1, "y": 0 },
+            { "id": "o2", "element": "O", "x": -1, "y": 0.5 },
+            { "id": "o3", "element": "O", "x": -1, "y": -0.5 }
+          ],
+          "bonds": [
+            { "a": "s1", "b": "o1", "order": 2 },
+            { "a": "s1", "b": "o2", "order": 2 },
+            { "a": "s1", "b": "o3", "order": 2 }
+          ]
+        }
+      }
+    ],
+    "tags": ["oxidare", "industrial"],
+    "flavor": "2SO₂ + O₂ → 2SO₃ — oxidarea catalitică (catalizator de V₂O₅ industrial, simplificat aici) care produce anual sute de milioane de tone de acid sulfuric."
+  },
+  {
+    "id": "so3_hydration",
+    "name": "Procesul de contact — pasul 2",
+    "reactants": [
+      { "formula": "O3S", "coef": 1 },
+      { "formula": "H2O", "coef": 1 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "H2O4S",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "s1", "element": "S", "x": 0, "y": 0 },
+            { "id": "o1", "element": "O", "x": 1, "y": 0 },
+            { "id": "o2", "element": "O", "x": -1, "y": 0 },
+            { "id": "o3", "element": "O", "x": 0, "y": 1 },
+            { "id": "o4", "element": "O", "x": 0, "y": -1 },
+            { "id": "h1", "element": "H", "x": 0, "y": 2 },
+            { "id": "h2", "element": "H", "x": 0, "y": -2 }
+          ],
+          "bonds": [
+            { "a": "s1", "b": "o1", "order": 2 },
+            { "a": "s1", "b": "o2", "order": 2 },
+            { "a": "s1", "b": "o3", "order": 1 },
+            { "a": "s1", "b": "o4", "order": 1 },
+            { "a": "o3", "b": "h1", "order": 1 },
+            { "a": "o4", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["hidratare", "industrial"],
+    "flavor": "SO₃ + H₂O → H₂SO₄ — pasul final al procesului de contact, cel mai produs acid industrial din lume."
+  },
+  {
+    "id": "cos_hydrolysis",
+    "name": "Hidroliza sulfurii de carbonil",
+    "reactants": [
+      { "formula": "COS", "coef": 1 },
+      { "formula": "H2O", "coef": 1 }
+    ],
+    "products": [
+      {
+        "kind": "covalent",
+        "formula": "CO2",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "c1", "element": "C", "x": 0, "y": 0 },
+            { "id": "o1", "element": "O", "x": 1, "y": 0 },
+            { "id": "o2", "element": "O", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "c1", "b": "o1", "order": 2 },
+            { "a": "c1", "b": "o2", "order": 2 }
+          ]
+        }
+      },
+      {
+        "kind": "covalent",
+        "formula": "H2S",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "s1", "element": "S", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "s1", "b": "h1", "order": 1 },
+            { "a": "s1", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["hidroliză"],
+    "flavor": "COS + H₂O → CO₂ + H₂S — motivul pentru care sulfura de carbonil, deși prezentă natural în vin, se descompune treptat, nu se acumulează."
+  },
+  {
+    "id": "mgo_hcl_neutralization",
+    "name": "Neutralizare: oxid de magneziu + acid clorhidric",
+    "reactants": [
+      { "formula": "MgO", "coef": 1 },
+      { "formula": "ClH", "coef": 2 }
+    ],
+    "products": [
+      { "kind": "ionic", "coef": 1, "ionCounts": { "Mg": 1, "Cl": 2 } },
+      {
+        "kind": "covalent",
+        "formula": "H2O",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "o1", "b": "h1", "order": 1 },
+            { "a": "o1", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["neutralizare", "acid-bază"],
+    "flavor": "MgO + 2HCl → MgCl₂ + H₂O — un antiacid clasic la scară de laborator: oxidul bazic neutralizează acidul."
+  },
+  {
+    "id": "cuo_hcl_neutralization",
+    "name": "Neutralizare: oxid de cupru + acid clorhidric",
+    "reactants": [
+      { "formula": "CuO", "coef": 1 },
+      { "formula": "ClH", "coef": 2 }
+    ],
+    "products": [
+      { "kind": "ionic", "coef": 1, "ionCounts": { "Cu": 1, "Cl": 2 } },
+      {
+        "kind": "covalent",
+        "formula": "H2O",
+        "coef": 1,
+        "graph": {
+          "atoms": [
+            { "id": "o1", "element": "O", "x": 0, "y": 0 },
+            { "id": "h1", "element": "H", "x": 1, "y": 0 },
+            { "id": "h2", "element": "H", "x": -1, "y": 0 }
+          ],
+          "bonds": [
+            { "a": "o1", "b": "h1", "order": 1 },
+            { "a": "o1", "b": "h2", "order": 1 }
+          ]
+        }
+      }
+    ],
+    "tags": ["neutralizare", "acid-bază"],
+    "flavor": "CuO + 2HCl → CuCl₂ + H₂O — clorura de cupru rezultată dă o culoare verde-albăstruie caracteristică soluției."
+  }
+]

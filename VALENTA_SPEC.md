@@ -480,7 +480,37 @@ Limita de atomi crescută (100+ cu virtualizare dacă e nevoie), izomeri prin ha
 
 Nucleosinteza (prestige, §3.3), sunet, animații, tutorial interactiv la primul joc, panoul „Despre chimia din joc" (§5.6), echilibrare finală pe curbe (foaie de calcul separată), responsive pentru tabletă.
 
-**Parțial confirmat** — vezi DEVLOG „[2026-08-10] M5 — Nucleosinteza, Sunet, Tutorial, responsive tabletă": toate elementele de finisaj (Nucleosinteza, sunet, tutorial, panoul „Despre chimia din joc", responsive tabletă) verificate live. Singura excepție: „echilibrare finală pe curbe (foaie de calcul separată)" nu s-a făcut niciodată ca exercițiu dedicat — balansul a rămas empiric (calibrat și testat să funcționeze, dar nu modelat matematic pe o foaie de calcul separată). Aceasta e exact treaba de continuat mai jos.
+**Confirmat** — vezi DEVLOG „[2026-08-10] M5 — Nucleosinteza, Sunet, Tutorial, responsive tabletă" pentru finisaj, și „[2026-08-11] Echilibrare pe curbe — exercițiul dedicat din SPEC §12/M5, făcut prima dată" pentru „echilibrare finală pe curbe (foaie de calcul separată)": `scripts/balance-report.mjs`, rulabil cu `npm run balance-report`, confirmă monotonia costurilor de deblocare, eficiența ionică pe toate cele 15 tiere, curba generatoarelor și curba Nucleosintezei — nicio recalibrare de cod a fost necesară.
+
+### M7 — Reacții chimice (compuși din Colecție reacționează între ei)
+
+Bucla jocului până acum e „atomi → moleculă → Laborator". M7 adaugă o a doua transformare, la fel de reală: compuși deja descoperiți reacționează între ei, după ecuații chimice reale și echilibrate, producând alți compuși reali — nu un efect vizual fără urmări, ci consum de copii dintr-o parte a Colecției și producție de copii în alta.
+
+**7.1 Mecanica**
+- Ecran overlay nou, „Reacții" (tipar identic cu Tabelul Periodic §8.1 — buton în HUD, disponibil gratis de la început, închis cu Esc/click în afară; reactanții înșiși sunt gate-ul natural, nu un cost separat de deblocare).
+- O reacție e definită static în `src/chem/reactionDB.json`: N reactanți (formulă + coeficient) → M produși (formulă + coeficient), o ecuație reală, echilibrată, verificabilă într-un manual — nu inventată.
+- „Rulează ×1/×10/×Max" (tipar identic cu §6.5): consumă exact `coeficient × multiplicator` copii din fiecare reactant ales din Colecție, produce `coeficient × multiplicator` copii din fiecare produs.
+- Un produs absent din Colecție e o **descoperire**, exact ca la sinteza manuală (§6.4): banner, +Cunoaștere, intrare nouă, cu producție de E/s calculată din structura reală a produsului (graf covalent validat prin `validate()`/`moleculeKey()`, sau energie de rețea ionică prin `latticeEnergy()`) — niciodată un număr inventat separat. Un produs deja cunoscut doar primește copii în plus, fără bonus repetat de Cunoaștere.
+- Reacțiile nu se „deblochează" separat — lista completă e mereu vizibilă (ca la Tabelul Periodic gol — promisiunea jocului), cu reacțiile nerulabile marcate clar (ce lipsește), niciodată ascunse.
+
+**7.2 Simplificări asumate (§5.6, aceeași filosofie)**
+- Nicio cinetică: fără viteză de reacție, temperatură, presiune, pH, catalizatori cu efect mecanic, echilibru reversibil. O reacție rulează instantaneu, complet, sau deloc.
+- Fără „energie de reacție" ca resursă separată — reacția în sine nu costă/produce Energie; doar produsele, odată în Colecție, produc E/s ca orice altă moleculă.
+- Fără reacții inverse automate — fiecare ecuație e o intrare separată.
+- Fără reacții inventate: fiecare intrare din `reactionDB.json` corespunde unei ecuații reale — la fel cum SiO₂ a fost exclus din §9 pentru că nu e o moleculă discretă, nicio reacție „de joc" nu apare aici fără fundament real.
+
+**7.3 Conținutul inițial**
+16 reacții reale, construibile integral din formule deja prezente în `moleculeDB.json` (zero intrări noi necesare pentru v1): ardere (CH₄, C₆H₆, CH₃OH, H₂S), sinteză directă (H₂+O₂, N₂+H₂, H₂+Cl₂, H₂+F₂), hidrogenare (C₂H₂→C₂H₄→C₂H₆), descompunere (H₂O₂), procesul de contact (SO₂→SO₃→H₂SO₄), hidroliză (COS), neutralizare acid-bază (MgO/CuO + HCl).
+
+**7.4 Criterii de acceptare**
+- [ ] Overlay „Reacții" deschis din HUD, listă completă (rulabile ȘI nerulabile, cu mesaj clar ce lipsește).
+- [ ] „Rulează ×1/×10/×Max" consumă/produce exact conform coeficienților.
+- [ ] Produs nou → banner de descoperire + Cunoaștere + intrare nouă, cu E/s calculată din structura reală.
+- [ ] Produs deja cunoscut → doar copii în plus, fără bonus repetat de C.
+- [ ] `tsc --noEmit` curat; toată suita de teste (inclusiv `tests/reactions.test.ts`) trece, fără regresii.
+
+**7.5 Ce NU intră în M7 v1 (risc de scope creep, §14)**
+Cinetică, temperatură/presiune/pH, catalizatori mecanici, reacții reversibile/echilibru, reacții inventate fără bază reală, editor de reacții pentru jucător. Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
 
 ---
 

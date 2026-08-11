@@ -3,6 +3,7 @@ import { formatNumber, formatRate } from "./format";
 
 export interface HudCallbacks {
   onOpenPeriodicTable: () => void;
+  onOpenReactionsLab: () => void;
   onOpenSettings: () => void;
 }
 
@@ -23,12 +24,16 @@ export function renderHud(container: HTMLElement, store: GameStore, callbacks: H
   periodicBtn.textContent = "Tabel Periodic";
   periodicBtn.addEventListener("click", callbacks.onOpenPeriodicTable);
 
+  const reactionsBtn = document.createElement("button");
+  reactionsBtn.textContent = "Reacții";
+  reactionsBtn.addEventListener("click", callbacks.onOpenReactionsLab);
+
   const settingsBtn = document.createElement("button");
   settingsBtn.textContent = "⚙";
   settingsBtn.title = "Setări";
   settingsBtn.addEventListener("click", callbacks.onOpenSettings);
 
-  container.append(energy, knowledge, stars, spacer, periodicBtn, settingsBtn);
+  container.append(energy, knowledge, stars, spacer, periodicBtn, reactionsBtn, settingsBtn);
 
   function render(): void {
     const rate = store.totalEnergyPerSecond();

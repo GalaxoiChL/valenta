@@ -13,9 +13,12 @@ import { validate } from "../chem/validator";
 import { moleculeKey, hillFormula } from "../chem/formula";
 import { bondEnergy } from "../chem/bonds";
 import { ELEMENTS, maxValence } from "../chem/elements";
-import { validateIonicMix } from "../chem/ionic";
+import { validateIonicMix, ionicFormula } from "../chem/ionic";
 import { latticeEnergy } from "../chem/lattice";
 import moleculeDB from "../chem/moleculeDB.json";
+import reactionDB from "../chem/reactionDB.json";
+import type { ReactionDefinition } from "../chem/reactions";
+import { maxReactionRuns as computeMaxReactionRuns } from "../chem/reactions";
 import {
   generatorCost,
   discoveryKnowledge,
@@ -44,6 +47,11 @@ export interface MoleculeDBEntry {
 
 const DB_BY_KEY = new Map<string, MoleculeDBEntry>(
   (moleculeDB as MoleculeDBEntry[]).map((entry) => [entry.key, entry])
+);
+
+/** M7 — Reacții chimice (§7): definițiile statice din reactionDB.json, indexate după id. */
+const REACTION_BY_ID = new Map<string, ReactionDefinition>(
+  (reactionDB as ReactionDefinition[]).map((r) => [r.id, r])
 );
 
 /**
@@ -153,6 +161,12 @@ export interface SynthesisResult {
   isFirstDiscovery?: boolean;
   dbEntry?: MoleculeDBEntry;
   formula?: string;
+}
+
+/** M7 — Reacții chimice (§7). */
+export interface ReactionRunResult {
+  ok: boolean;
+  reason?: "unknown_reaction" | "invalid_multiplier" | "reactant_mismatch" | "insufficient_copies";
 }
 
 export function sumGraphBondEnergy(graph: MoleculeGraph): number {
@@ -376,6 +390,132 @@ export class GameStore {
     }
 
     return { ok: true, isFirstDiscovery, dbEntry, formula };
+  }
+
+  // --- M7 — Reacții chimice (§7): compuși deja din Colecție reacționează
+  // între ei după ecuații reale, statice din reactionDB.json. Reactanții se
+  // aleg din Colecție prin cheie exactă (nu doar formulă), la fel ca la
+  // re-sinteză (§6.5) — necesar dacă mai mulți izomeri cu aceeași formulă
+  // ajung vreodată să coexiste. ---
+
+  listReactions(): ReactionDefinition[] {
+    return [...REACTION_BY_ID.values()];
+  }
+
+  /**
+   * Agregă cererea de copii per cheie aleasă (o cheie poate acoperi mai mulți
+   * "sloturi" de reactant, dacă din greșeală/coincidență e aleasă de două
+   * ori — defensiv). null dacă alegerea nu se potrivește cu reacția.
+   */
+  private aggregateReactionDemand(
+    reaction: ReactionDefinition,
+    reactantKeys: (string | null)[],
+    multiplier: number
+  ): Map<string, number> | null {
+    if (reactantKeys.length !== reaction.reactants.length) return null;
+    const demand = new Map<string, number>();
+    for (let i = 0; i < reaction.reactants.length; i++) {
+      const key = reactantKeys[i];
+      if (!key) return null;
+      const entry = this.state.collection[key];
+      if (!entry || entry.formula !== reaction.reactants[i].formula) return null;
+      demand.set(key, (demand.get(key) ?? 0) + reaction.reactants[i].coef * multiplier);
+    }
+    return demand;
+  }
+
+  canRunReaction(reactionId: string, reactantKeys: (string | null)[], multiplier: number): boolean {
+    if (!Number.isInteger(multiplier) || multiplier < 1) return false;
+    const reaction = REACTION_BY_ID.get(reactionId);
+    if (!reaction) return false;
+    const demand = this.aggregateReactionDemand(reaction, reactantKeys, multiplier);
+    if (!demand) return false;
+    for (const [key, need] of demand) {
+      if ((this.state.collection[key]?.copies ?? 0) < need) return false;
+    }
+    return true;
+  }
+
+  /** Câte rulări permit copiile din intrările alese, independent de un multiplicator dat (pentru ×Max). */
+  maxReactionRuns(reactionId: string, reactantKeys: (string | null)[]): number {
+    const reaction = REACTION_BY_ID.get(reactionId);
+    if (!reaction) return 0;
+    const available = reaction.reactants.map((r, i) => {
+      const key = reactantKeys[i];
+      const entry = key ? this.state.collection[key] : undefined;
+      return entry && entry.formula === r.formula ? entry.copies : 0;
+    });
+    return computeMaxReactionRuns(reaction.reactants, available);
+  }
+
+  runReaction(reactionId: string, reactantKeys: (string | null)[], multiplier: number): ReactionRunResult {
+    const reaction = REACTION_BY_ID.get(reactionId);
+    if (!reaction) return { ok: false, reason: "unknown_reaction" };
+    if (!Number.isInteger(multiplier) || multiplier < 1) return { ok: false, reason: "invalid_multiplier" };
+    const demand = this.aggregateReactionDemand(reaction, reactantKeys, multiplier);
+    if (!demand) return { ok: false, reason: "reactant_mismatch" };
+    for (const [key, need] of demand) {
+      if ((this.state.collection[key]?.copies ?? 0) < need) return { ok: false, reason: "insufficient_copies" };
+    }
+
+    for (const [key, need] of demand) this.state.collection[key].copies -= need;
+
+    const discoveries: { key: string; dbEntry?: MoleculeDBEntry; formula: string }[] = [];
+
+    for (const p of reaction.products) {
+      let key: string;
+      let formula: string;
+      let energyMetric: number;
+      let atomsPerCopy: Record<string, number>;
+      let graphForEntry: MoleculeGraph | undefined;
+
+      if (p.kind === "covalent") {
+        const result = validate(p.graph);
+        if (!result.ok) continue; // conținut greșit în reactionDB.json — defensiv, acoperit de tests/reactions.test.ts
+        formula = result.formula;
+        key = moleculeKey(p.graph);
+        energyMetric = sumGraphBondEnergy(p.graph);
+        atomsPerCopy = atomCounts(p.graph);
+        graphForEntry = cloneMolecule(p.graph);
+      } else {
+        formula = ionicFormula(p.ionCounts);
+        key = formula;
+        energyMetric = latticeEnergy(formula);
+        atomsPerCopy = p.ionCounts;
+      }
+
+      const dbEntry = DB_BY_KEY.get(key);
+      const isFirstDiscovery = !this.state.collection[key];
+
+      if (isFirstDiscovery) {
+        const bonusMult = dbEntry?.bonusMult ?? DEFAULT_BONUS_MULT;
+        const ePerSecondPerCopy = productionRate(energyMetric, bonusMult, this.globalProductionMultiplier());
+        this.state.collection[key] = {
+          key,
+          formula,
+          name: dbEntry?.name ?? `Compus ${formula}`,
+          copies: 0,
+          discovered: true,
+          ePerSecondPerCopy,
+          sumBondEnergy: energyMetric,
+          atomsPerCopy,
+          flavor: dbEntry?.flavor ?? "Un produs de reacție nou, în afara bazei de date cunoscute.",
+          autoSynth: { rate: 0, progress: 0 },
+          ...(graphForEntry ? { graph: graphForEntry } : {})
+        };
+        const tier = dbEntry ? dbEntry.tier : p.kind === "covalent" ? 0 : 3;
+        this.state.resources.knowledge += dbEntry ? dbEntry.discoveryC : discoveryKnowledge(energyMetric, tier);
+        discoveries.push({ key, dbEntry, formula });
+      }
+
+      this.state.collection[key].copies += p.coef * multiplier;
+    }
+
+    this.emitResources();
+    this.events.emit("collection", reactionId);
+    for (const d of discoveries) this.events.emit("discovery", d);
+
+    return { ok: true };
   }
 
   draft(): MoleculeGraph {

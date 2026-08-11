@@ -20,6 +20,32 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] M7 — Reacții chimice: compuși din Colecție reacționează între ei
+
+**Milestone:** M7 (idee nouă a utilizatorului — prima din 3 propuse, planificată explicit înainte de cod, per §14)
+**Făcut:**
+- **Amendament SPEC.md întâi, cod după** — exact procesul documentat în §14 pentru risc de scope creep: secțiune nouă „M7 — Reacții chimice" (7.1–7.5), scrisă în același registru ca restul specificației, cu simplificările asumate explicit (fără cinetică/temperatură/pH/catalizatori mecanici/echilibru reversibil) și criterii de acceptare, înainte de orice fișier de cod.
+- **Explorare + design în doi pași separați** (agent de explorare, apoi agent de plan), ca să nu presupun arhitectura: confirmat că `OverlayController` (deja folosit de Tabelul Periodic/Setări) e direct reutilizabil pentru un tab nou, că `CollectionEntry.graph` lipsește pentru compuși ionici/polimeri (deci potrivirea reactanților trebuie făcută după formulă, nu graf), și că SPEC §14 chiar numește „reacții" explicit ca risc anticipat de scope creep.
+- **Decizie de design centrală, ca să nu repete bug-ul de ieri**: un produs de reacție nu are nicio valoare (hash, energie, atomi) hardcodată separat în `reactionDB.json` — produșii covalenți sunt grafuri hand-autorizate, verificate prin **exact aceleași funcții** (`validate()`, `moleculeKey()`, `sumGraphBondEnergy()`) pe care le-ar exercita și sinteza manuală din Constructor; produșii ionici sunt `ionCounts`, trecuți prin `ionicFormula()`/`latticeEnergy()` — nicio sursă de adevăr paralelă, nicio recalculare manuală care ar putea diverge tăcut (genul exact de bug reparat acum două sesiuni pe chei canonice).
+- **`src/chem/reactions.ts`** (nou, pur): tipurile `ReactionDefinition`/`ReactionReactant`/`ReactionProduct` (covalent cu graf, sau ionic cu `ionCounts`) + `maxReactionRuns()`.
+- **`src/chem/reactionDB.json`** (nou, 16 reacții reale): ardere (CH₄, C₆H₆, CH₃OH, H₂S), sinteză directă (H₂O, NH₃, HCl, HF), hidrogenare (C₂H₂→C₂H₄→C₂H₆), descompunere (H₂O₂), procesul de contact (SO₂→SO₃→H₂SO₄), hidroliză (COS), neutralizare acid-bază (MgO/CuO + HCl). Toate cele 12 grafuri covalente hand-autorizate verificate programatic, înainte de a le scrie definitiv în fișier, să hash-uiască identic cu intrările deja existente în `moleculeDB.json` (deci `DB_BY_KEY.get(key)` găsește numele/flavor-ul/`bonusMult` reale, nu fallback generic) — zero conținut nou necesar în `moleculeDB.json` pentru v1.
+- **`src/core/state.ts`**: `listReactions()`, `canRunReaction()`, `maxReactionRuns()`, `runReaction()` — tipar identic cu `synthesizeIonicMix()`/`canAnalyze()`/`analyzeMolecule()` deja existente (mutare → `emitResources()` → `events.emit("collection", ...)` → `events.emit("discovery", ...)` la prima descoperire a unui produs). Reactanții se aleg din Colecție prin cheie exactă (nu doar formulă), pregătit pentru cazul unor izomeri ambigui viitori, deși niciuna din cele 16 reacții v1 nu are nevoie de asta.
+- **`src/ui/reactions.ts`** (nou, overlay „Reacții"): tipar identic cu `periodicTable.ts` (aceeași interfață `OverlayController`, reosită prin import, nu redefinită) + căutare live (tiparul din `lab.ts`, rânduri stabile per reacție, niciodată `innerHTML=""`) + `×1/×10/×Max`. Reacțiile nerulabile arată explicit ce lipsește („lipsește: N₂ (ai 0,00, ai nevoie de 1,00)"), niciodată ascunse — consistent cu promisiunea din §8.1 pentru Tabelul Periodic gol.
+- **Gratis de la început** (nu deblocare separată cu Cunoaștere) — reactanții înșiși sunt gate-ul natural, decizie confirmată explicit cu utilizatorul înainte de implementare.
+- Buton nou „Reacții" în HUD, lângă „Tabel Periodic" (`hud.ts`, `main.ts`); bannerul de descoperire existent (deja generic, `main.ts`) funcționează neschimbat pentru produșii de reacție, fără nicio modificare acolo.
+- Teste noi: `tests/reactions.test.ts` (18 cazuri, 3 straturi) — funcții pure (`maxReactionRuns`), integritate de conținut pe toate cele 16 reacții (fiecare produs covalent validează cu formula corectă, fiecare produs ionic e neutru din punct de vedere al sarcinii, fiecare reactant există în `moleculeDB.json`, grafurile repetate ale aceleiași formule — ex. H₂O apare în 8 reacții — hash-uiesc identic între ele), comportament `GameStore` (consum/producție exactă, descoperire o singură dată, refuz pe potrivire greșită de reactant, scalare ×10/×Max).
+- `tsc --noEmit` curat; 214 teste automate trec (31 fișiere, +18).
+- **Verificat live pe dev server**: injectat direct în Colecție copii de H₂/O₂/MgO/HCl (tehnica `localStorage.setItem = noop` din sesiunea trecută), deschis „Reacții" din HUD — toate cele 16 reacții listate, cele rulabile/nerulabile marcate corect. Rulat „Sinteza apei" ×1: banner „Ai descoperit — Apă (H₂O)" cu flavor real din DB, Cunoaștere crescută, consum exact (H₂ 20→18, O₂ 20→19). Rulat neutralizarea cu MgO ×1: banner „Ai descoperit — Clorură de magneziu (MgCl₂)", H₂O (deja cunoscut) doar a primit o copie în plus fără banner nou. Confirmat în Colecție: intrarea H₂O are butonul „Încarcă" (are graf), intrarea MgCl₂ nu (fără graf, ionic) — exact diferența proiectată. Zero erori în consolă.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nedocumentată — toate deciziile de design (gratis de la start, fără cinetică, reactanți aleși prin cheie exactă) sunt scrise direct în amendamentul SPEC §M7, nu doar în DEVLOG.
+
+**Rămas de făcut / follow-up:**
+- **Selector explicit de reactant per slot** — v1 alege automat prima intrare din Colecție cu formula potrivită; dacă vreodată o reacție viitoare implică o formulă cu mai mulți izomeri deja descoperiți, aici e locul de adăugat un dropdown real (`runReaction`/`canRunReaction` deja acceptă chei explicite per slot, pregătite pentru asta).
+- Idee reținută pentru continuare (a doua din cele 3 propuse de utilizator): ADN/ARN vizual editabil — subsistem complet nou, fără nimic de reosit din motorul chimic actual, necesită propriul amendament SPEC înainte de cod.
+
+---
+
 ## [2026-08-11] Echilibrare pe curbe — exercițiul dedicat din SPEC §12/M5, făcut prima dată
 
 **Milestone:** M5 (item rămas neatins din planul original — „echilibrare finală pe curbe, foaie de calcul separată")

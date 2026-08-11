@@ -619,6 +619,22 @@ body {
   border-color: var(--accent);
 }
 
+/* ---------- M7 — Reacții chimice ---------- */
+.reactions-panel {
+  width: min(90vw, 640px);
+}
+
+.reactions-list {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.reaction-row .rate {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+}
+
 .collection-row .flavor {
   font-size: 11px;
   color: var(--text-dim);

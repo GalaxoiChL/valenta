@@ -10,6 +10,7 @@ import { renderConstructor } from "./ui/constructor";
 import { renderLab } from "./ui/lab";
 import { renderObjectives } from "./ui/objectives";
 import { renderPeriodicTable } from "./ui/periodicTable";
+import { renderReactionsLab } from "./ui/reactions";
 import { renderSettings } from "./ui/settings";
 import { toUnicodeSubscript } from "./chem/formula";
 import { formatNumber, formatDuration } from "./ui/format";
@@ -39,10 +40,12 @@ app.append(hudEl, mainLayout, objectivesEl);
 const store = createStore();
 
 const periodicTable = renderPeriodicTable(store);
+const reactionsLab = renderReactionsLab(store);
 const settings = renderSettings(store);
 
 renderHud(hudEl, store, {
   onOpenPeriodicTable: periodicTable.open,
+  onOpenReactionsLab: reactionsLab.open,
   onOpenSettings: settings.open
 });
 const palette = renderPalette(paletteEl, store);
