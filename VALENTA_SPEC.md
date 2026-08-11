@@ -436,15 +436,17 @@ Fiecare milestone se încheie cu un commit git și cu toate criteriile bifate ma
 Conținut: elemente H, O, N; molecule DB: H₂, O₂, N₂, H₂O, NH₃, H₂O₂; fără tabel periodic (toate 3 elementele active de la început), fără offline, fără obiective.
 
 **Criterii de acceptare:**
-- [ ] `npm run dev` pornește jocul; `npm test` trece toate testele din §5.7.
-- [ ] Pot plasa atomi din paletă, pot crea legături prin drag, click pe legătură ciclează ordinul, click-dreapta șterge; undo funcționează (≥20 pași).
-- [ ] Nu pot depăși valența niciunui atom prin nicio secvență de acțiuni din UI.
-- [ ] Panoul de stare arată formula live și mesaje corecte de eroare per atom (hover evidențiază atomul).
-- [ ] Sintetizarea H₂O consumă exact 2H + 1O, adaugă copia în Laborator, iar E/s totală crește conform formulei din `balance.ts`.
-- [ ] Generatoarele de H/O/N pot fi cumpărate cu E, costul crește geometric, atomii se acumulează pe secundă.
-- [ ] Colecția permite „Sintetizează ×1" pentru orice moleculă descoperită.
-- [ ] Prima sinteză a unei molecule din DB afișează bannerul de descoperire și acordă C (chiar dacă C nu are încă pe ce fi cheltuit).
-- [ ] Refresh la pagină → tot progresul + schița din Constructor se restaurează din localStorage.
+- [x] `npm run dev` pornește jocul; `npm test` trece toate testele din §5.7.
+- [x] Pot plasa atomi din paletă, pot crea legături prin drag, click pe legătură ciclează ordinul, click-dreapta șterge; undo funcționează (≥20 pași).
+- [x] Nu pot depăși valența niciunui atom prin nicio secvență de acțiuni din UI.
+- [x] Panoul de stare arată formula live și mesaje corecte de eroare per atom (hover evidențiază atomul).
+- [x] Sintetizarea H₂O consumă exact 2H + 1O, adaugă copia în Laborator, iar E/s totală crește conform formulei din `balance.ts`.
+- [x] Generatoarele de H/O/N pot fi cumpărate cu E, costul crește geometric, atomii se acumulează pe secundă.
+- [x] Colecția permite „Sintetizează ×1" pentru orice moleculă descoperită.
+- [x] Prima sinteză a unei molecule din DB afișează bannerul de descoperire și acordă C (chiar dacă C nu are încă pe ce fi cheltuit).
+- [x] Refresh la pagină → tot progresul + schița din Constructor se restaurează din localStorage.
+
+**Confirmat** — verificat live în browser + suită de teste, vezi DEVLOG „[2026-08-09] M0 — Prototipul jucabil, complet".
 
 ### M1 — Progresia (Tabelul Periodic)
 
@@ -452,23 +454,33 @@ Tabel periodic complet ca overlay, deblocare cu C, elemente până la tier 2 (C 
 
 **Criterii:** deblocarea C deschide vizibil noi posibilități (obiectiv ghidat „Sintetizează CH₄"); un jucător nou înțelege jocul fără explicații externe, doar din obiective și tooltips; save-ul exportat pe alt browser restaurează identic starea.
 
+**Confirmat** — verificat live în browser + suită de teste, vezi DEVLOG „[2026-08-10] M1 — Progresia: Tabel Periodic, obiective, export/import".
+
 ### M2 — Idle adevărat
 
 Auto-sintetizatoare, Analizatorul (molecule → C), progres offline cu panoul „Bine ai revenit", upgrade-uri de generatoare, echilibrare grosieră (30 min de joc activ ≈ deblocarea tier 2).
 
 **Criterii:** jocul lăsat 10 minute nesupravegheat cu auto-sintetizatoare configurate progresează măsurabil; închis și redeschis după o oră acordă corect progresul offline plafonat.
 
+**Confirmat** — verificat live în browser + suită de teste, vezi DEVLOG „[2026-08-10] M2 — Idle adevărat: auto-sintetizatoare, Analizator, offline plafonat".
+
 ### M3 — Chimia ionică
 
 Mecanica de sarcini (Na⁺, Cl⁻, F⁻…), validare prin neutralitate, tier 3 complet, UI distinct pentru compuși ionici (rețea, nu graf).
+
+**Confirmat** — verificat live în browser + suită de teste, vezi DEVLOG „[2026-08-10] M3 — Chimia ionică: tier 3, sarcini, Constructor Ionic distinct".
 
 ### M4 — Chimia organică
 
 Limita de atomi crescută (100+ cu virtualizare dacă e nevoie), izomeri prin hash canonic Morgan (§5.5), unități polimerice repetitive, tier 4–5, DB 100+ molecule, șabloane editabile din Colecție.
 
+**Confirmat** — verificat live în browser + suită de teste, vezi DEVLOG „[2026-08-10] M4 — Chimia organică: izomeri, șabloane, polimeri, DB 100+".
+
 ### M5 — Finisaj și meta
 
 Nucleosinteza (prestige, §3.3), sunet, animații, tutorial interactiv la primul joc, panoul „Despre chimia din joc" (§5.6), echilibrare finală pe curbe (foaie de calcul separată), responsive pentru tabletă.
+
+**Parțial confirmat** — vezi DEVLOG „[2026-08-10] M5 — Nucleosinteza, Sunet, Tutorial, responsive tabletă": toate elementele de finisaj (Nucleosinteza, sunet, tutorial, panoul „Despre chimia din joc", responsive tabletă) verificate live. Singura excepție: „echilibrare finală pe curbe (foaie de calcul separată)" nu s-a făcut niciodată ca exercițiu dedicat — balansul a rămas empiric (calibrat și testat să funcționeze, dar nu modelat matematic pe o foaie de calcul separată). Aceasta e exact treaba de continuat mai jos.
 
 ---
 
