@@ -27,21 +27,20 @@ describe("anatomyDB.json — integritate de conținut (§9.3)", () => {
     }
   });
 
-  it("fiecare formă are date geometrice valide (numere finite, path.d nevid)", () => {
+  it("fiecare parte are un hotspot valid (x/y procente, în interiorul imaginii 0-100)", () => {
     for (const p of PARTS) {
-      const s = p.shape;
-      if (s.kind === "ellipse") {
-        expect(Number.isFinite(s.cx) && Number.isFinite(s.cy)).toBe(true);
-        expect(s.rx).toBeGreaterThan(0);
-        expect(s.ry).toBeGreaterThan(0);
-      } else if (s.kind === "line") {
-        expect(Number.isFinite(s.x1) && Number.isFinite(s.y1) && Number.isFinite(s.x2) && Number.isFinite(s.y2)).toBe(
-          true
-        );
-        expect(s.strokeWidth).toBeGreaterThan(0);
-      } else {
-        expect(s.d.length, `${p.id}: path.d gol`).toBeGreaterThan(0);
-      }
+      expect(Number.isFinite(p.x) && Number.isFinite(p.y), `${p.id}: coordonate nefinite`).toBe(true);
+      expect(p.x, `${p.id}: x în afara [0,100]`).toBeGreaterThanOrEqual(0);
+      expect(p.x, `${p.id}: x în afara [0,100]`).toBeLessThanOrEqual(100);
+      expect(p.y, `${p.id}: y în afara [0,100]`).toBeGreaterThanOrEqual(0);
+      expect(p.y, `${p.id}: y în afara [0,100]`).toBeLessThanOrEqual(100);
+    }
+  });
+
+  it("fiecare sistem are o imagine de fundal și o sursă/atribuire", () => {
+    for (const sys of BODY_SYSTEMS) {
+      expect(sys.image.length, `${sys.id}: fără imagine`).toBeGreaterThan(0);
+      expect(sys.credit.length, `${sys.id}: fără atribuire`).toBeGreaterThan(0);
     }
   });
 });

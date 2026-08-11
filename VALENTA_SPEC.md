@@ -560,17 +560,21 @@ Dubla elice completă cu catenă complementară, reglare genică, epigenetică, 
 
 Al treilea tab nou, cel mai departe de identitatea originală a jocului (chimie de atomi) — anatomie macroscopică, nu chimie/biologie moleculară. Fără nimic de reosit din motorul chimic sau din M8; singurul lucru comun e tiparul de overlay și convenția de flavor text real.
 
-**9.1 Mecanica**
+**9.1 Mecanica (v2 — feedback direct: vizualul stilizat era prea slab, „puteam să-l fac și eu")**
 - Ecran overlay nou, „Anatomie" (tipar `OverlayController`), gratis de la început.
-- O siluetă simplificată a corpului uman (vedere din față, un singur `<path>` SVG desenat manual, stilizat — **nu** o ilustrație medicală reală, nicio pretenție de acuratețe anatomică la nivel de manual de medicină) rămâne randată constant, ca reper vizual.
-- 4 sisteme comutabile (tab-uri interne, tiparul deja folosit de Covalent/Ionic din Constructor): **Schelet**, **Organe interne**, **Sistem circulator**, **Sistem muscular**. La comutare, se randează peste siluetă doar formele sistemului activ.
-- Fiecare parte e o formă SVG (elipsă sau path curbat) poziționată aproximativ anatomic pe siluetă, colorată distinct, clickabilă. Click → panou/tooltip cu numele și un fapt real (funcție, locație, o curiozitate — tipar de flavor text identic cu restul jocului).
+- Fiecare din cele 4 sisteme are propria ilustrație SVG **reală**, dintr-o sursă educațională/istorică autentică (Wikimedia Commons), randată ca fundal la schimbarea tab-ului — nu mai există o singură siluetă stilizată comună:
+  - **Schelet**: „Human skeleton front en.svg" (LadyofHats, domeniu public).
+  - **Organe interne**: „Male template with organs.svg" (proiectul „Human body diagrams", CC0).
+  - **Sistem circulator**: „Circulatory System en.svg" (LadyofHats, domeniu public).
+  - **Sistem muscular**: „Bougle, Human muscular system, anterior.svg" (Julien Bouglé, adaptare Jmarchn, CC BY-SA 3.0 — necesită atribuire vizibilă în ecran, singurul asset cu această cerință).
+- 4 sisteme comutabile (tab-uri interne, tiparul deja folosit de Covalent/Ionic din Constructor). La comutare, se schimbă imaginea de fundal și hotspot-urile sistemului activ.
+- Fiecare parte e un **hotspot invizibil** (zonă clicabilă, evidențiată doar la hover/focus) poziționat cu coordonate procentuale (0–100%) relative la imagine, aproximat vizual peste locul anatomic real din ilustrație — nu mai e o formă desenată manual (elipsă/path) care aproxima *și* forma *și* poziția. Click → panou cu numele și un fapt real (funcție, locație, o curiozitate — tipar de flavor text identic cu restul jocului).
 - Prima inspectare a fiecărei părți acordă un mic bonus de Cunoaștere (tipar identic cu M7/M8 — bannerul de descoperire existent, reosit fără nicio schimbare în `main.ts`), o singură dată per parte.
 
 **9.2 Simplificări asumate (§5.6, aceeași filosofie)**
-- Siluetă și forme **stilizate**, desenate manual ca aproximări vizuale rezonabile — nu ilustrații medicale, nu la scară/proporție clinică exactă. Onestitatea aici e despre fapte (fiecare parte listată chiar există, chiar face ce descrie flavor text-ul), nu despre precizia desenului.
-- Doar vedere din față, un singur strat activ o dată — fără rotație 3D, fără secțiuni transversale reale.
-- Sistemele se suprapun parțial în realitate (inima aparține și organelor, și circulatorului) — aici fiecare parte aparține unui singur sistem în date, ales după contextul cel mai relevant, nu duplicat.
+- Imaginile de fundal sunt ilustrații educaționale reale, dar poziționarea hotspot-urilor peste ele rămâne o aproximare vizuală manuală (ochiometrică), nu o înregistrare anatomică exactă pixel-cu-pixel. Onestitatea e despre fapte (fiecare parte listată chiar există, chiar face ce descrie flavor text-ul) și despre imagine (chiar e o ilustrație anatomică reală, nu una inventată) — nu despre precizia de milimetru a zonei clicabile.
+- Doar vedere din față, un singur strat/sistem activ o dată — fără rotație 3D, fără secțiuni transversale reale.
+- Sistemele se suprapun parțial în realitate (inima aparține și organelor, și circulatorului) — aici fiecare parte aparține unui singur sistem în date, ales după contextul cel mai relevant, nu duplicat. Fiecare sistem are propria imagine, deci nu mai există constrângerea unei singure siluete comune pentru toate — poziția hotspot-ului e relativă doar la imaginea propriului sistem.
 - Nicio conexiune cu economia de bază a jocului (atomi/Energie) — la fel ca ADN/ARN, singurul cârlig e bonusul de Cunoaștere la prima inspectare.
 
 **9.3 Conținutul inițial (~23 părți, toate cu fapte reale verificabile)**
@@ -580,15 +584,24 @@ Al treilea tab nou, cel mai departe de identitatea originală a jocului (chimie 
 - **Sistem muscular** (5): biceps, cvadriceps, abdominali, pectorali, gambe (triceps sural).
 
 **9.4 Criterii de acceptare**
-- [x] Overlay „Anatomie" deschis din HUD; cele 4 sisteme comutabile, fiecare cu formele lui randate corect peste siluetă.
-- [x] Click pe o parte arată numele și faptul real corect.
-- [x] Prima inspectare a fiecărei părți → banner de descoperire + Cunoaștere; a doua nu mai acordă bonus.
-- [x] `tsc --noEmit` curat; toată suita de teste (integritate `anatomyDB.json`) trece, fără regresii.
+- [x] Overlay „Anatomie" deschis din HUD; cele 4 sisteme comutabile, fiecare cu formele lui randate corect peste siluetă. *(v1)*
+- [x] Click pe o parte arată numele și faptul real corect. *(v1)*
+- [x] Prima inspectare a fiecărei părți → banner de descoperire + Cunoaștere; a doua nu mai acordă bonus. *(v1)*
+- [x] `tsc --noEmit` curat; toată suita de teste (integritate `anatomyDB.json`) trece, fără regresii. *(v1)*
+- [x] v2: cele 4 imagini reale (schelet/organe/circulator/muscular) se încarcă și se afișează corect la schimbarea tab-ului.
+- [x] v2: hotspot-urile celor 23 de părți sunt poziționate vizual corect peste zona anatomică reală din fiecare imagine.
+- [x] v2: atribuirea CC BY-SA pentru imaginea musculară (Julien Bouglé/Jmarchn) e vizibilă în ecran.
+- [x] v2: click pe hotspot tot arată numele + faptul real; descoperirea + bonusul de Cunoaștere se comportă identic cu v1.
+- [x] v2: `tsc --noEmit` curat; toată suita de teste trece, fără regresii.
 
-**Confirmat** — vezi DEVLOG „[2026-08-11] M9 — Anatomie: explorator vizual al corpului uman". Verificat live: toate cele 4 sisteme comută corect (6/7/5/5 forme), click pe Craniu → panou „Craniu" + flavor corect + banner „Craniu (Schelet)"; click pe Inimă → banner „Inimă (Organe interne)" cu Cunoaștere +4; a doua inspectare a Inimii confirmată fără bonus repetat. Bug prins și reparat în timpul verificării live: o regulă CSS generică suprascria culoarea oaselor randate ca linii (stroke), făcându-le aproape invizibile — reparat înainte de commit. Zero erori în consolă.
+**Confirmat (v2)** — vezi DEVLOG „[2026-08-11] M9 v2 — Anatomie: ilustrații reale + hotspot-uri (feedback direct al utilizatorului)". Verificat live: toate cele 4 sisteme comută corect, fiecare cu ilustrația lui reală (Wikimedia Commons) și hotspot-urile poziționate corect (confirmat matematic prin `getBoundingClientRect` și vizual prin screenshot); click pe Craniu → banner + Cunoaștere +3; persistență confirmată după reload. Bug prins și reparat în timpul verificării live: combinația `overflow:auto` + hotspot-uri `position:absolute; inset:0` pe același container ancora hotspot-urile la fereastra vizibilă clipată, nu la înălțimea reală a imaginii — reparat renunțând la scroll (imaginea se scalează întreagă). Zero erori în consolă. 257 de teste automate trec.
 
-**9.5 Ce NU intră în M9 v1 (risc de scope creep, §14)**
-Ilustrații medicale reale/la scară, rotație 3D, secțiuni transversale, mai mult de 4 sisteme, orice mecanică de joc legată de sănătate/boală (asta ar aluneca spre conținut medical sensibil, evitat deliberat). Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
+**Confirmat (v1)** — vezi DEVLOG „[2026-08-11] M9 — Anatomie: explorator vizual al corpului uman". Verificat live: toate cele 4 sisteme comută corect (6/7/5/5 forme), click pe Craniu → panou „Craniu" + flavor corect + banner „Craniu (Schelet)"; click pe Inimă → banner „Inimă (Organe interne)" cu Cunoaștere +4; a doua inspectare a Inimii confirmată fără bonus repetat. Bug prins și reparat în timpul verificării live: o regulă CSS generică suprascria culoarea oaselor randate ca linii (stroke), făcându-le aproape invizibile — reparat înainte de commit. Zero erori în consolă.
+
+**v2 — feedback direct al utilizatorului**: vizualul desenat manual a fost considerat sub nivelul de ambiție cerut („eu mă gândeam să-l faci mai complex, mai bine"). Redesign spre imagini reale + hotspot-uri, în lucru — vezi DEVLOG pentru intrarea M9 v2 odată confirmată live.
+
+**9.5 Ce NU intră în M9 v2 (risc de scope creep, §14)**
+Rotație 3D, secțiuni transversale reale, mai mult de 4 sisteme, orice mecanică de joc legată de sănătate/boală (asta ar aluneca spre conținut medical sensibil, evitat deliberat), înregistrare pixel-perfectă a hotspot-urilor (rămân aproximări ochiometrice, ca în v1). Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
 
 ---
 

@@ -20,6 +20,35 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] M9 v2 — Anatomie: ilustrații reale + hotspot-uri (feedback direct al utilizatorului)
+
+**Milestone:** M9 (rescriere UI + date, a treia și ultima din cele 3 direcții confirmate după feedback pe M7/M8/M9 inițiale)
+**Făcut:**
+- **Context**: utilizatorul a cerut explicit „un vizual de 10000x mai bun" — siluetele și formele SVG desenate manual din M9 v1 erau considerate sub nivelul de ambiție cerut („puteam să-l fac și eu"). Confirmat cu utilizatorul (întrebare directă, sesiunea curentă): imagini reale, dintr-o sursă educațională/istorică autentică, în loc de forme inventate.
+- **Cercetare + descărcare (permisiune explicită cerută și primită)**: 4 ilustrații reale de pe Wikimedia Commons, câte una per sistem, toate verificate pentru licență înainte de descărcare:
+  - Schelet — „Human skeleton front en.svg" (LadyofHats), domeniu public.
+  - Organe interne — „Internal organs.svg" (Mikael Häggström, proiectul „Human body diagrams"), domeniu public/CC0 — înlocuiește o primă alegere („Male template with organs.svg") cu etichete placeholder „Example text", respinsă după verificare vizuală.
+  - Sistem circulator — „Circulatory System en.svg" (LadyofHats), domeniu public.
+  - Sistem muscular — „Bougle, Human muscular system, anterior.svg" (Julien Bouglé, adaptare Jmarchn), **CC BY-SA 3.0** — singurul asset cu cerință de atribuire; alternativa domeniu-public găsită (Vesalius 1543) a fost respinsă de utilizator în favoarea unui stil vizual modern, consecvent cu celelalte 3 sisteme.
+  - Toate cele 4 SVG-uri aveau etichete text în engleză + linii-ghid desenate direct în fișier — eliminate cu un script Node de unică folosință (strat Inkscape dedicat unde exista, altfel eliminare directă a blocurilor `<text>` + a liniilor-ghid cu contur negru fără umplere), verificate vizual că ilustrația de bază rămâne intactă.
+  - Fișiere în `public/anatomy/` (skeleton/organs/circulatory/muscular.svg), total ~8MB.
+- **`src/bio/anatomy.ts`** rescris: `AnatomyShape`/`EllipseShape`/`PathShape`/`LineShape` (geometrie desenată manual) înlocuite cu `AnatomyPart.x`/`.y` — poziție de hotspot în procente (0–100), relativă la propria imagine a sistemului. `BODY_SYSTEMS` capătă `image` (calea către SVG) și `credit` (sursă + licență, afișată în UI).
+- **`src/bio/anatomyDB.json`**: toate cele 23 de părți păstrate identic (id, nume, flavor real, discoveryC), doar geometria înlocuită cu coordonate `x`/`y` estimate vizual (ochiometric, per §9.2) peste fiecare ilustrație reală.
+- **`src/ui/anatomy.ts`** rescris: fundal `<img>` per sistem + un strat de hotspot-uri invizibile (`<button>` rotund, poziționat cu `left/top` procentual) suprapus. Click pe hotspot → `inspectAnatomyPart` (neschimbat) → panou cu nume + fapt real, identic cu v1. Linie de atribuire sub imagine, dinamică per sistem activ.
+- **Bug prins și reparat înainte de verificare**: primul design folosea `.anatomy-stage` ca și container `position:relative` **și** `overflow:auto` (scroll) în același timp, cu stratul de hotspot-uri `position:absolute; inset:0` — asta ancorează hotspot-urile la fereastra vizibilă (clipată), nu la înălțimea reală, scrollabilă, a imaginii, deci procentele se calculau greșit sub prima "fereastră". Reparat renunțând la scroll: imaginea se scalează întreagă (`max-height:60vh; max-width:100%`), containerul se adaptează la dimensiunea ei (`width:fit-content`) — hotspot-urile rămân mereu corect aliniate, fără nicio nevoie de scroll.
+- `tests/anatomy.test.ts` actualizat: testul de geometrie (elipsă/linie/path) înlocuit cu validare de hotspot (x/y numere finite în [0,100]) + un test nou care confirmă că fiecare sistem are imagine și atribuire.
+- `tsc --noEmit` curat; 257 de teste automate trec (33 fișiere, +1 față de M8 v2).
+- **Verificat live pe dev server**: toate cele 4 sisteme comută corect, fiecare cu propria ilustrație reală și hotspot-urile lui (6/7/5/5), poziții confirmate matematic (`getBoundingClientRect`, procente exacte pe imaginea proprie) și vizual (screenshot pe fiecare sistem). Click pe Craniu → panou „Craniu" + banner de descoperire + Cunoaștere +3, confirmat în bara de resurse. Persistență confirmată după reload (Craniul rămas „descoperit"). Atribuirea CC BY-SA pentru sistemul muscular vizibilă și corectă sub imagine. Zero erori în consolă pe toată sesiunea de test.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nedocumentată — SPEC §9.1/§9.2/§9.4/§9.5 rescrise direct să reflecte mecanica nouă (imagini reale + hotspot-uri procentuale în loc de siluetă + forme desenate).
+- Stil vizual eterogen între cele 4 sisteme (schelet/circulator = vector plat modern; organe = ilustrație semi-realistă; muscular = gravură/litografie istorică) — acceptat conștient, e prețul căutării stricte de licențe permisive; fiecare imagine e o sursă reală și onest atribuită, nu o inconsecvență de calitate.
+
+**Rămas de făcut / follow-up:**
+- Toate cele 3 direcții de feedback (Reacții, ADN/ARN, Anatomie) sunt acum adresate. Niciun follow-up cunoscut deschis din acest fir de feedback.
+
+---
+
 ## [2026-08-11] M8 v2 — ADN/ARN: înlocuire vizibilă de segment (feedback direct al utilizatorului)
 
 **Milestone:** M8 (rescriere UI, cerută explicit după feedback pe M7/M8/M9 inițiale — a doua din cele 3 direcții confirmate)

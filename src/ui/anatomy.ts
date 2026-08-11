@@ -1,49 +1,12 @@
-// M9 — Anatomie (§9): explorator vizual stilizat al corpului uman, siluetă +
-// forme SVG pe 4 sisteme comutabile. Tipar overlay identic cu reactions.ts/
-// genetics.ts; comutatorul de sisteme reosește clasa .mode-tabs deja
-// stilizată pentru Covalent/Ionic din Constructor.
+// M9 v2 — Anatomie (§9): explorator vizual al corpului uman, cu ilustrații
+// reale (Wikimedia Commons) ca fundal pe sistem și hotspot-uri invizibile
+// suprapuse. Rescris în urma feedback-ului direct: siluetele desenate manual
+// din v1 erau sub nivelul de ambiție cerut. Tipar overlay identic cu
+// reactions.ts/genetics.ts; comutatorul de sisteme reosește clasa .mode-tabs.
 
 import type { GameStore } from "../core/state";
 import type { OverlayController } from "./periodicTable";
-import { BODY_SYSTEMS, type BodySystem, type AnatomyPart, type AnatomyShape } from "../bio/anatomy";
-
-const SVG_NS = "http://www.w3.org/2000/svg";
-
-function el<K extends keyof SVGElementTagNameMap>(tag: K): SVGElementTagNameMap[K] {
-  return document.createElementNS(SVG_NS, tag);
-}
-
-function limb(x1: number, y1: number, x2: number, y2: number, width: number): SVGLineElement {
-  const line = el("line");
-  line.setAttribute("x1", String(x1));
-  line.setAttribute("y1", String(y1));
-  line.setAttribute("x2", String(x2));
-  line.setAttribute("y2", String(y2));
-  line.setAttribute("stroke-width", String(width));
-  line.setAttribute("stroke-linecap", "round");
-  return line;
-}
-
-function shapeToElement(shape: AnatomyShape): SVGElement {
-  if (shape.kind === "ellipse") {
-    const e = el("ellipse");
-    e.setAttribute("cx", String(shape.cx));
-    e.setAttribute("cy", String(shape.cy));
-    e.setAttribute("rx", String(shape.rx));
-    e.setAttribute("ry", String(shape.ry));
-    if (shape.rotate) e.setAttribute("transform", `rotate(${shape.rotate} ${shape.cx} ${shape.cy})`);
-    return e;
-  }
-  if (shape.kind === "line") {
-    const e = limb(shape.x1, shape.y1, shape.x2, shape.y2, shape.strokeWidth);
-    e.setAttribute("fill", "none");
-    if (shape.dashed) e.setAttribute("stroke-dasharray", "6,5");
-    return e;
-  }
-  const e = el("path");
-  e.setAttribute("d", shape.d);
-  return e;
-}
+import { BODY_SYSTEMS, type BodySystem, type AnatomyPart } from "../bio/anatomy";
 
 export function renderAnatomyLab(store: GameStore): OverlayController {
   let activeSystem: BodySystem = "skeletal";
@@ -68,7 +31,7 @@ export function renderAnatomyLab(store: GameStore): OverlayController {
   const hint = document.createElement("div");
   hint.className = "periodic-hint";
   hint.textContent =
-    "Siluetă stilizată, nu o ilustrație medicală — click pe o parte pentru numele și un fapt real. Comută sistemul cu tab-urile de mai jos.";
+    "Ilustrații anatomice reale — click pe un punct marcat pentru numele și un fapt real. Comută sistemul cu tab-urile de mai jos.";
 
   const tabs = document.createElement("div");
   tabs.className = "mode-tabs";
@@ -81,40 +44,23 @@ export function renderAnatomyLab(store: GameStore): OverlayController {
     tabBtns.set(sys.id, btn);
   }
 
-  const svg = el("svg");
-  svg.setAttribute("viewBox", "0 0 300 600");
-  svg.classList.add("anatomy-svg");
+  const stage = document.createElement("div");
+  stage.className = "anatomy-stage";
+  const bgImage = document.createElement("img");
+  bgImage.className = "anatomy-bg";
+  bgImage.alt = "";
+  const hotspotsLayer = document.createElement("div");
+  hotspotsLayer.className = "anatomy-hotspots";
+  stage.append(bgImage, hotspotsLayer);
 
-  const outline = el("g");
-  outline.classList.add("anatomy-outline");
-  const head = el("circle");
-  head.setAttribute("cx", "150");
-  head.setAttribute("cy", "40");
-  head.setAttribute("r", "30");
-  const torso = el("polygon");
-  torso.setAttribute("points", "100,95 200,95 195,230 105,230");
-  outline.append(
-    head,
-    torso,
-    limb(97, 100, 60, 180, 22),
-    limb(60, 180, 55, 255, 18),
-    limb(203, 100, 240, 180, 22),
-    limb(240, 180, 245, 255, 18),
-    limb(122, 228, 118, 400, 26),
-    limb(118, 400, 113, 560, 20),
-    limb(178, 228, 182, 400, 26),
-    limb(182, 400, 187, 560, 20)
-  );
-  svg.appendChild(outline);
-
-  const partsGroup = el("g");
-  svg.appendChild(partsGroup);
+  const credit = document.createElement("div");
+  credit.className = "anatomy-credit";
 
   const infoPanel = document.createElement("div");
   infoPanel.className = "anatomy-info";
-  infoPanel.textContent = "Click pe o formă colorată ca să afli ce e.";
+  infoPanel.textContent = "Click pe un punct marcat pe ilustrație ca să afli ce e.";
 
-  panel.append(header, hint, tabs, svg, infoPanel);
+  panel.append(header, hint, tabs, stage, credit, infoPanel);
   overlay.appendChild(panel);
   document.body.appendChild(overlay);
 
@@ -137,32 +83,30 @@ export function renderAnatomyLab(store: GameStore): OverlayController {
   }
 
   function renderParts(): void {
-    partsGroup.innerHTML = "";
+    hotspotsLayer.innerHTML = "";
     for (const part of parts) {
       if (part.system !== activeSystem) continue;
-      const shapeEl = shapeToElement(part.shape);
-      shapeEl.classList.add("anatomy-part");
-      if (part.outlineOnly) {
-        shapeEl.setAttribute("fill", "none");
-        shapeEl.setAttribute("stroke", part.color);
-        shapeEl.setAttribute("stroke-width", "2.5");
-      } else if (part.shape.kind === "line") {
-        shapeEl.setAttribute("stroke", part.color);
-      } else {
-        shapeEl.setAttribute("fill", part.color);
-      }
-      shapeEl.classList.toggle("discovered", store.state.anatomyDiscovered.includes(part.id));
-      shapeEl.addEventListener("click", () => {
+      const dot = document.createElement("button");
+      dot.className = "anatomy-hotspot";
+      dot.style.left = `${part.x}%`;
+      dot.style.top = `${part.y}%`;
+      dot.title = part.name;
+      dot.setAttribute("aria-label", part.name);
+      dot.classList.toggle("discovered", store.state.anatomyDiscovered.includes(part.id));
+      dot.addEventListener("click", () => {
         const inspected = store.inspectAnatomyPart(part.id);
         if (inspected) showInfo(inspected);
         renderParts();
       });
-      partsGroup.appendChild(shapeEl);
+      hotspotsLayer.appendChild(dot);
     }
   }
 
   function setSystem(sys: BodySystem): void {
     activeSystem = sys;
+    const def = BODY_SYSTEMS.find((s) => s.id === sys)!;
+    bgImage.src = def.image;
+    credit.textContent = `Sursă: ${def.credit}`;
     for (const [id, btn] of tabBtns) btn.classList.toggle("active", id === sys);
     renderParts();
   }

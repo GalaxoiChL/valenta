@@ -1,49 +1,49 @@
-// M9 — Anatomie (§9 din SPEC.md): explorator vizual, stilizat, al corpului
-// uman — fără nimic de reosit din motorul chimic sau din M8 (ADN/ARN).
+// M9 — Anatomie (§9 din SPEC.md): explorator vizual al corpului uman, cu
+// ilustrații reale (Wikimedia Commons) ca fundal pe sistem — fără nimic de
+// reosit din motorul chimic sau din M8 (ADN/ARN).
 
 export type BodySystem = "skeletal" | "organs" | "circulatory" | "muscular";
 
-export const BODY_SYSTEMS: { id: BodySystem; label: string }[] = [
-  { id: "skeletal", label: "Schelet" },
-  { id: "organs", label: "Organe interne" },
-  { id: "circulatory", label: "Sistem circulator" },
-  { id: "muscular", label: "Sistem muscular" }
+export const BODY_SYSTEMS: {
+  id: BodySystem;
+  label: string;
+  /** Fișier SVG din public/anatomy/, folosit ca fundal pentru acest sistem. */
+  image: string;
+  credit: string;
+}[] = [
+  {
+    id: "skeletal",
+    label: "Schelet",
+    image: "/anatomy/skeleton.svg",
+    credit: "LadyofHats, Wikimedia Commons — domeniu public"
+  },
+  {
+    id: "organs",
+    label: "Organe interne",
+    image: "/anatomy/organs.svg",
+    credit: "Mikael Häggström, Wikimedia Commons — domeniu public / CC0"
+  },
+  {
+    id: "circulatory",
+    label: "Sistem circulator",
+    image: "/anatomy/circulatory.svg",
+    credit: "LadyofHats, Wikimedia Commons — domeniu public"
+  },
+  {
+    id: "muscular",
+    label: "Sistem muscular",
+    image: "/anatomy/muscular.svg",
+    credit: "Julien Bouglé, adaptare Jmarchn, Wikimedia Commons — CC BY-SA 3.0"
+  }
 ];
 
-export interface EllipseShape {
-  kind: "ellipse";
-  cx: number;
-  cy: number;
-  rx: number;
-  ry: number;
-  rotate?: number;
-}
-
-export interface PathShape {
-  kind: "path";
-  d: string;
-}
-
-export interface LineShape {
-  kind: "line";
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  strokeWidth: number;
-  dashed?: boolean;
-}
-
-export type AnatomyShape = EllipseShape | PathShape | LineShape;
-
+/** Poziția unui hotspot invizibil, în procente (0-100) relative la imaginea sistemului lui. */
 export interface AnatomyPart {
   id: string;
   system: BodySystem;
   name: string;
-  shape: AnatomyShape;
-  color: string;
-  /** Randată doar cu contur (fără umplere) — ex. cutia toracică, ca să nu ascundă organele de dedesubt. */
-  outlineOnly?: boolean;
+  x: number;
+  y: number;
   discoveryC: number;
   flavor: string;
 }
