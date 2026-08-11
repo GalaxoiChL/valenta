@@ -22,6 +22,8 @@ import { maxReactionRuns as computeMaxReactionRuns } from "../chem/reactions";
 import mutationDB from "../bio/mutationDB.json";
 import type { Base, MutationDefinition } from "../bio/genetics";
 import { BASES, matchesMutation } from "../bio/genetics";
+import anatomyDB from "../bio/anatomyDB.json";
+import { BODY_SYSTEMS, type AnatomyPart } from "../bio/anatomy";
 import {
   generatorCost,
   discoveryKnowledge,
@@ -61,6 +63,9 @@ const REACTION_BY_ID = new Map<string, ReactionDefinition>(
 const MUTATION_BY_ID = new Map<string, MutationDefinition>(
   (mutationDB as MutationDefinition[]).map((m) => [m.id, m])
 );
+
+/** M9 — Anatomie (§9): părțile din anatomyDB.json, indexate după id. */
+const ANATOMY_BY_ID = new Map<string, AnatomyPart>((anatomyDB as AnatomyPart[]).map((p) => [p.id, p]));
 
 /**
  * Resincronizează intrările din Colecție cu moleculeDB.json curent.
@@ -125,6 +130,8 @@ export interface GameState {
   dnaSequence: string;
   /** M8 — id-urile mutațiilor reale deja "descoperite" prin editare (§8.3), fiecare cu bonus unic de Cunoaștere. */
   geneticsDiscovered: string[];
+  /** M9 — id-urile părților din Anatomie deja inspectate (§9.1), fiecare cu bonus unic de Cunoaștere. */
+  anatomyDiscovered: string[];
 }
 
 export const SAVE_VERSION = 1;
@@ -149,7 +156,8 @@ export function createInitialState(): GameState {
     totalEnergyEarned: 0,
     stars: 0,
     dnaSequence: "",
-    geneticsDiscovered: []
+    geneticsDiscovered: [],
+    anatomyDiscovered: []
   };
 }
 
@@ -592,6 +600,28 @@ export class GameStore {
       // reosește bannerul de descoperire deja existent (main.ts) — aceeași formă {dbEntry, formula}.
       this.events.emit("discovery", { dbEntry: { name: m.name, flavor: m.flavor }, formula: m.shortLabel });
     }
+  }
+
+  // --- M9 — Anatomie (§9): explorare liberă, fără cost — singurul cârlig cu
+  // economia e bonusul de Cunoaștere la prima inspectare a fiecărei părți. ---
+
+  listAnatomyParts(): AnatomyPart[] {
+    return [...ANATOMY_BY_ID.values()];
+  }
+
+  /** Marchează o parte ca inspectată (o singură dată acordă Cunoaștere) și o întoarce, sau null dacă id-ul nu există. */
+  inspectAnatomyPart(id: string): AnatomyPart | null {
+    const part = ANATOMY_BY_ID.get(id);
+    if (!part) return null;
+    if (!this.state.anatomyDiscovered.includes(id)) {
+      this.state.anatomyDiscovered.push(id);
+      this.state.resources.knowledge += part.discoveryC;
+      this.emitResources();
+      // reosește bannerul de descoperire deja existent (main.ts) — aceeași formă {dbEntry, formula}.
+      const systemLabel = BODY_SYSTEMS.find((s) => s.id === part.system)?.label ?? part.system;
+      this.events.emit("discovery", { dbEntry: { name: part.name, flavor: part.flavor }, formula: systemLabel });
+    }
+    return part;
   }
 
   draft(): MoleculeGraph {

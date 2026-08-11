@@ -20,6 +20,30 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] M9 — Anatomie: explorator vizual al corpului uman
+
+**Milestone:** M9 (a treia și ultima din cele 3 idei noi ale utilizatorului, planificată explicit înainte de cod, per §14)
+**Făcut:**
+- **Amendament SPEC.md întâi** (9.1–9.5), a treia oară aceeași disciplină. De data asta explicit semnalat înainte de a scrie cod: acesta e domeniul cel mai departe de identitatea jocului dintre cele 3 — anatomie macroscopică, fără nimic de reosit din motorul chimic, din M7 sau din M8, doar tiparul de overlay și convenția de flavor text.
+- **Scop clarificat cu utilizatorul înainte de implementare**: fără acces la ilustrații medicale reale, orice diagramă ar fi geometrie SVG desenată manual — onestitatea aici e despre fapte (fiecare parte listată chiar există, chiar face ce descrie flavor text-ul), nu despre precizia desenului. Utilizatorul a ales explicit „încearcă ceva mai detaliat" (nu doar cercuri simple) și toate cele 4 sisteme deodată pentru v1, nu unul câte unul.
+- **`src/bio/anatomy.ts`** (tipuri pure): `BodySystem`, `BODY_SYSTEMS` (4 sisteme), `AnatomyShape` (uniune discriminată elipsă/linie/path — oasele lungi ca linii groase cu capete rotunjite, organele ca elipse sau path-uri curbate, ex. o inimă desenată ca path real cu curbe Bézier, nu o elipsă generică), `AnatomyPart`.
+- **`src/bio/anatomyDB.json`** (23 de părți, fapte reale verificabile): Schelet (6 — craniu, coloană, cutie toracică, bazin, femur, humerus), Organe interne (7 — creier, inimă, plămâni, ficat, stomac, rinichi, intestine), Sistem circulator (5 — inimă, aortă, venă cavă, artere/vene majore), Sistem muscular (5 — biceps, cvadriceps, abdominali, pectorali, gambe).
+- **`src/core/state.ts`**: `GameState.anatomyDiscovered` (nou, persistat, la fel ca `geneticsDiscovered` — merge necondiționat, fără migrare separată), `inspectAnatomyPart()` — a treia oară că bannerul de descoperire existent (`main.ts`) e reosit fără nicio schimbare acolo, emițând `{dbEntry, formula}`.
+- **`src/ui/anatomy.ts`** (nou, overlay „Anatomie"): siluetă stilizată constantă (cap + trunchi + membre ca trasee groase cu capete rotunjite, tipar simplu, recognoscibil, explicit etichetat „nu o ilustrație medicală") cu cele 4 sisteme comutabile prin **`.mode-tabs`, reosit direct** de la comutatorul Covalent/Ionic din Constructor — a treia reosire de tipar UI existent din 3 milestone-uri noi. Click pe o formă → panou cu numele și faptul real.
+- **Bug prins live, reparat înainte de commit**: regula CSS `.anatomy-part { stroke: rgba(0,0,0,.35) }`, gândită ca un contur subtil pentru formele umplute (elipse/path-uri), suprascria complet culoarea oaselor randate ca `<line>` — pentru acelea, `stroke` E culoarea vizibilă întreagă, nu un contur secundar, deci regula le făcea aproape invizibile. CSS are prioritate față de atributele de prezentare SVG setate din JS, indiferent de ordine — genul de bug care nu apare la `tsc`/teste, doar la verificare vizuală reală. Reparat cu un selector mai specific (`[fill]:not([fill="none"])`), aplicat doar formelor cu umplere.
+- Teste noi: `tests/anatomy.test.ts` (9 cazuri) — integritate de conținut (23 de părți, id-uri unice, toate cele 4 sisteme acoperite, geometrie validă pentru fiecare tip de formă), comportament `GameStore` (inspectare/descoperire o singură dată, id necunoscut fără efecte secundare).
+- `tsc --noEmit` curat; 246 de teste automate trec (33 fișiere, +9).
+- **Verificat live pe dev server**: toate cele 4 sisteme comutate, confirmate 6/7/5/5 forme randate corect (verificat programatic, nu doar vizual). Click pe Craniu → panou cu numele și flavor-ul corect, banner „Craniu (Schelet)". Click pe Inimă (din Organe interne) → banner „Inimă (Organe interne)" cu flavor corect, Cunoaștere +4 (3+4=7 C total după ambele). A doua inspectare a Inimii confirmată fără bonus repetat. Zero erori în consolă.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nedocumentată — toate deciziile de scop (siluetă stilizată nu ilustrație reală, toate 4 sistemele din v1, bonus de Cunoaștere la inspectare) sunt scrise direct în amendamentul SPEC §M9, majoritatea confirmate explicit cu utilizatorul înainte de cod.
+
+**Rămas de făcut / follow-up:**
+- Cele 3 idei propuse de utilizator sunt acum toate implementate, testate și verificate live (M7 Reacții, M8 ADN/ARN, M9 Anatomie) — niciun follow-up cunoscut rămas din acest arc.
+- Dacă se dorește vreodată polish vizual suplimentar pe siluetă/forme (poziționare mai fină, forme mai elaborate) — posibil, dar necesită iterație vizuală directă în browser (așa cum s-a făcut și de data asta pentru bug-ul de CSS), nu doar ajustare de coordonate „oarbă".
+
+---
+
 ## [2026-08-11] M8 — ADN/ARN: editor de secvențe și mutații reale
 
 **Milestone:** M8 (a doua din cele 3 idei noi ale utilizatorului, planificată explicit înainte de cod, per §14)

@@ -5,6 +5,7 @@ export interface HudCallbacks {
   onOpenPeriodicTable: () => void;
   onOpenReactionsLab: () => void;
   onOpenGeneticsLab: () => void;
+  onOpenAnatomyLab: () => void;
   onOpenSettings: () => void;
 }
 
@@ -33,12 +34,26 @@ export function renderHud(container: HTMLElement, store: GameStore, callbacks: H
   geneticsBtn.textContent = "ADN/ARN";
   geneticsBtn.addEventListener("click", callbacks.onOpenGeneticsLab);
 
+  const anatomyBtn = document.createElement("button");
+  anatomyBtn.textContent = "Anatomie";
+  anatomyBtn.addEventListener("click", callbacks.onOpenAnatomyLab);
+
   const settingsBtn = document.createElement("button");
   settingsBtn.textContent = "⚙";
   settingsBtn.title = "Setări";
   settingsBtn.addEventListener("click", callbacks.onOpenSettings);
 
-  container.append(energy, knowledge, stars, spacer, periodicBtn, reactionsBtn, geneticsBtn, settingsBtn);
+  container.append(
+    energy,
+    knowledge,
+    stars,
+    spacer,
+    periodicBtn,
+    reactionsBtn,
+    geneticsBtn,
+    anatomyBtn,
+    settingsBtn
+  );
 
   function render(): void {
     const rate = store.totalEnergyPerSecond();

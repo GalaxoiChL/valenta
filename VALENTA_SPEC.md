@@ -550,6 +550,40 @@ Un tab nou, complet separat de motorul chimic (atomi/legături) — biologie mol
 **8.5 Ce NU intră în M8 v1 (risc de scope creep, §14)**
 Dubla elice completă cu catenă complementară, editor de poziție arbitrară pentru inserție (doar capăt + ștergere oriunde în v1), reglare genică, epigenetică, alte mutații în afara celor 2 curate, orice pretenție de coordonate genomice exacte. Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
 
+### M9 — Anatomie: explorator vizual al corpului uman
+
+Al treilea tab nou, cel mai departe de identitatea originală a jocului (chimie de atomi) — anatomie macroscopică, nu chimie/biologie moleculară. Fără nimic de reosit din motorul chimic sau din M8; singurul lucru comun e tiparul de overlay și convenția de flavor text real.
+
+**9.1 Mecanica**
+- Ecran overlay nou, „Anatomie" (tipar `OverlayController`), gratis de la început.
+- O siluetă simplificată a corpului uman (vedere din față, un singur `<path>` SVG desenat manual, stilizat — **nu** o ilustrație medicală reală, nicio pretenție de acuratețe anatomică la nivel de manual de medicină) rămâne randată constant, ca reper vizual.
+- 4 sisteme comutabile (tab-uri interne, tiparul deja folosit de Covalent/Ionic din Constructor): **Schelet**, **Organe interne**, **Sistem circulator**, **Sistem muscular**. La comutare, se randează peste siluetă doar formele sistemului activ.
+- Fiecare parte e o formă SVG (elipsă sau path curbat) poziționată aproximativ anatomic pe siluetă, colorată distinct, clickabilă. Click → panou/tooltip cu numele și un fapt real (funcție, locație, o curiozitate — tipar de flavor text identic cu restul jocului).
+- Prima inspectare a fiecărei părți acordă un mic bonus de Cunoaștere (tipar identic cu M7/M8 — bannerul de descoperire existent, reosit fără nicio schimbare în `main.ts`), o singură dată per parte.
+
+**9.2 Simplificări asumate (§5.6, aceeași filosofie)**
+- Siluetă și forme **stilizate**, desenate manual ca aproximări vizuale rezonabile — nu ilustrații medicale, nu la scară/proporție clinică exactă. Onestitatea aici e despre fapte (fiecare parte listată chiar există, chiar face ce descrie flavor text-ul), nu despre precizia desenului.
+- Doar vedere din față, un singur strat activ o dată — fără rotație 3D, fără secțiuni transversale reale.
+- Sistemele se suprapun parțial în realitate (inima aparține și organelor, și circulatorului) — aici fiecare parte aparține unui singur sistem în date, ales după contextul cel mai relevant, nu duplicat.
+- Nicio conexiune cu economia de bază a jocului (atomi/Energie) — la fel ca ADN/ARN, singurul cârlig e bonusul de Cunoaștere la prima inspectare.
+
+**9.3 Conținutul inițial (~23 părți, toate cu fapte reale verificabile)**
+- **Schelet** (6): craniu, coloană vertebrală, cutie toracică, bazin, femur, humerus.
+- **Organe interne** (7): creier, inimă, plămâni, ficat, stomac, rinichi, intestine.
+- **Sistem circulator** (5): inimă, aortă, vena cavă, artere majore, vene majore.
+- **Sistem muscular** (5): biceps, cvadriceps, abdominali, pectorali, gambe (triceps sural).
+
+**9.4 Criterii de acceptare**
+- [x] Overlay „Anatomie" deschis din HUD; cele 4 sisteme comutabile, fiecare cu formele lui randate corect peste siluetă.
+- [x] Click pe o parte arată numele și faptul real corect.
+- [x] Prima inspectare a fiecărei părți → banner de descoperire + Cunoaștere; a doua nu mai acordă bonus.
+- [x] `tsc --noEmit` curat; toată suita de teste (integritate `anatomyDB.json`) trece, fără regresii.
+
+**Confirmat** — vezi DEVLOG „[2026-08-11] M9 — Anatomie: explorator vizual al corpului uman". Verificat live: toate cele 4 sisteme comută corect (6/7/5/5 forme), click pe Craniu → panou „Craniu" + flavor corect + banner „Craniu (Schelet)"; click pe Inimă → banner „Inimă (Organe interne)" cu Cunoaștere +4; a doua inspectare a Inimii confirmată fără bonus repetat. Bug prins și reparat în timpul verificării live: o regulă CSS generică suprascria culoarea oaselor randate ca linii (stroke), făcându-le aproape invizibile — reparat înainte de commit. Zero erori în consolă.
+
+**9.5 Ce NU intră în M9 v1 (risc de scope creep, §14)**
+Ilustrații medicale reale/la scară, rotație 3D, secțiuni transversale, mai mult de 4 sisteme, orice mecanică de joc legată de sănătate/boală (asta ar aluneca spre conținut medical sensibil, evitat deliberat). Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
+
 ---
 
 ## 13. Cum folosești documentul cu Claude Code (VS Code)

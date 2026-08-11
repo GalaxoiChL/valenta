@@ -714,6 +714,60 @@ body {
   color: var(--accent) !important;
 }
 
+/* ---------- M9 — Anatomie ---------- */
+.anatomy-panel {
+  width: min(90vw, 480px);
+}
+
+.anatomy-svg {
+  width: 100%;
+  height: min(60vh, 480px);
+  display: block;
+  margin: 10px 0;
+}
+
+.anatomy-outline circle,
+.anatomy-outline polygon,
+.anatomy-outline line {
+  fill: var(--bg-panel-2);
+  stroke: var(--border);
+  stroke: #3a4560;
+}
+
+.anatomy-part {
+  cursor: pointer;
+  opacity: 0.88;
+  transition: opacity 0.15s;
+}
+
+.anatomy-part[fill]:not([fill="none"]) {
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 1;
+}
+
+.anatomy-part:hover {
+  opacity: 1;
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.anatomy-part.discovered {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.anatomy-info {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  min-height: 40px;
+}
+
+.anatomy-info .flavor {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
 .collection-row .flavor {
   font-size: 11px;
   color: var(--text-dim);

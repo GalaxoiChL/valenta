@@ -12,6 +12,7 @@ import { renderObjectives } from "./ui/objectives";
 import { renderPeriodicTable } from "./ui/periodicTable";
 import { renderReactionsLab } from "./ui/reactions";
 import { renderGeneticsLab } from "./ui/genetics";
+import { renderAnatomyLab } from "./ui/anatomy";
 import { renderSettings } from "./ui/settings";
 import { toUnicodeSubscript } from "./chem/formula";
 import { formatNumber, formatDuration } from "./ui/format";
@@ -43,12 +44,14 @@ const store = createStore();
 const periodicTable = renderPeriodicTable(store);
 const reactionsLab = renderReactionsLab(store);
 const geneticsLab = renderGeneticsLab(store);
+const anatomyLab = renderAnatomyLab(store);
 const settings = renderSettings(store);
 
 renderHud(hudEl, store, {
   onOpenPeriodicTable: periodicTable.open,
   onOpenReactionsLab: reactionsLab.open,
   onOpenGeneticsLab: geneticsLab.open,
+  onOpenAnatomyLab: anatomyLab.open,
   onOpenSettings: settings.open
 });
 const palette = renderPalette(paletteEl, store);
