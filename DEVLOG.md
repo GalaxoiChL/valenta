@@ -20,6 +20,33 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] M8 — ADN/ARN: editor de secvențe și mutații reale
+
+**Milestone:** M8 (a doua din cele 3 idei noi ale utilizatorului, planificată explicit înainte de cod, per §14)
+**Făcut:**
+- **Amendament SPEC.md întâi** (8.1–8.5), aceeași disciplină ca la M7 — mecanica, simplificările asumate explicit, conținutul inițial, criterii de acceptare, ce rămâne deliberat în afara v1.
+- **Domeniu complet nou, zero cod de reosit din motorul chimic** — biologie moleculară, nu atomi/legături. Modul nou `src/bio/`, separat de `src/chem/`.
+- **`src/bio/genetics.ts`** (pur): tabelul standard de coduri genetice (64 de codoni → aminoacid sau STOP, verificat manual înainte de a fi scris — o greșeală aici ar fi o eroare de corectitudine biologică, echivalentul erorii de hash canonic din motorul chimic), `transcribe()` (T→U), `translate()` (codoni din capătul secvenței, oprire la primul STOP), `classifySubstitution()` (silențioasă/sens greșit/non-sens), `isFrameshift()` (diferență de lungime ne-multiplu de 3), plus tipurile și funcțiile pentru mutații cunoscute (`mutatedSequenceFor`, `matchesMutation`).
+- **`src/bio/mutationDB.json`** (2 mutații reale, verificate programatic — codon/aminoacid confirmat prin `translate()` înainte de a fi scrise definitiv, nu presupuse):
+  - **Anemia falciformă (HBB, Glu6Val)**: codonul 6 GAG (Glu) → GTG (Val) — cea mai citată mutație punctiformă din manuale, clasificată corect „cu sens greșit".
+  - **Fibroza chistică (CFTR, ΔF508)**: deleție de 3 baze care elimină exact codonul fenilalaninei — deleție „în cadru" (in-frame), pierde un aminoacid întreg, fără decalaj de cadru.
+  - Fragmentele sunt explicit **ilustrative** (SPEC 8.2) — centrate pe codonul real afectat, nu revendică o secvență genomică completă la coordonate cromozomiale exacte, ca să nu pretind o precizie pe care nu o pot verifica.
+- **`src/core/state.ts`**: `GameState.dnaSequence`/`geneticsDiscovered` (câmpuri noi, persistate — merge-ul necondiționat din `migrate()` le completează automat din `createInitialState()` pentru save-uri vechi, fără cod de migrare separat). `cycleDnaBase`/`appendDnaBase`/`deleteDnaBase`/`loadMutationExample`/`checkGeneticDiscoveries` — editare complet liberă (fără cost de atomi/Energie, decizie confirmată explicit cu utilizatorul), singurul cârlig cu economia fiind bonusul de Cunoaștere la prima potrivire exactă cu o mutație din `mutationDB.json`. **Reosește bannerul de descoperire existent** (`main.ts`, neschimbat) emițând `"discovery"` cu aceeași formă `{dbEntry, formula}` — zero cod nou de UI pentru banner, a doua oară că acest tipar se dovedește reutilizabil (prima la M7).
+- **`src/ui/genetics.ts`** (nou, overlay „ADN/ARN"): bandă de „plăcuțe" de baze (click ciclează A→T→G→C, „✕" șterge, „+" adaugă la capăt — inserție doar la capăt în v1, ștergere oriunde, exact ce spune SPEC 8.5), rânduri ARNm/Proteină derivate live, mesaj de clasificare la fiecare substituție, avertisment de frameshift calculat generic (nu doar pentru cele 2 mutații curate) la orice inserție/ștergere care schimbă lungimea cu un număr ne-multiplu de 3. Listă de mutații cunoscute cu tipar identic reacțiilor (rânduri stabile, „Încarcă secvența").
+- Buton nou „ADN/ARN" în HUD, lângă „Reacții" (`hud.ts`, `main.ts`).
+- Teste noi: `tests/genetics.test.ts` (23 cazuri) — funcții pure (transcriere, traducere, oprire la STOP, clasificare substituție, detectare frameshift), integritate de conținut pe `mutationDB.json` (lungime multiplu de 3, fără STOP prematur, codonul afectat e chiar aminoacidul așteptat pentru fiecare mutație, `matchesMutation` confirmă/respinge corect), comportament `GameStore` (ciclare/adăugare/ștergere bază, încărcare exemplu, descoperire o singură dată cu bonus corect, proteina scurtată exact cu un aminoacid la ΔF508).
+- `tsc --noEmit` curat; 237 de teste automate trec (32 fișiere, +23).
+- **Verificat live pe dev server**: încărcat secvența Anemia falciformă (18 baze), editat baza corectă (index 16, A→T) — status live „Codon 6: GAG → GUG — mutație cu sens greșit — aminoacid diferit", banner „Ai descoperit — Anemia falciformă (HBB) (Glu₆Val)" cu flavor real, Cunoaștere +6, rândul mutației arată „descoperit — +6,00 C primite". Încărcat ΔF508, șters exact cele 3 baze ale codonului Phe — proteina „Met-Lys-Ile-Ile-Gly" (fenilalanina lipsă, restul intact), banner de descoperire corect, **fără** avertisment de frameshift (deleție multiplu de 3, corect). Șters încă o bază (a 4-a) — avertisment de frameshift apărut corect. Zero erori în consolă.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nedocumentată — toate deciziile (bonus de Cunoaștere la descoperire, substituție+deleție dar nu inserție arbitrară, fragmente ilustrative nu genomice exacte) sunt scrise direct în amendamentul SPEC §M8.
+
+**Rămas de făcut / follow-up:**
+- A treia idee propusă de utilizator (biologie/anatomie umană — decompose corp, inspectare mușchi/organe/vene) rămâne neabordată — cel mai departe de identitatea jocului dintre cele 3, va necesita propriul amendament SPEC și, probabil, o discuție separată despre cât de mult din motorul de randare SVG existent chiar se pretează la anatomie (spre deosebire de ADN/ARN și reacții, unde tiparele existente s-au potrivit direct).
+- Editor de inserție la poziție arbitrară (nu doar la capăt) — semnalat explicit ca exclus din v1 (§8.5), nu o restanță ascunsă.
+
+---
+
 ## [2026-08-11] M7 — Reacții chimice: compuși din Colecție reacționează între ei
 
 **Milestone:** M7 (idee nouă a utilizatorului — prima din 3 propuse, planificată explicit înainte de cod, per §14)

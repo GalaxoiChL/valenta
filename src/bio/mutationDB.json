@@ -1,0 +1,24 @@
+[
+  {
+    "id": "sickle_cell_hbb",
+    "name": "Anemia falciformă (HBB)",
+    "shortLabel": "Glu6Val",
+    "kind": "substitution",
+    "wildTypeSequence": "ATGGTGCATCTGACTGAG",
+    "codonIndex": 5,
+    "mutatedCodon": "GTG",
+    "discoveryC": 6,
+    "flavor": "Cea mai citată mutație punctiformă din manuale: codonul 6 al genei HBB trece de la GAG (acid glutamic) la GTG (valină). O singură bază schimbată deformează hemoglobina sub lipsă de oxigen, dând globulelor roșii forma de seceră care le blochează în vasele mici."
+  },
+  {
+    "id": "cftr_delta_f508",
+    "name": "Fibroza chistică (CFTR)",
+    "shortLabel": "ΔF508",
+    "kind": "deletion",
+    "wildTypeSequence": "ATGAAAATCATTTTTGGT",
+    "codonIndex": 4,
+    "deletedBases": 3,
+    "discoveryC": 6,
+    "flavor": "Cea mai comună mutație din fibroza chistică: trei baze lipsă elimină exact codonul fenilalaninei de la poziția 508 din proteina CFTR — o deleție „în cadru”, care pierde un aminoacid întreg fără să decaleze cadrul de citire al restului proteinei."
+  }
+]

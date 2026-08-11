@@ -19,6 +19,9 @@ import moleculeDB from "../chem/moleculeDB.json";
 import reactionDB from "../chem/reactionDB.json";
 import type { ReactionDefinition } from "../chem/reactions";
 import { maxReactionRuns as computeMaxReactionRuns } from "../chem/reactions";
+import mutationDB from "../bio/mutationDB.json";
+import type { Base, MutationDefinition } from "../bio/genetics";
+import { BASES, matchesMutation } from "../bio/genetics";
 import {
   generatorCost,
   discoveryKnowledge,
@@ -52,6 +55,11 @@ const DB_BY_KEY = new Map<string, MoleculeDBEntry>(
 /** M7 — Reacții chimice (§7): definițiile statice din reactionDB.json, indexate după id. */
 const REACTION_BY_ID = new Map<string, ReactionDefinition>(
   (reactionDB as ReactionDefinition[]).map((r) => [r.id, r])
+);
+
+/** M8 — ADN/ARN (§8): mutațiile reale cunoscute din mutationDB.json, indexate după id. */
+const MUTATION_BY_ID = new Map<string, MutationDefinition>(
+  (mutationDB as MutationDefinition[]).map((m) => [m.id, m])
 );
 
 /**
@@ -113,6 +121,10 @@ export interface GameState {
   totalEnergyEarned: number;
   /** M5 — Stele deținute, persistă peste resetări; fiecare dă +STAR_PRODUCTION_BONUS producție globală. */
   stars: number;
+  /** M8 — ADN/ARN (§8): secvența curentă editabilă, persistă ca un draft (simetric cu constructorDraft). */
+  dnaSequence: string;
+  /** M8 — id-urile mutațiilor reale deja "descoperite" prin editare (§8.3), fiecare cu bonus unic de Cunoaștere. */
+  geneticsDiscovered: string[];
 }
 
 export const SAVE_VERSION = 1;
@@ -135,7 +147,9 @@ export function createInitialState(): GameState {
     objectivesDone: [],
     settings: { sound: true, offlineCap: 8 * 60 * 60, autopilot: false },
     totalEnergyEarned: 0,
-    stars: 0
+    stars: 0,
+    dnaSequence: "",
+    geneticsDiscovered: []
   };
 }
 
@@ -516,6 +530,68 @@ export class GameStore {
     for (const d of discoveries) this.events.emit("discovery", d);
 
     return { ok: true };
+  }
+
+  // --- M8 — ADN/ARN (§8): editare liberă, fără cost de atomi/Energie —
+  // singurul cârlig cu economia e bonusul de Cunoaștere la prima
+  // "descoperire" a uneia dintre mutațiile reale din mutationDB.json. ---
+
+  dnaSequence(): string {
+    return this.state.dnaSequence;
+  }
+
+  listMutations(): MutationDefinition[] {
+    return [...MUTATION_BY_ID.values()];
+  }
+
+  setDnaSequence(seq: string): void {
+    this.state.dnaSequence = seq.toUpperCase();
+    this.events.emit("dna");
+    this.checkGeneticDiscoveries();
+  }
+
+  cycleDnaBase(index: number): void {
+    const seq = this.state.dnaSequence;
+    if (index < 0 || index >= seq.length) return;
+    const current = seq[index] as Base;
+    const next = BASES[(BASES.indexOf(current) + 1) % BASES.length];
+    this.state.dnaSequence = seq.slice(0, index) + next + seq.slice(index + 1);
+    this.events.emit("dna");
+    this.checkGeneticDiscoveries();
+  }
+
+  /** Inserție doar la capăt în v1 (§8.5) — ștergerea, mai jos, funcționează oriunde. */
+  appendDnaBase(): void {
+    this.state.dnaSequence += "A";
+    this.events.emit("dna");
+    this.checkGeneticDiscoveries();
+  }
+
+  deleteDnaBase(index: number): void {
+    const seq = this.state.dnaSequence;
+    if (index < 0 || index >= seq.length) return;
+    this.state.dnaSequence = seq.slice(0, index) + seq.slice(index + 1);
+    this.events.emit("dna");
+    this.checkGeneticDiscoveries();
+  }
+
+  loadMutationExample(id: string): boolean {
+    const m = MUTATION_BY_ID.get(id);
+    if (!m) return false;
+    this.setDnaSequence(m.wildTypeSequence);
+    return true;
+  }
+
+  private checkGeneticDiscoveries(): void {
+    for (const m of MUTATION_BY_ID.values()) {
+      if (this.state.geneticsDiscovered.includes(m.id)) continue;
+      if (!matchesMutation(this.state.dnaSequence, m)) continue;
+      this.state.geneticsDiscovered.push(m.id);
+      this.state.resources.knowledge += m.discoveryC;
+      this.emitResources();
+      // reosește bannerul de descoperire deja existent (main.ts) — aceeași formă {dbEntry, formula}.
+      this.events.emit("discovery", { dbEntry: { name: m.name, flavor: m.flavor }, formula: m.shortLabel });
+    }
   }
 
   draft(): MoleculeGraph {

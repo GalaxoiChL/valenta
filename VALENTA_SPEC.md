@@ -514,6 +514,42 @@ Bucla jocului până acum e „atomi → moleculă → Laborator". M7 adaugă o 
 **7.5 Ce NU intră în M7 v1 (risc de scope creep, §14)**
 Cinetică, temperatură/presiune/pH, catalizatori mecanici, reacții reversibile/echilibru, reacții inventate fără bază reală, editor de reacții pentru jucător. Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
 
+### M8 — ADN/ARN: editor de secvențe și mutații reale
+
+Un tab nou, complet separat de motorul chimic (atomi/legături) — biologie moleculară, nu chimie. Jucătorul editează o secvență de ADN, vede live transcrierea în ARNm și traducerea în proteină, prin dogma centrală reală a biologiei — nu o simulare inventată.
+
+**8.1 Mecanica**
+- Ecran overlay nou, „ADN/ARN" (tipar `OverlayController`, ca Reacții/Tabel Periodic), gratis de la început.
+- Secvența de ADN e un șir de baze (A/T/G/C), randată ca o bandă de „plăcuțe" clickabile — click pe o placă ciclează baza (A→T→G→C→A), un „✕" pe fiecare placă șterge acea bază, un buton „+" adaugă o bază nouă la capăt. Fără poziționare 3D a dublei elice — o bandă liniară simplă, suficientă pentru concept (§5.6, aceeași filosofie de simplificare asumată deschis).
+- Sub bandă, două rânduri derivate, actualizate live, niciodată editabile direct: **ARNm** (transcriere: fiecare T devine U, restul neschimbat) și **Proteina** (traducere: codoni de 3 baze citiți din capătul secvenței, prin codul genetic standard, până la primul codon STOP sau capătul secvenței).
+- La fiecare editare de o singură bază (substituție), un mesaj live clasifică mutația la nivelul codonului afectat: **silențioasă** (codon diferit, același aminoacid — redundanța codului genetic), **cu sens greșit** (aminoacid diferit) sau **non-sens** (apare un codon STOP prematur, proteina se scurtează).
+- La orice inserție/ștergere care schimbă lungimea secvenței cu un număr ne-multiplu de 3 față de secvența încărcată inițial, un mesaj separat semnalează **decalajul cadrului de citire** (frameshift) — toți codonii de după punctul editat se recitesc greșit, exact fenomenul real.
+- O listă mică de **mutații reale cunoscute** (`src/bio/mutationDB.json`, tipar identic cu `reactionDB.json`), fiecare cu un buton „Încarcă secvența" (pune secvența ei normală în bandă) și o stare de „descoperit"/nu: descoperită quando secvența curentă a jucătorului produce, la codonul relevant, exact schimbarea de aminoacid a acelei mutații reale. Prima descoperire acordă un mic bonus de Cunoaștere (tipar identic cu bonusul de primă sinteză, §4.2) — nu la fiecare editare, o singură dată per mutație.
+
+**8.2 Simplificări asumate (§5.6, aceeași filosofie)**
+- O singură catenă de ADN randată (nu dubla elice completă cu catena complementară) — transcrierea e prezentată direct ca „T→U" pe catena codantă, simplificare pedagogică standard, nu un model complet de transcriere cu ARN-polimerază/catenă șablon.
+- Cadrul de citire pornește mereu de la prima bază a secvenței (fără căutarea unui codon START real AUG) — suficient pentru a demonstra conceptul de decalaj de cadru, fără complexitatea reglării reale a inițierii traducerii.
+- Fragmentele din `mutationDB.json` sunt **ilustrative**, centrate pe codonul real afectat (verificat prin tabelul standard de coduri genetice) — nu revendică o secvență genomică completă, poziționată exact la coordonatele cromozomiale reale.
+- Nicio simulare de expresie genică, reglare, ARN necodant, epigenetică.
+
+**8.3 Conținutul inițial**
+2 mutații reale, bine documentate, verificate direct pe tabelul de coduri genetice înainte de a fi scrise:
+- **Anemia falciformă** (gena HBB): codonul 6 GAG (Glu, E) → GTG (Val, E→V) — mutație cu sens greșit, cea mai citată mutație punctiformă din manuale.
+- **Fibroza chistică, ΔF508** (gena CFTR): deleție de 3 baze care elimină exact codonul fenilalaninei de la poziția 508 — deleție „în cadru" (in-frame), pierde un aminoacid întreg fără să decaleze cadrul de citire, spre deosebire de o deleție obișnuită.
+
+**8.4 Criterii de acceptare**
+- [x] Overlay „ADN/ARN" deschis din HUD; bandă de ADN editabilă (ciclare bază, ștergere, adăugare).
+- [x] ARNm și Proteina se actualizează live, corect, la orice editare.
+- [x] Clasificarea silențioasă/sens greșit/non-sens apare corect la substituție.
+- [x] Decalajul de cadru (frameshift) semnalat corect la inserție/ștergere ne-multiplu de 3.
+- [x] Ambele mutații din `mutationDB.json` se pot „descoperi" prin editare, cu banner + Cunoaștere o singură dată.
+- [x] `tsc --noEmit` curat; toată suita de teste (inclusiv teste noi pentru codul genetic/traducere) trece, fără regresii.
+
+**Confirmat** — vezi DEVLOG „[2026-08-11] M8 — ADN/ARN: editor de secvențe și mutații reale". Verificat live: încărcat secvența Anemia falciformă, editat baza corectă → banner „Ai descoperit — Anemia falciformă (HBB) (Glu₆Val)" + status live „Codon 6: GAG → GUG — mutație cu sens greșit"; încărcat ΔF508, șters exact cele 3 baze ale codonului Phe → banner de descoperire + proteina scurtată cu un aminoacid, fără decalaj de cadru (deleție multiplu de 3); ștergerea unei a 4-a baze a declanșat corect avertismentul de frameshift. Zero erori în consolă.
+
+**8.5 Ce NU intră în M8 v1 (risc de scope creep, §14)**
+Dubla elice completă cu catenă complementară, editor de poziție arbitrară pentru inserție (doar capăt + ștergere oriunde în v1), reglare genică, epigenetică, alte mutații în afara celor 2 curate, orice pretenție de coordonate genomice exacte. Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.
+
 ---
 
 ## 13. Cum folosești documentul cu Claude Code (VS Code)

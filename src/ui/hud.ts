@@ -4,6 +4,7 @@ import { formatNumber, formatRate } from "./format";
 export interface HudCallbacks {
   onOpenPeriodicTable: () => void;
   onOpenReactionsLab: () => void;
+  onOpenGeneticsLab: () => void;
   onOpenSettings: () => void;
 }
 
@@ -28,12 +29,16 @@ export function renderHud(container: HTMLElement, store: GameStore, callbacks: H
   reactionsBtn.textContent = "Reacții";
   reactionsBtn.addEventListener("click", callbacks.onOpenReactionsLab);
 
+  const geneticsBtn = document.createElement("button");
+  geneticsBtn.textContent = "ADN/ARN";
+  geneticsBtn.addEventListener("click", callbacks.onOpenGeneticsLab);
+
   const settingsBtn = document.createElement("button");
   settingsBtn.textContent = "⚙";
   settingsBtn.title = "Setări";
   settingsBtn.addEventListener("click", callbacks.onOpenSettings);
 
-  container.append(energy, knowledge, stars, spacer, periodicBtn, reactionsBtn, settingsBtn);
+  container.append(energy, knowledge, stars, spacer, periodicBtn, reactionsBtn, geneticsBtn, settingsBtn);
 
   function render(): void {
     const rate = store.totalEnergyPerSecond();
