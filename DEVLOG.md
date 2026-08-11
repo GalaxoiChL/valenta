@@ -20,6 +20,21 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] Verificare live restantă: sinteza Ho₂O₃/ErCl₃ (tier 17)
+
+**Milestone:** follow-up (ultima restanță semnalată explicit la finalul sesiunii tier 17)
+**Făcut:**
+- Verificat live, într-un save de test izolat (server dev secundar pe portul 5175, `localStorage` propriu injectat cu Cunoaștere/atomi de test): deblocat Ho și Er din Tabelul Periodic (confirmate vizual verzi, cost 3.800 C / 3.850 C corect scăzut), construit și sintetizat manual din Constructorul Ionic ambii compuși reprezentativi — **Ho₂O₃** (2×Ho³⁺ + 3×O²⁻) și **ErCl₃** (1×Er³⁺ + 3×Cl⁻, după deblocarea și a Clorului). Ambele au declanșat bannerul „Ai descoperit" cu flavor text corect și apar în Colecție cu producție activă la **exact** ratele calculate la calibrare (Ho₂O₃: 46,5 E/s, ErCl₃: 36,4 E/s — coincid cifră cu cifră cu rezultatul formulei `productionRate()` folosite la alegerea energiilor de rețea). Zero erori în consolă.
+- **Rezolvat definitiv problema de injectare de resurse în `localStorage` pentru teste**, semnalată ca notă tehnică ieri: `saveGame()` (apelat din `beforeunload` sau din intervalul periodic de 15s) rescrie `localStorage` cu starea *din memoria tab-ului*, oricând acesta mai există — o editare directă a `localStorage` e mereu expusă să fie suprascrisă dacă tab-ul vechi mai apucă să declanșeze vreun autosave înainte de a fi închis. Soluție robustă găsită și verificată: după ce scrii valorile dorite în `localStorage`, suprascrie `localStorage.setItem = function(){}` (no-op) **înainte** de a închide tab-ul — orice `saveGame()` ulterior (inclusiv cel din `beforeunload`) devine inofensiv, iar valorile injectate rămân neatinse la următoarea încărcare într-un tab nou.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna — verificare pură, fără schimbări de cod.
+
+**Rămas de făcut / follow-up:**
+- Nimic restant din arcul recent (regenerare chei canonice, tier 17, Autopilot, sinteza Ho/Er) — toate confirmate live, fără nicio eroare de consolă.
+
+---
+
 ## [2026-08-11] Verificare live restantă: Autopilot funcționează corect
 
 **Milestone:** follow-up (restanță semnalată în ultimele 2 sesiuni — „continua" după tier 17)
