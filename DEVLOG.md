@@ -20,6 +20,26 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] Regenerare chei canonice explodate — pasul separat anunțat în fix-ul anterior
+
+**Milestone:** follow-up direct la fix-ul „prag pe suma lungimilor" din sesiunea trecută (`f6f4eb5`)
+**Făcut:**
+- Reluat exact de unde rămăsese sesiunea anterioară: fix-ul din `canonical.ts` era deja pe `master`, dar cele 17 chei din `moleculeDB.json` calculate cu algoritmul vechi (defect) rămâneau neregenerate — 8 teste automate eșuau intenționat ca semnal (comparau chei hardcodate cu cele din DB).
+- Reconstruit fiecare din cele 17 molecule afectate (Toluen, Fenol, Anilină, Glucoză, Piridină, Octan, Glicerol, Acetat de etil, Acid butiric, Adenină, Pentan, Hexan, Heptan, Stiren, Clorobenzen, Acid lactic, Serină) din grafuri exacte deja validate în teste existente, calculat cheia canonică nouă cu codul curent (`moleculeKey`) și scris-o înapoi în `moleculeDB.json`, păstrând identic restul fiecărei intrări (nume, formulă, `bonusMult`, `discoveryC`, tier, tags, flavor).
+- **Important, descoperit în timpul verificării**: doar 8 din cele 17 molecule aveau teste automate care prindeau explozia (`expectMoleculeInDB`); celelalte 9 (Pentan, Hexan, Heptan, Stiren, Clorobenzen, Acid lactic, Serină, plus Glicerol avea acoperire parțială — testul verifica și Etilenglicolul din aceeași funcție, dar acela nu era afectat) aveau chei la fel de explodate în DB (până la 250.895 caractere pentru Glucoză) fără niciun test care să le fi prins — ar fi rămas sparte silențios în joc (moleculă nerecunoscută la sinteză din Constructor, deși validă chimic) dacă nu se verifica manual fiecare intrare din lot, nu doar cele 8 semnalate de suita de teste roșii.
+- Verificare: scris un script temporar care recalculează cheia pentru toate cele 17 molecule folosind exact `molecule.ts`/`validator.ts`/`formula.ts` din sursă și compară cu ce era în DB înainte de scriere — confirmat toate cele 17 aveau chei divergente (nu doar cele 8 vizibile în teste), toate rezolvate acum.
+- `tsc --noEmit` curat; toate cele 189 de teste automate trec (28 fișiere) — cele 8 anterior roșii sunt acum verzi.
+- **Verificare live în browser NU a fost posibilă** — extensia claude-in-chrome era deconectată complet la reconectare (al doilea eveniment consecutiv de acest fel, după Autopilot din sesiunea trecută). Acoperire de încredere: cele 17 chei au fost recalculate cu codul sursă exact al motorului (nu o reimplementare paralelă), validate chimic (`validate().ok` + formulă așteptată) înainte de scriere, iar suita completă de teste (inclusiv cele 8 special concepute să prindă exact acest bug) trece integral.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nouă — pas mecanic de reparație de date, fără schimbări de design.
+
+**Rămas de făcut / follow-up:**
+- **Verificare live UI restantă, cumulată acum cu cea din Autopilot** — de făcut într-o sesiune viitoare când extensia de browser e stabilă din nou: sintetizare manuală a cel puțin unei molecule mari afectate (ex. Toluen sau Octan) din Constructor, confirmare vizuală a bannerului de descoperire.
+- Fără regresie de proces necesară pe termen scurt, dar de reținut: la orice bug de canonicalizare viitor, verifică *toate* intrările afectate direct (script de comparație pe tot DB-ul), nu doar cele semnalate de teste roșii — suita de teste nu acoperea 9 din 17 cazuri reale.
+
+---
+
 ## [2026-08-10] Autopilot — deblocare elemente + cumpărare generatoare automată
 
 **Milestone:** post-extindere elemente (răspuns concret ales dintr-un brainstorm de idei — „profunzime de joc")
