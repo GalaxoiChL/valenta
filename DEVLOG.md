@@ -20,6 +20,31 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] Echilibrare pe curbe — exercițiul dedicat din SPEC §12/M5, făcut prima dată
+
+**Milestone:** M5 (item rămas neatins din planul original — „echilibrare finală pe curbe, foaie de calcul separată")
+**Făcut:**
+- Bifat retroactiv în `VALENTA_SPEC.md` toate criteriile M0-M5 confirmate de-a lungul sesiunilor (M0 avea checkbox-uri literale nebifate deși verificate live din prima sesiune; M1-M5 au primit câte o linie „Confirmat" cu trimitere la intrarea DEVLOG corespunzătoare, fără să inventez structură nouă de checkbox unde SPEC folosea doar proză).
+- **`scripts/balance-report.mjs`** — script permanent (nu temporar), adăugat în repo cu `npm run balance-report`: importă direct din sursa reală (`balance.ts`, `lattice.ts`, `elements.ts`, `moleculeDB.json`) formulele de producție/cost, ca raportul să nu poată diverge tăcut de codul jocului. Verifică patru curbe:
+  1. **Costurile de deblocare a elementelor** (84 jucabile) — sortate, cu raportul față de precedent; un singur salt >×2 semnalat (O→N, 10→25 C), recunoscut automat ca fals-pozitiv (diferență absolută neglijabilă, în zona gratuită de start H/O/N, decizie deja documentată la M1).
+  2. **Eficiența compușilor ionici** (E/s per atom) — agregată din toate cele ~90 de intrări ionice din DB, grupate pe tier. Confirmă ce fusese verificat manual, per-tier, în DEVLOG de la tier 5 încoace: vârful de eficiență crește **monoton** pe toate cele 15 tiere ionice (2,86 → 9,41), fără nicio regresie.
+  3. **Costul cumulat al generatoarelor de atomi** — creștere geometrică ×1.18, verificată ca rămâne pe o curbă standard de idle (dublare la ~4 generatoare), fără recalibrare necesară.
+  4. **Curba Nucleosintezei** — randament descrescător pe rădăcină pătrată, confirmată numeric (1★=1M E, 2★=4M E, 5★=25M E).
+  - Exportă și 3 fișiere `.csv` (deschise direct în Excel/Sheets — literalmente „foaia de calcul" cerută în SPEC), regenerabile oricând, nu ținute în git (adăugate în `.gitignore` — ar putea deveni învechite tăcut față de balansul real dacă ar fi commise ca instantaneu static).
+- Adăugat `tsx` ca dependență de dezvoltare (necesar să ruleze scriptul TS direct via `npm run balance-report`, fără `npx` ad-hoc).
+- **Concluzia trecerii**: balansul e sănătos pe toate cele 4 curbe verificate — nicio recalibrare de cod a fost necesară. Calibrarea empirică per-tier făcută de-a lungul întregului arc de extindere (tier 5→17) s-a dovedit, la o privire de ansamblu, corectă și consistentă.
+- `tsc --noEmit` curat; toate cele 196 de teste automate trec (neschimbate — nicio modificare de cod sursă, doar unealtă nouă de analiză).
+
+**Decizii / abateri de la SPEC.md:**
+- **„Foaia de calcul" a devenit un script repetabil, nu un fișier static** — SPEC.md cerea literal o „foaie de calcul separată"; am ales un script care importă formulele reale în loc de un Excel/Sheets întreținut manual în paralel, ca să nu existe risc de divergență tăcută între „foaia de calcul" și codul jocului (exact genul de bug care a cauzat explozia hash-ului canonic — o sursă de adevăr duplicată, neintenționat desincronizată). CSV-urile exportate acoperă totuși nevoia literală, dacă cineva vrea să inspecteze vizual într-un spreadsheet real.
+- Analiza covalentă a rămas parțială — energiile de legătură (`ΣE_leg`) nu sunt stocate static în `moleculeDB.json` (doar `bonusMult`), deci eficiența compușilor covalenți n-a putut fi agregată automat ca la cei ionici, fără reconstruirea grafurilor fiecărei molecule. Compușii ionici (majoritatea covârșitoare a recalibrărilor din tier 5-17) au acoperire completă.
+
+**Rămas de făcut / follow-up:**
+- Dacă se dorește vreodată acoperire completă și pentru covalent: ar presupune fie stocarea `ΣE_leg` calculat static în DB la construirea fiecărei intrări, fie reconstruirea grafurilor din teste — un efort separat, nu urgent (nicio recalibrare necesară pe partea ionică, singura care a fost efectiv retunată tier după tier).
+- Cu asta, SPEC §12 (M0→M5) e complet — inclusiv ultimul item rămas nebifat de la introducerea documentului.
+
+---
+
 ## [2026-08-11] Completare decorativă a Tabelului Periodic — zero „?" rămase
 
 **Milestone:** răspuns la „continua cu ce mai este nedeblocat" (utilizatorul a remarcat pozițiile „?" rămase)

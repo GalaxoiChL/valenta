@@ -3,3 +3,5 @@ dist/
 .claude/settings.local.json
 *.local
 tsconfig.tsbuildinfo
+scripts/balance-report-*.csv
+scripts/balance-report.txt
