@@ -264,6 +264,18 @@ export const OBJECTIVES: ObjectiveDef[] = [
     description: "Sintetizează Tetroxid de osmiu (OsO₄)",
     rewardC: 50,
     isComplete: (s) => collectionCopies(s, "OsO4") >= 1
+  },
+  {
+    id: "unlock_er",
+    description: "Deblochează Erbiul",
+    rewardC: 51,
+    isComplete: (s) => s.state.unlockedElements.includes("Er")
+  },
+  {
+    id: "synth_ho2o3",
+    description: "Sintetizează Oxid de holmiu (Ho₂O₃) — cel mai puternic magnet natural",
+    rewardC: 49,
+    isComplete: (s) => collectionCopies(s, "Ho2O3") >= 1
   }
 ];
 

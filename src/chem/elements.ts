@@ -1026,6 +1026,34 @@ export const ELEMENTS: Record<string, ElementDef> = {
     unlockCost: 3750,
     flavor: "Cel mai dens element natural stabil — tetroxidul lui, extrem de volatil și toxic, e folosit în microscopie pentru a colora dublele legături din țesuturi biologice.",
     ionicCharge: 8
+  },
+
+  // --- tier 17: Ho, Er — două lantanide stabile omise din loturile de la
+  // tier 13-15 (recitire completă a seriei lantanidelor, aceeași metodă care
+  // a găsit lacuna Rh/Os la tier 16) ---
+  Ho: {
+    symbol: "Ho",
+    name: "Holmiu",
+    Z: 67,
+    valences: [],
+    mass: 164.93,
+    color: "#15f1a0",
+    tier: 17,
+    unlockCost: 3800,
+    flavor: "Cel mai puternic câmp magnetic dintre toate elementele naturale — folosit în magneții din interiorul celor mai puternice electromagneți din lume.",
+    ionicCharge: 3
+  },
+  Er: {
+    symbol: "Er",
+    name: "Erbiu",
+    Z: 68,
+    valences: [],
+    mass: 167.259,
+    color: "#0ae279",
+    tier: 17,
+    unlockCost: 3850,
+    flavor: "Dopantul din inima amplificatoarelor cu fibră optică ce fac posibil internetul global pe cablu submarin.",
+    ionicCharge: 3
   }
 };
 

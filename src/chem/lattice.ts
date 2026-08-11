@@ -157,7 +157,13 @@ const LATTICE_ENERGY: Record<string, number> = {
   // e prima sarcină +8 din joc — cea mai mare posibilă în modelul actual.
   Rh2O3: 15332,
   RhCl3: 13388,
-  OsO4: 13209
+  OsO4: 13209,
+  // Tier 17 — Ho/Er: două lantanide stabile omise din loturile anterioare.
+  // Aceeași metodă, țintă peste vârful tier 16 (OsO4, eff 9,20).
+  Ho2O3: 15600,
+  HoCl3: 13600,
+  Er2O3: 15850,
+  ErCl3: 13820
 };
 
 const DEFAULT_LATTICE_ENERGY = 700;

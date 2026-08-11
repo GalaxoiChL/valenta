@@ -20,6 +20,29 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] Tier 17 — Ho, Er (lacună reală găsită la recitirea completă a tabelului)
+
+**Milestone:** post-verificare-live (utilizatorul a semnalat că mai văzuse poziții „?" și a întrebat ce mai e de făcut)
+**Făcut:**
+- **Audit complet**: comparat programatic cele 118 poziții standard ale Tabelului Periodic cu cele 85 de elemente cu `ElementDef` existente la acel moment. Toate cele 33 de poziții „?" rămase s-au dovedit a fi excluderi deliberate deja documentate în DEVLOG (Fr/Rn/Ac/Pa/Np/Pu radioactive sau sensibile tematic, Tc/Pm fără niciun izotop stabil, Po/At radioactive rare, tot rândul 7 sintetic) — **cu o singură excepție reală**: **Ho (Holmiu, Z=67)** și **Er (Erbiu, Z=68)**, două lantanide stabile cu chimie reală, omise din loturile de lantanide de la tier 13-15 (acoperiseră La/Ce/Pr/Nd/Sm/Eu/Gd/Tb/Dy/Yb/Tm/Lu, dar au sărit exact aceste două) — exact genul de lacună găsită anterior la Rh/Os (tier 16), de data asta descoperită la cererea directă a utilizatorului, nu prin recitire proactivă.
+- **2 elemente noi**, tier 17, aceeași chimie ionică +3 ca restul seriei lantanidelor: **Ho** (cel mai puternic câmp magnetic dintre toate elementele naturale — magneții din interiorul celor mai puternici electromagneți), **Er** (dopantul din amplificatoarele cu fibră optică ale internetului global pe cablu submarin).
+- **4 compuși noi**: Ho₂O₃/HoCl₃, Er₂O₃/ErCl₃ — tipar identic cu restul lantanidelor (oxid + clorură, sarcină +3). Chei DB = formula simplă (`"Ho2O3"`, etc.), fără canonicalizare de graf — compușii ionici nu au fost niciodată expuși bug-ului de hash explodat reparat ieri, fiindcă `ionicFormula()` (`chem/ionic.ts`) nu folosește deloc `canonicalGraphHash`.
+- Recalibrare (`lattice.ts`) cu aceeași metodă din tot arcul de extindere: energie de rețea aleasă ca eficiența (`E/s-per-copie / atomi-per-copie`) să depășească vârful tier 16 (OsO₄, eff 9,20) — interval obținut 8,90–9,41 (Er₂O₃ la vârf), verificat printr-un calcul explicit al formulei `productionRate()` înainte de a scrie valorile, nu doar prin încercare-eroare în joc.
+- 2 obiective noi: „Deblochează Erbiul", „Sintetizează Oxid de holmiu (Ho₂O₃)".
+- Test nou `tests/moleculeDB_tier17.test.ts` (2 teste, același tipar ca tier16: ElementDef complet + sarcină, validare prin echilibru de sarcini pentru toți cei 4 compuși).
+- `tsc --noEmit` curat; 191 de teste automate trec (29 fișiere, +2).
+- **Verificat live pe dev server** (extensia claude-in-chrome, reconectată cu succes în această sesiune): Tabelul Periodic deschis, Ho și Er confirmate vizual în poziția corectă din seria lantanidelor (între Dy și Tm), cu costul corect afișat (3.800 C / 3.850 C, nu „?"), tooltip cu flavor text corect la click. Sinteza efectivă a compușilor Ho/Er **nu** a fost testată live (ar fi necesitat fie ~7.650 C reale în save-ul de dezvoltare, fie modificarea directă a `localStorage` — încercată, dar suprascrisă aproape instant de un autosave dintr-o altă instanță activă a paginii, semn că salvarea de dezvoltare e folosită și altundeva; abandonat ca să nu risc coruperea ei). Acoperire considerată suficientă: spre deosebire de bug-ul de hash canonic de ieri, compușii ionici nu trec prin nicio canonicalizare complexă — cheia DB e literal formula, verificată deja exact de `expect(DB_FORMULAS.has(...))` din testul automat, pe același cod (`validateIonicMix`/`ionicFormula`) pe care l-ar exercita și un click real din Constructorul Ionic.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nouă — continuă exact tiparul stabilit la tier 13-16 pentru lantanide.
+
+**Rămas de făcut / follow-up:**
+- **Sinteza live a Ho₂O₃/ErCl₃ rămâne neconfirmată vizual** — de făcut într-o sesiune viitoare, ideal cu un save de test dedicat (nu cel de dezvoltare, care pare folosit concurent), sau prin creșterea organică a Cunoașterii până la ~3.800+ C.
+- Auditul de azi confirmă că **nu mai există alte lacune reale** în Tabelul Periodic — toate pozițiile „?" rămase (Fr, Rn, Ac, Pa, Np, Pu, Tc, Pm, Po, At, tot rândul 7) sunt excluderi deliberate, nu conținut uitat. Dacă se dorește completarea lor „doar de decor" (siluetă colorată fără compuși/chimie reală), rămâne o decizie separată de discutat explicit, nu o restanță.
+- Verificarea live UI pentru Autopilot rămâne restantă (semnalată în ultimele două sesiuni) — tot neabordată, în afara scopului acestei treceri.
+
+---
+
 ## [2026-08-11] Regenerare chei canonice explodate — pasul separat anunțat în fix-ul anterior
 
 **Milestone:** follow-up direct la fix-ul „prag pe suma lungimilor" din sesiunea trecută (`f6f4eb5`)

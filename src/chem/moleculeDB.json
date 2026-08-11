@@ -2713,5 +2713,45 @@
     "tier": 16,
     "tags": ["ionic", "anorganic"],
     "flavor": "Sarcina +8 a osmiului — cea mai mare din tot jocul — cere patru oxigeni pentru un singur atom de metal. Extrem de volatil și toxic, folosit în microscopie pentru a colora dublele legături din țesuturi biologice."
+  },
+  {
+    "key": "Ho2O3",
+    "formula": "Ho2O3",
+    "name": "Oxid de holmiu",
+    "bonusMult": 2.7,
+    "discoveryC": 49,
+    "tier": 17,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Sursa celui mai puternic câmp magnetic dintre toate elementele — folosit la vârfurile polare ale celor mai puternice electromagneți construiți vreodată."
+  },
+  {
+    "key": "HoCl3",
+    "formula": "HoCl3",
+    "name": "Clorură de holmiu",
+    "bonusMult": 2.3,
+    "discoveryC": 47,
+    "tier": 17,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un intermediar comun în extragerea holmiului pur din minereurile de pământuri rare."
+  },
+  {
+    "key": "Er2O3",
+    "formula": "Er2O3",
+    "name": "Oxid de erbiu",
+    "bonusMult": 2.7,
+    "discoveryC": 51,
+    "tier": 17,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Dă sticlei o culoare roz distinctivă — sursa erbiului folosit ca dopant în amplificatoarele cu fibră optică ale internetului global pe cablu submarin."
+  },
+  {
+    "key": "ErCl3",
+    "formula": "ErCl3",
+    "name": "Clorură de erbiu",
+    "bonusMult": 2.3,
+    "discoveryC": 48,
+    "tier": 17,
+    "tags": ["ionic", "anorganic"],
+    "flavor": "Un precursor comun în sinteza materialelor optice dopate cu erbiu."
   }
 ]
