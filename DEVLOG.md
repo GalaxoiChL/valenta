@@ -20,6 +20,28 @@ Format per intrare:
 
 ---
 
+## [2026-08-12] BACKLOG — tooltip înghețat + 3 lacune de Autopilot
+
+**Milestone:** post-M9 v2 (curățare BACKLOG.md, la cererea utilizatorului: „ce mai trebuia făcut la aplicație?")
+**Făcut:**
+- **Tooltip înghețat după undo/clear cu tastatura** (`src/ui/tooltip.ts`, `src/ui/constructor.ts`): `hideTooltip()` se declanșa doar la `mouseleave`, care nu are cum să apară dacă atomul de sub cursor dispare direct din DOM (Ctrl+Backspace/Ctrl+Z fără mișcare de mouse). Fix: apel explicit `hideTooltip()` în `restore()` (comun pentru undo/redo) și în handler-ul de `Ctrl+Backspace`, înainte de `clearDraft()`.
+- **Autopilot nu deblocheaza Automatizarea** (`src/core/economy.ts`, `autopilotUnlockElements`): Automatizarea (auto-sintetizator, 15 C, cost fix) e acum tratată ca o opțiune concurentă pe aceeași monedă (Cunoaștere) cu deblocarea de elemente — Autopilot alege mereu cea mai ieftină, iar 15 C e mereu sub costul oricărui element din joc, deci se deblochează practic imediat ce Autopilot pornește. Rezolvă exact problema semnalată: fără ea, Autopilot cumpăra generatoare de atomi la infinit, fără nicio creștere de E/s (care vine doar din sinteze, nu din generatoarele înseși).
+- **Autopilot nu cumpăra upgrade-ul „Viteză generatoare"** (`src/core/economy.ts`, `autopilotBuyGenerators`): la fel, upgrade-ul (500 E, cost geometric ×2.2/nivel) e acum o opțiune concurentă pe Energie alături de generatoarele de atomi, aleasă quando devine cea mai ieftină.
+- **Autopilot cheltuiește fără feedback vizibil**: `economy.ts` emite acum un eveniment `autopilotAction` (tip nou exportat `AutopilotAction`, uniune `element`/`autosynth`/`speedUpgrade`) la fiecare deblocare de element, deblocare de Automatizare sau nivel nou de Viteză generatoare — **nu** și la cumpărările obișnuite de generatoare (pot fi până la 200/tick, ar fi zgomot). `main.ts` acumulează aceste evenimente și le arată grupat într-un banner nou, colț dreapta-jos (`.autopilot-banner`, refolosește stilul `.discovery-banner`), cu un debounce de 900ms ca să nu spamme un banner per deblocare individuală.
+- Teste actualizate/noi în `tests/autopilot.test.ts` (6→8 cazuri): testul de deblocare element ajustat să acopere și costul Automatizării; 2 teste noi dedicate (deblocare Automatizare când e cea mai ieftină opțiune; cumpărare upgrade Viteză generatoare când devine mai ieftin decât orice generator); testul de plafon de siguranță (`AUTOPILOT_MAX_PURCHASES_PER_TICK`) actualizat să numere și nivelurile de upgrade cumpărate, nu doar generatoarele — plafonul acoperă acum ambele bucle de cumpărare din aceeași buclă „cel mai ieftin întâi".
+- `tsc --noEmit` curat; 259 de teste automate trec (33 fișiere, +2 față de M9 v2).
+- **Corecție de citire a propriului istoric, găsită în timpul auditului BACKLOG**: un follow-up vechi (tier 6, 2026-08-10) menționa „tot Tabelul Periodic rămas, următorul lot de decis" — depășit, în realitate, de DOUĂ sesiuni ulterioare din 2026-08-11: mai întâi auditul tier 17 (a confirmat că toate pozițiile „?" rămase erau excluderi deliberate, nu conținut uitat), apoi, în aceeași zi, sesiunea „Completare decorativă a Tabelului Periodic" (commit `a7b29c4`, deja pe `master`) — care a adăugat exact cele 34 de poziții rămase ca elemente decorative (nume/Z/flavor real, dar fără chimie jucabilă, `unlockCost: 0`, excluse explicit din Autopilot/deblocare). Am citit inițial doar până la intrarea tier 17 și am prezentat greșit utilizatorului Tabelul Periodic ca fiind o restanță deschisă (inclusiv într-o întrebare directă) — de fapt era deja 118/118 complet, confirmat și de `tests/periodicTable.test.ts` (34 decorative + 84 jucabile), deja verde în suita rulată în această sesiune. Nicio acțiune de cod necesară aici; corectare doar de informație.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna — toate 4 sunt fix-uri de comportament, fără schimbare de mecanică vizibilă în SPEC.
+
+- **Verificat live pe dev server, reluat cu succes după reconectarea extensiei** (eșuase mai devreme în aceeași sesiune, vezi mai jos): pe save-ul real de dezvoltare (localhost:5183, ~291K E / 26 C, 0 generatoare cumpărate deloc — exact simptomul din BACKLOG). **Tooltip**: plasat un atom H în Constructor, hover confirmat („Hidrogen mai are nevoie de 1 legătură/i" vizibil), apăsat `Ctrl+Z` fără mișcare de mouse → atomul dispare din canvas **și** tooltip-ul dispare odată cu el, fără text fantomă rămas pe ecran. **Autopilot**: activat togglul din Setări — în câteva secunde: generatoare cumpărate din 0 în H×42/O×34/N×31, Viteză generatoare urcată direct la nivelul 5 (×7.59), `autoSynthUnlocked` confirmat `true` (citit direct din `localStorage`), și **banner-ul nou de rezumat a apărut corect**, colț dreapta-jos: „AUTOPILOT — deblocat Automatizarea · Viteză generatoare +5 nivele", grupat într-un singur banner, nu unul per acțiune. Niciun element nou deblocat — corect, următorul element blocat costă mult peste cei 26 C disponibili. Dezactivat togglul după verificare, confirmat că butonul revine la „Autopilot dezactivat" și producția pasivă continuă normal. Zero erori/warnings în consolă pe tot parcursul.
+
+**Rămas de făcut / follow-up:**
+- Nimic restant din acest arc — toate cele 4 fix-uri (tooltip + 3× Autopilot) confirmate atât prin teste automate, cât și prin verificare live directă pe un save real cu progres autentic.
+
+---
+
 ## [2026-08-11] M9 v2 — Anatomie: ilustrații reale + hotspot-uri (feedback direct al utilizatorului)
 
 **Milestone:** M9 (rescriere UI + date, a treia și ultima din cele 3 direcții confirmate după feedback pe M7/M8/M9 inițiale)

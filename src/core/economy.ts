@@ -1,6 +1,18 @@
 import type { GameStore } from "./state";
-import { generatorRate, generatorCost, AUTOPILOT_MAX_PURCHASES_PER_TICK } from "./balance";
+import {
+  generatorRate,
+  generatorCost,
+  generatorSpeedUpgradeCost,
+  AUTOPILOT_MAX_PURCHASES_PER_TICK,
+  AUTO_SYNTH_UNLOCK_COST
+} from "./balance";
 import { ELEMENTS } from "../chem/elements";
+
+/** Un pas de progres autonom (unlock/upgrade), pentru banner-ul de rezumat din UI — vezi `autopilotAction` mai jos. */
+export type AutopilotAction =
+  | { kind: "element"; symbol: string; name: string }
+  | { kind: "autosynth" }
+  | { kind: "speedUpgrade"; level: number };
 
 /** Avansează economia cu `dt` secunde: produce atomi din generatoare și energie din Laborator. */
 export function tick(store: GameStore, dt: number): void {
@@ -64,9 +76,12 @@ function tickAutopilot(store: GameStore): void {
 }
 
 /**
- * Deblochează repetat elementul blocat cu cel mai mic `unlockCost`. Dacă acel
- * minim nu e afordabil, niciun alt element blocat nu poate fi (are cost ≥),
- * deci un singur scan per iterație e suficient.
+ * Deblochează repetat elementul blocat cu cel mai mic `unlockCost`, tratând
+ * și deblocarea Automatizării (auto-sintetizator, cost fix 15 C) ca pe o
+ * opțiune concurentă în aceeași monedă (Cunoaștere) — altfel Autopilot-ul
+ * cumpără la infinit generatoare de atomi fără nicio creștere de E/s, pentru
+ * că E/s vine doar din sinteze, nu din generatoarele înseși. Fiecare
+ * deblocare emite `autopilotAction` pentru banner-ul de rezumat din UI.
  */
 function autopilotUnlockElements(store: GameStore): void {
   for (;;) {
@@ -80,14 +95,31 @@ function autopilotUnlockElements(store: GameStore): void {
         cheapestCost = ELEMENTS[symbol].unlockCost;
       }
     }
+
+    if (store.canUnlockAutoSynth() && AUTO_SYNTH_UNLOCK_COST < cheapestCost) {
+      if (!store.unlockAutoSynth()) break;
+      store.events.emit("autopilotAction", { kind: "autosynth" } satisfies AutopilotAction);
+      continue;
+    }
+
     if (!cheapest || !store.unlockElement(cheapest)) break;
+    store.events.emit("autopilotAction", {
+      kind: "element",
+      symbol: cheapest,
+      name: ELEMENTS[cheapest].name
+    } satisfies AutopilotAction);
   }
 }
 
 /**
- * Cumpără repetat generatorul (dintre cele deblocate) cu costul curent cel
- * mai mic, până nu mai e nimic afordabil sau se atinge plafonul de siguranță
- * AUTOPILOT_MAX_PURCHASES_PER_TICK (vezi balance.ts).
+ * Cumpără repetat cea mai ieftină opțiune afordabilă în Energie: fie un
+ * generator (dintre cele deblocate), fie upgrade-ul global de viteză a
+ * generatoarelor — tratate ca opțiuni concurente în aceeași monedă, altfel
+ * Autopilot-ul nu cumpăra niciodată upgrade-ul (nu era inclus în scan-ul
+ * "cel mai ieftin întâi"). Se oprește la plafonul de siguranță
+ * AUTOPILOT_MAX_PURCHASES_PER_TICK (vezi balance.ts). Cumpărările de
+ * generatoare (frecvente, zeci-sute pe tick) nu emit `autopilotAction` — ar
+ * fi zgomot; upgrade-ul de viteză (rar) emite, la fel ca deblocările.
  */
 function autopilotBuyGenerators(store: GameStore): void {
   for (let i = 0; i < AUTOPILOT_MAX_PURCHASES_PER_TICK; i++) {
@@ -100,6 +132,17 @@ function autopilotBuyGenerators(store: GameStore): void {
         cheapestCost = cost;
       }
     }
+
+    const speedUpgradeCost = generatorSpeedUpgradeCost(store.state.generatorSpeedLevel);
+    if (speedUpgradeCost < cheapestCost) {
+      if (!store.buyGeneratorSpeedUpgrade()) break;
+      store.events.emit("autopilotAction", {
+        kind: "speedUpgrade",
+        level: store.state.generatorSpeedLevel
+      } satisfies AutopilotAction);
+      continue;
+    }
+
     if (!cheapest || !store.buyGenerator(cheapest)) break;
   }
 }

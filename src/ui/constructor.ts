@@ -6,7 +6,7 @@ import { getElement } from "../chem/elements";
 import { hillFormula, toUnicodeSubscript } from "../chem/formula";
 import { DEFAULT_BONUS_MULT, MAX_UNDO_STEPS } from "../core/balance";
 import type { PaletteController } from "./palette";
-import { attachTooltip } from "./tooltip";
+import { attachTooltip, hideTooltip } from "./tooltip";
 import { renderIonicConstructor } from "./ionicConstructor";
 import { playClick, playValid, playSynthesize } from "./sound";
 
@@ -99,6 +99,9 @@ export function renderConstructor(
   }
 
   function restore(snap: Snapshot): void {
+    // Ctrl+Z/Ctrl+Y pot elimina din DOM atomul aflat sub cursor fără nicio
+    // mișcare de mouse — fără `mouseleave`, tooltip-ul lui ar rămâne pe ecran.
+    hideTooltip();
     store.state.constructorDraft = cloneMolecule(snap.draft);
     store.state.resources.atoms = { ...snap.atoms };
     store.events.emit("draft");
@@ -129,6 +132,7 @@ export function renderConstructor(
       redo();
     } else if (e.key === "Backspace") {
       e.preventDefault();
+      hideTooltip(); // aceeași problemă ca la undo/redo: golirea poate elimina atomul de sub cursor fără mouseleave
       pushUndo();
       store.clearDraft();
     }

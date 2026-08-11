@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { GameStore, createInitialState } from "../src/core/state";
 import { tick } from "../src/core/economy";
 import { ELEMENTS } from "../src/chem/elements";
-import { AUTOPILOT_MAX_PURCHASES_PER_TICK, generatorCost } from "../src/core/balance";
+import { AUTOPILOT_MAX_PURCHASES_PER_TICK, AUTO_SYNTH_UNLOCK_COST, generatorCost } from "../src/core/balance";
 
 describe("Autopilot", () => {
   it("dezactivat: nu deblochează și nu cumpără nimic", () => {
@@ -31,9 +31,32 @@ describe("Autopilot", () => {
     const cheapestLocked = Object.values(ELEMENTS)
       .filter((def) => !def.decorative && !store.state.unlockedElements.includes(def.symbol))
       .reduce((min, def) => (def.unlockCost < min.unlockCost ? def : min));
-    store.state.resources.knowledge = cheapestLocked.unlockCost;
+    // Suficient și pentru Automatizare (15 C, acum concurentă pe aceeași monedă — vezi testul dedicat mai jos).
+    store.state.resources.knowledge = cheapestLocked.unlockCost + AUTO_SYNTH_UNLOCK_COST;
     tick(store, 0.001);
     expect(store.state.unlockedElements).toContain(cheapestLocked.symbol);
+  });
+
+  it("activat: deblochează Automatizarea (15 C) când e mai ieftină decât următorul element blocat", () => {
+    const store = new GameStore(createInitialState());
+    store.state.settings.autopilot = true;
+    // Niciun element nu costă sub 15 C în joc — Automatizarea e mereu cea mai ieftină opțiune disponibilă la pornire.
+    store.state.resources.knowledge = AUTO_SYNTH_UNLOCK_COST;
+    tick(store, 0.001);
+    expect(store.state.autoSynthUnlocked).toBe(true);
+    expect(store.state.resources.knowledge).toBe(0);
+  });
+
+  it("activat: cumpără upgrade-ul Viteză generatoare când e mai ieftin decât următorul generator", () => {
+    const store = new GameStore(createInitialState());
+    store.state.settings.autopilot = true;
+    // 30 deja deținute pe fiecare din H/O/N (cost geometric ×1.18/bucată) — toate cele
+    // 3 costă acum mult peste cei 500 E ai upgrade-ului de nivel 0, deci devine cea mai ieftină opțiune.
+    store.state.generators = { H: 30, O: 30, N: 30 };
+    store.state.resources.energy = 500;
+    tick(store, 0.001);
+    expect(store.state.generatorSpeedLevel).toBe(1);
+    expect(store.state.generators).toEqual({ H: 30, O: 30, N: 30 });
   });
 
   it("activat: nu deblochează niciodată elemente decorative, deși au unlockCost 0 (cel mai mic posibil)", () => {
@@ -54,7 +77,10 @@ describe("Autopilot", () => {
     store.state.settings.autopilot = true;
     store.state.resources.energy = 1e18; // stoc uriaș, simulează un catch-up offline
     tick(store, 0.001);
-    const totalBought = Object.values(store.state.generators).reduce((a, b) => a + b, 0);
+    // Plafonul acoperă acum ambele tipuri de cumpărare din aceeași buclă (generatoare
+    // + upgrade-ul de viteză, concurente pe cost) — vezi autopilotBuyGenerators.
+    const totalBought =
+      Object.values(store.state.generators).reduce((a, b) => a + b, 0) + store.state.generatorSpeedLevel;
     expect(totalBought).toBe(AUTOPILOT_MAX_PURCHASES_PER_TICK);
     expect(store.state.resources.energy).toBeGreaterThan(0); // plafonul oprește bucla, nu affordability
   });

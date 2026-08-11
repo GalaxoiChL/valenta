@@ -1,6 +1,6 @@
 import "./style.css";
 import { createStore, startAutosave, saveGame, SAVE_KEY } from "./core/save";
-import { tick } from "./core/economy";
+import { tick, type AutopilotAction } from "./core/economy";
 import { ECONOMY_TICK_MS } from "./core/balance";
 import { checkObjectives } from "./core/objectives";
 import { applyOfflineProgress } from "./core/offline";
@@ -103,6 +103,46 @@ store.events.on("nucleosynthesis", (payload: unknown) => {
   document.body.appendChild(nucleoBanner);
   nucleoBanner.onclick = () => nucleoBanner.remove();
   setTimeout(() => nucleoBanner.remove(), 6000);
+});
+
+// --- Autopilot: banner de rezumat (§7) — evită să afișeze un banner per
+// deblocare (Autopilot poate face 8-9 deblocări în câteva secunde, vezi
+// BACKLOG); acumulează acțiunile și le arată grupat, după o pauză scurtă. ---
+const autopilotBanner = document.createElement("div");
+autopilotBanner.className = "discovery-banner autopilot-banner";
+document.body.appendChild(autopilotBanner);
+let autopilotActions: AutopilotAction[] = [];
+let autopilotFlushTimeout: ReturnType<typeof setTimeout> | null = null;
+let autopilotHideTimeout: ReturnType<typeof setTimeout> | null = null;
+
+function flushAutopilotBanner(): void {
+  if (autopilotActions.length === 0) return;
+  const elementNames = autopilotActions
+    .filter((a): a is Extract<typeof a, { kind: "element" }> => a.kind === "element")
+    .map((a) => a.name);
+  const gotAutoSynth = autopilotActions.some((a) => a.kind === "autosynth");
+  const speedLevels = autopilotActions.filter((a) => a.kind === "speedUpgrade").length;
+
+  const parts: string[] = [];
+  if (elementNames.length > 0) parts.push(`deblocat ${elementNames.join(", ")}`);
+  if (gotAutoSynth) parts.push("deblocat Automatizarea");
+  if (speedLevels > 0) parts.push(`Viteză generatoare +${speedLevels} nivel${speedLevels > 1 ? "e" : ""}`);
+
+  autopilotBanner.innerHTML = `
+    <div class="title">Autopilot</div>
+    <div class="name">${parts.join(" · ")}</div>
+  `;
+  autopilotBanner.classList.add("visible");
+  if (autopilotHideTimeout) clearTimeout(autopilotHideTimeout);
+  autopilotHideTimeout = setTimeout(() => autopilotBanner.classList.remove("visible"), 4000);
+  autopilotBanner.onclick = () => autopilotBanner.classList.remove("visible");
+  autopilotActions = [];
+}
+
+store.events.on("autopilotAction", (action: unknown) => {
+  autopilotActions.push(action as AutopilotAction);
+  if (autopilotFlushTimeout) clearTimeout(autopilotFlushTimeout);
+  autopilotFlushTimeout = setTimeout(flushAutopilotBanner, 900);
 });
 
 // --- progres offline, plafonat la 8h, 50% producție (§4.3) ---

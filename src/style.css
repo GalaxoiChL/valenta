@@ -1491,3 +1491,27 @@ body {
 .nucleo-banner .name {
   font-size: 24px;
 }
+
+/* Autopilot: colț dreapta-jos, discret — poate apărea des în timpul idle,
+   nu trebuie să concureze cu banner-ul principal de descoperire (sus-centru). */
+.autopilot-banner {
+  top: auto;
+  bottom: 24px;
+  left: auto;
+  right: 24px;
+  transform: translateY(12px);
+  cursor: pointer;
+  border-color: var(--text-dim);
+  padding: 10px 16px;
+  text-align: left;
+}
+
+.autopilot-banner.visible {
+  transform: translateY(0);
+}
+
+.autopilot-banner .name {
+  font-size: 14px;
+  font-weight: 600;
+  max-width: 320px;
+}
