@@ -635,6 +635,232 @@ body {
   margin-bottom: 2px;
 }
 
+/* ---------- M7 v2 — Reacții: paletă vizuală + drag&drop ---------- */
+.reactions-panel {
+  width: min(92vw, 720px);
+}
+
+.compound-visual {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.compound-mini-graph {
+  width: 100%;
+  height: 100%;
+}
+
+.compound-mini-lattice {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+}
+
+.compound-mini-lattice .lattice-cell {
+  width: 15px;
+  height: 15px;
+  font-size: 7px;
+  border-radius: 3px;
+}
+
+.compound-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-panel-2);
+  cursor: grab;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.compound-card:hover {
+  border-color: var(--accent);
+}
+
+.compound-card.filtered-out {
+  display: none;
+}
+
+.compound-card.depleted {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.compound-card.product-preview {
+  cursor: default;
+  border-style: dashed;
+}
+
+.compound-label {
+  font-size: 10px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.compound-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 22vh;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.reaction-zone {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  transition: box-shadow 0.2s;
+}
+
+.reaction-zone.reacting {
+  box-shadow: 0 0 0 2px var(--accent), 0 0 24px var(--accent);
+}
+
+.reaction-slot {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.reaction-slot.empty {
+  font-size: 10px;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 6px;
+}
+
+.reaction-slot.drag-over {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.reaction-zone.reacting .reaction-slot:not(.empty) {
+  animation: reaction-pulse 0.4s ease-out;
+}
+
+@keyframes reaction-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+.compound-drag-ghost {
+  position: fixed;
+  z-index: 2000;
+  pointer-events: none;
+  transform: translate(-30px, -30px) scale(1.1);
+  opacity: 0.9;
+}
+
+.reaction-preview {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  margin-bottom: 10px;
+  min-height: 20px;
+}
+
+.reaction-equation {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.reaction-products {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.reaction-no-match {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.reaction-actions {
+  margin: 8px 0;
+}
+
+.reaction-actions button {
+  background: var(--bg-panel-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.reaction-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.reaction-actions button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.recipes-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 0;
+}
+
+.recipes-toggle:hover {
+  color: var(--accent);
+}
+
+.reactions-recipes {
+  max-height: 20vh;
+  overflow-y: auto;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.recipe-line {
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border);
+}
+
 /* ---------- M8 — ADN/ARN ---------- */
 .genetics-panel {
   width: min(90vw, 640px);

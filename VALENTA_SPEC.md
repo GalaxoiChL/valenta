@@ -488,10 +488,12 @@ Bucla jocului până acum e „atomi → moleculă → Laborator". M7 adaugă o 
 
 **7.1 Mecanica**
 - Ecran overlay nou, „Reacții" (tipar identic cu Tabelul Periodic §8.1 — buton în HUD, disponibil gratis de la început, închis cu Esc/click în afară; reactanții înșiși sunt gate-ul natural, nu un cost separat de deblocare).
-- O reacție e definită static în `src/chem/reactionDB.json`: N reactanți (formulă + coeficient) → M produși (formulă + coeficient), o ecuație reală, echilibrată, verificabilă într-un manual — nu inventată.
-- „Rulează ×1/×10/×Max" (tipar identic cu §6.5): consumă exact `coeficient × multiplicator` copii din fiecare reactant ales din Colecție, produce `coeficient × multiplicator` copii din fiecare produs.
+- **Paletă vizuală**: compușii din Colecție apar ca „cărți" cu structura lor reală — grafuri covalente randate ca mini-molecule (atomi=cercuri colorate, legături=linii, exact idiomul din Constructor), compuși ionici ca mini-rețea cristalină (idiomul din Constructorul Ionic) — nu text simplu.
+- **Zonă de reacție cu sloturi**: jucătorul trage (drag&drop, evenimente mouse — nu HTML5 DnD nativ, consecvent cu restul codului) compuși din paletă în 3 sloturi. Jocul recunoaște automat, după mulțimea de formule din sloturi (ordinea nu contează), dacă există o reacție reală în `src/chem/reactionDB.json` care se potrivește exact — nicio listă de rânduri de ales manual dintr-o listă de 16, selecția e vizuală și liberă.
+- O reacție e definită static: N reactanți (formulă + coeficient) → M produși (formulă + coeficient), o ecuație reală, echilibrată, verificabilă într-un manual — nu inventată.
+- La potrivire, apare ecuația, produșii (tot cu structura lor reală) și „Rulează ×1/×10/×Max" (tipar identic cu §6.5): consumă exact `coeficient × multiplicator` copii din fiecare reactant, produce `coeficient × multiplicator` copii din fiecare produs, cu o animație scurtă (fără cinetică reală — doar feedback vizual, §7.2) la declanșare.
 - Un produs absent din Colecție e o **descoperire**, exact ca la sinteza manuală (§6.4): banner, +Cunoaștere, intrare nouă, cu producție de E/s calculată din structura reală a produsului (graf covalent validat prin `validate()`/`moleculeKey()`, sau energie de rețea ionică prin `latticeEnergy()`) — niciodată un număr inventat separat. Un produs deja cunoscut doar primește copii în plus, fără bonus repetat de Cunoaștere.
-- Reacțiile nu se „deblochează" separat — lista completă e mereu vizibilă (ca la Tabelul Periodic gol — promisiunea jocului), cu reacțiile nerulabile marcate clar (ce lipsește), niciodată ascunse.
+- Nicio combinație nu e ascunsă sau blocată — o listă „Rețete cunoscute" (text simplu, colapsabilă) rămâne mereu disponibilă ca referință, ca jucătorul să știe ce să încerce (aceeași promisiune ca la Tabelul Periodic gol, §8.1).
 
 **7.2 Simplificări asumate (§5.6, aceeași filosofie)**
 - Nicio cinetică: fără viteză de reacție, temperatură, presiune, pH, catalizatori cu efect mecanic, echilibru reversibil. O reacție rulează instantaneu, complet, sau deloc.
@@ -503,13 +505,14 @@ Bucla jocului până acum e „atomi → moleculă → Laborator". M7 adaugă o 
 16 reacții reale, construibile integral din formule deja prezente în `moleculeDB.json` (zero intrări noi necesare pentru v1): ardere (CH₄, C₆H₆, CH₃OH, H₂S), sinteză directă (H₂+O₂, N₂+H₂, H₂+Cl₂, H₂+F₂), hidrogenare (C₂H₂→C₂H₄→C₂H₆), descompunere (H₂O₂), procesul de contact (SO₂→SO₃→H₂SO₄), hidroliză (COS), neutralizare acid-bază (MgO/CuO + HCl).
 
 **7.4 Criterii de acceptare**
-- [x] Overlay „Reacții" deschis din HUD, listă completă (rulabile ȘI nerulabile, cu mesaj clar ce lipsește).
-- [x] „Rulează ×1/×10/×Max" consumă/produce exact conform coeficienților.
+- [x] Overlay „Reacții" deschis din HUD; paletă vizuală (structuri reale) + zonă de reacție cu sloturi drag&drop.
+- [x] Potrivirea unei reacții reale între compușii aflați în sloturi e recunoscută automat, indiferent de ordine.
+- [x] „Rulează ×1/×10/×Max" consumă/produce exact conform coeficienților, cu animație la declanșare.
 - [x] Produs nou → banner de descoperire + Cunoaștere + intrare nouă, cu E/s calculată din structura reală.
 - [x] Produs deja cunoscut → doar copii în plus, fără bonus repetat de C.
 - [x] `tsc --noEmit` curat; toată suita de teste (inclusiv `tests/reactions.test.ts`) trece, fără regresii.
 
-**Confirmat** — vezi DEVLOG „[2026-08-11] M7 — Reacții chimice: compuși din Colecție reacționează între ei", plus verificare live suplimentară a ×10/×Max (nu doar ×1): 100 copii H₂/O₂ seedate, ×10 a scăzut disponibilul de la 50 la 40 rulări exact, ×Max a consumat tot H₂-ul rămas (40 rulări), afișând corect „lipsește: H₂" după epuizare.
+**Confirmat** — vezi DEVLOG „[2026-08-11] M7 — Reacții chimice: compuși din Colecție reacționează între ei" (versiunea inițială, listă cu butoane) și „[2026-08-11] M7 v2 — Reacții: paletă vizuală + drag&drop" (rescrierea UI, cerută explicit de utilizator după verificarea versiunii inițiale). Verificat live: drag&drop funcțional (H₂ + O₂ trase în sloturi → rețeta „2H₂ + O₂ → 2H₂O" recunoscută automat, structuri reale afișate pentru reactanți și produs), animație de reacție declanșată corect, banner de descoperire, sloturi golite automat după.
 
 **7.5 Ce NU intră în M7 v1 (risc de scope creep, §14)**
 Cinetică, temperatură/presiune/pH, catalizatori mecanici, reacții reversibile/echilibru, reacții inventate fără bază reală, editor de reacții pentru jucător. Orice din acestea intră întâi ca amendament separat aici, niciodată direct în cod.

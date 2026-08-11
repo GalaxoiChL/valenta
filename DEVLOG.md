@@ -20,6 +20,31 @@ Format per intrare:
 
 ---
 
+## [2026-08-11] M7 v2 — Reacții: paletă vizuală + drag&drop (feedback direct al utilizatorului)
+
+**Milestone:** M7 (rescriere UI, cerută explicit după ce utilizatorul a văzut versiunea M7/M8/M9 inițială)
+**Făcut:**
+- **Context**: după ce M7/M8/M9 au fost livrate, utilizatorul a spus clar că toate trei erau sub nivelul de ambiție cerut — la Reacții lipsea complet partea vizuală promisă în planul inițial (tăiată din grabă), rămăsese doar o listă cu butoane. Cerut explicit: selecție vizuală a ce reacționează cu ce, nu o listă de rânduri. Confirmat cu utilizatorul (întrebare directă): drag&drop dintr-o paletă vizuală într-o zonă de reacție, cu structurile reale ale compușilor, nu text.
+- **Rescriere completă a `src/ui/reactions.ts`** — logica din `state.ts` (`canRunReaction`/`runReaction`/`maxReactionRuns`) a rămas neschimbată, corectă de la M7 inițial; doar interacțiunea s-a schimbat integral:
+  - **Paletă vizuală**: fiecare compus din Colecție randat ca o „carte" cu structura lui reală — grafuri covalente ca mini-molecule SVG (atomi=cercuri colorate din `getElement().color`, legături=linii, scalate să încapă într-un viewBox 60×60), compuși ionici ca mini-rețea cristalină (reosește direct stilul `.lattice-cell` din `ionicConstructor.ts`, al doilea tipar vizual reosit din proiect după `.mode-tabs`).
+  - **Zonă de reacție cu 3 sloturi**: drag&drop implementat cu evenimente mouse (`mousedown`/`mousemove`/`mouseup` + un element „ghost" care urmărește cursorul, `document.elementFromPoint()` pentru detectarea slotului țintă) — **nu** HTML5 drag&drop nativ, consecvent cu tiparul deja folosit în `constructor.ts` pentru mutarea atomilor.
+  - **`findReactionByReactantFormulas()`** (nou, `chem/reactions.ts`, funcție pură): găsește reacția a cărei mulțime de formule de reactanți se potrivește exact (ordine irelevantă) cu formulele din sloturile ocupate — recunoaștere automată, fără ca jucătorul să aleagă dintr-o listă.
+  - La potrivire: ecuație, produși (tot cu structura lor reală), flavor, „Rulează ×1/×10/×Max" (reosește exact `runReaction`/`maxReactionRuns` din M7 inițial, neschimbate).
+  - Animație la declanșare: clasă CSS `.reacting` pe zonă (glow) + `@keyframes reaction-pulse` pe cărțile din sloturi (scale up + fade), sunet (`playSynthesize`, deja existent), sloturile se golesc automat după ~420ms.
+  - O listă „Rețete cunoscute" (text simplu, colapsabilă) rămâne ca referință — altfel jucătorul n-ar avea cum să știe ce combinații există fără să încerce orbește.
+- **Amendament SPEC.md §7.1** rescris să reflecte mecanica nouă (paletă vizuală, sloturi, recunoaștere automată) — vechea descriere (listă de rânduri cu butoane) nu mai era adevărul curent.
+- Teste noi: 5 cazuri pentru `findReactionByReactantFormulas` în `tests/reactions.test.ts` (potrivire indiferent de ordine, reacție cu un singur reactant, nicio potrivire pentru combinație necunoscută sau subset incomplet, set gol).
+- `tsc --noEmit` curat; 251 de teste automate trec (33 fișiere, +5 față de M9).
+- **Verificat live pe dev server**, inclusiv drag&drop-ul efectiv (nu doar click-uri) — prima dată în acest proiect: simulat secvența reală `mousedown`→`mousemove`→`mouseup` cu coordonate din `getBoundingClientRect()`, tras H₂ și O₂ din paletă în sloturi, confirmat recunoașterea automată a rețetei „2H₂ + O₂ → 2H₂O" cu structurile reale afișate, declanșat reacția — animație pornită corect, banner „Apă (H₂O)", sloturile golite automat. Zero erori în consolă.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna nedocumentată — SPEC §7.1 a fost rescris direct să reflecte mecanica nouă, nu doar DEVLOG.
+
+**Rămas de făcut / follow-up:**
+- ADN/ARN și Anatomie rămân cu feedback-ul utilizatorului neadresat încă: ADN/ARN are nevoie de o înlocuire vizibilă de segment (selectezi o bucată, o înlocuiești dintr-odată, nu bază-cu-bază), Anatomie are nevoie de asset-uri vizuale reale din domeniul public (ex. Gray's Anatomy 1918), nu forme desenate manual — utilizatorul a confirmat ambele direcții, urmează ca pași separați.
+
+---
+
 ## [2026-08-11] M9 — Anatomie: explorator vizual al corpului uman
 
 **Milestone:** M9 (a treia și ultima din cele 3 idei noi ale utilizatorului, planificată explicit înainte de cod, per §14)

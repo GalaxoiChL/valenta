@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { GameStore, createInitialState, type CollectionEntry } from "../src/core/state";
-import { maxReactionRuns, type ReactionDefinition } from "../src/chem/reactions";
+import { maxReactionRuns, findReactionByReactantFormulas, type ReactionDefinition } from "../src/chem/reactions";
 import reactionDB from "../src/chem/reactionDB.json";
 import moleculeDB from "../src/chem/moleculeDB.json";
 import { validate } from "../src/chem/validator";
@@ -42,6 +42,31 @@ describe("maxReactionRuns (pură, chem/reactions.ts)", () => {
 
   it("mai mulți reactanți → minimul dintre ei", () => {
     expect(maxReactionRuns([{ formula: "H2", coef: 2 }, { formula: "O2", coef: 1 }], [10, 3])).toBe(3);
+  });
+});
+
+describe("findReactionByReactantFormulas (pură, pentru UI-ul de tip drag&drop, §7.1)", () => {
+  it("găsește reacția a cărei mulțime de formule se potrivește exact, indiferent de ordine", () => {
+    const match = findReactionByReactantFormulas(REACTIONS, ["O2", "H2"]);
+    expect(match?.id).toBe("water_synthesis");
+  });
+
+  it("un singur reactant (peroxide_decomposition) se potrivește cu o singură formulă", () => {
+    const match = findReactionByReactantFormulas(REACTIONS, ["H2O2"]);
+    expect(match?.id).toBe("peroxide_decomposition");
+  });
+
+  it("nicio potrivire pentru o combinație necunoscută", () => {
+    expect(findReactionByReactantFormulas(REACTIONS, ["H2", "N2", "O2"])).toBeNull();
+  });
+
+  it("nicio potrivire pentru un subset (lipsește un reactant din ecuație)", () => {
+    // so2_oxidation cere O2S + O2 — doar O2S singur nu trebuie să se potrivească cu nimic
+    expect(findReactionByReactantFormulas(REACTIONS, ["O2S"])).toBeNull();
+  });
+
+  it("set gol → null", () => {
+    expect(findReactionByReactantFormulas(REACTIONS, [])).toBeNull();
   });
 });
 

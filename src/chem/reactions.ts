@@ -45,3 +45,23 @@ export function maxReactionRuns(reactants: ReactionReactant[], availableCopies: 
   });
   return Number.isFinite(max) ? Math.max(0, max) : 0;
 }
+
+/**
+ * Găsește reacția a cărei mulțime de formule de reactanți se potrivește
+ * exact (ordine irelevantă) cu formulele plasate în sloturi — pentru UI-ul
+ * de tip "trage compuși într-o zonă de reacție" (§7.1). null dacă nicio
+ * reacție nu se potrivește exact cu setul curent.
+ */
+export function findReactionByReactantFormulas(
+  reactions: ReactionDefinition[],
+  formulas: string[]
+): ReactionDefinition | null {
+  const target = new Set(formulas);
+  if (target.size === 0) return null;
+  for (const r of reactions) {
+    const reactantFormulas = new Set(r.reactants.map((x) => x.formula));
+    if (reactantFormulas.size !== target.size) continue;
+    if ([...reactantFormulas].every((f) => target.has(f))) return r;
+  }
+  return null;
+}
