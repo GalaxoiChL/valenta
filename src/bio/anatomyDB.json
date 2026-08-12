@@ -12,7 +12,7 @@
     "id": "spine",
     "system": "skeletal",
     "name": "Coloana vertebrală",
-    "x": 37.5,
+    "x": 46.3,
     "y": 30.4,
     "discoveryC": 3,
     "flavor": "33 de vertebre la naștere, dintre care ultimele se sudează — protejează măduva spinării pe toată lungimea trunchiului."
@@ -30,7 +30,7 @@
     "id": "pelvis",
     "system": "skeletal",
     "name": "Bazin",
-    "x": 37.5,
+    "x": 46.3,
     "y": 36.5,
     "discoveryC": 3,
     "flavor": "Leagă coloana de picioare și susține toată greutatea trunchiului superior — la femei, e și mai lat, pentru naștere."
@@ -94,8 +94,8 @@
     "id": "stomach",
     "system": "organs",
     "name": "Stomac",
-    "x": 30.0,
-    "y": 59.5,
+    "x": 59.0,
+    "y": 57.0,
     "discoveryC": 4,
     "flavor": "Produce acid clorhidric suficient de puternic cât să dizolve metal — mucoasa lui se reînnoiește la câteva zile ca să nu se auto-digere."
   },
@@ -158,8 +158,8 @@
     "id": "veins",
     "system": "circulatory",
     "name": "Vene majore",
-    "x": 21.6,
-    "y": 30.5,
+    "x": 27.0,
+    "y": 52.0,
     "discoveryC": 4,
     "flavor": "Aduc sângele fără oxigen înapoi spre inimă — au valve interne care împiedică sângele să curgă invers."
   },

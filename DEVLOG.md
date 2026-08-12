@@ -20,6 +20,28 @@ Format per intrare:
 
 ---
 
+## [2026-08-12] Anatomie — 4 hotspot-uri dezaliniate reparate (verificare cerută de utilizator)
+
+**Milestone:** post-M9 v2 (utilizatorul a cerut explicit o verificare de aliniere: „toate butoanele sunt aliniate corect cu imaginea? ca sa nu fie induse in eroare")
+**Făcut:**
+- **Metodă**: capturile de ecran din browser au devenit intermitent instabile în timpul sesiunii (timeout-uri CDP, un glitch de randare tiled) — verificarea s-a mutat pe eșantionare de pixeli direct din `<canvas>` (desenând imaginea reală din DOM și scanând rânduri orizontale după prag de culoare/alfa față de fundal), mult mai fiabilă decât capturile vizuale pentru genul ăsta de verificare geometrică. Folosit și pentru a găsi coordonata corectă de înlocuire, nu doar pentru a confirma bug-ul.
+- **`src/bio/anatomyDB.json`**, 4 corecții, toate confirmate din nou vizual după fix (captură curată, punctul cade exact pe structura corectă):
+  - **Coloana vertebrală** (Schelet): `x: 37.5 → 46.3`. Coordonata veche era identică pe axa X cu „Cutia toracică" (37.5%) — copiată greșit, cădea pe o coastă. Linia mediană reală a corpului (confirmată din scanarea craniului/coloanei/bazinului, toate ~46.3-46.4%) a dat coordonata corectă.
+  - **Bazin** (Schelet): `x: 37.5 → 46.3`. Aceeași eroare de copiere ca la coloană — scanarea de pixeli a arătat că 37.5% cade în spațiu gol la acea înălțime (36.5%), nu pe osul bazinului (blocul real e la 42.2-50.5%, centru 46.3%). Nu fusese prins la verificarea vizuală inițială a M9 v2 — se vedea plauzibil „pe bazin" într-o captură neetichetată, dar datele de pixeli au arătat clar contrariul.
+  - **Stomac** (Organe interne): `x: 30 → 59`, `y: 59.5 → 57`. Stomacul era pe aceeași parte a corpului ca Ficatul (ambele la stânga liniei mediane reale, ~47.5%) — anatomic greșit: stomacul e pe partea stângă a pacientului (dreapta privitorului), ficatul pe partea dreaptă a pacientului (stânga privitorului). Corectat prin oglindire față de linia mediană, calibrată cu distanța reală a Ficatului față de centru.
+  - **Vene majore** (Sistem circulator): `x: 21.6 → 27`, `y: 30.5 → 52`. Punctul vechi cădea complet în afara siluetei corpului (spațiu gol, confirmat prin scanare alfa) — coordonata X corespundea de fapt antebrațului stâng, dar la o înălțime mult mai joasă (~50-55%) decât cea setată (30.5%, nivelul umărului, unde brațul încă nu se separă vizual de tors). Mutat pe antebraț, unde cade acum exact pe o venă albastră vizibilă din ilustrație.
+- **Sistem muscular**: verificat vizual (toate cele 5 hotspot-uri pe țesut muscular vizibil, nicio poziție în spațiu gol sau pe partea greșită) — nicio corecție necesară. Scanarea de pixeli nu a funcționat pe această imagine (fundal aparent negru/închis la colț, diferit de celelalte 3 ilustrații cu fundal alb/transparent), dar verificarea vizuală directă a fost suficientă aici.
+- `tsc --noEmit` curat; toate cele 259 de teste tot verzi (schimbare doar de date/coordonate, nicio schimbare de logică).
+- **Verificat live pe dev server** după fiecare fix: click funcțional pe „Vene majore" mutat → panoul arată corect numele.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna — corecții de date (coordonate ochiometrice greșite din M9 v2), nu de mecanică.
+
+**Rămas de făcut / follow-up:**
+- Nimic cunoscut. Dacă se reia vreodată verificarea vizuală a hotspot-urilor, metoda de eșantionare pe canvas (scanare de rânduri după prag de culoare față de fundal) e mai rapidă și mai fiabilă decât capturile de ecran + zoom pentru acest tip de verificare geometrică — merită refolosită direct, nu redescoperită.
+
+---
+
 ## [2026-08-12] Harta Stelelor — vizual nou pentru Nucleosinteza
 
 **Milestone:** post-M9 v2 (a treia opțiune aleasă de utilizator, alături de cele două fix-uri din auditul de mai jos — trei direcții posibile propuse, una aleasă explicit)
