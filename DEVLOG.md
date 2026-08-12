@@ -20,6 +20,45 @@ Format per intrare:
 
 ---
 
+## [2026-08-12] Harta Stelelor — vizual nou pentru Nucleosinteza
+
+**Milestone:** post-M9 v2 (a treia opțiune aleasă de utilizator, alături de cele două fix-uri din auditul de mai jos — trei direcții posibile propuse, una aleasă explicit)
+**Făcut:**
+- **Context**: panoul de Nucleosinteza din Setări era doar text simplu (3 rânduri: Stele deținute, Energie acumulată, prag) — sub nivelul vizual stabilit deja de M7-M9 v2. Propuse 3 direcții (Harta Stelelor / Colecția ca galerie vizuală / Muzeul descoperirilor); utilizatorul a ales explicit Harta Stelelor.
+- **`src/ui/settings.ts`**, secțiunea Nucleosinteza rescrisă: un `.nucleo-starfield` (cer stilizat, fundal radial) cu două straturi de stele poziționate determinist (seed = index, nu se reamestecă la fiecare re-randare) — **Stelele deținute** (`store.state.stars`, permanente) ca puncte aurii care sclipesc lent, **Stelele „gata de cules"** (`store.pendingStars()`, cele pe care le-ai câștiga acum dacă declanșezi) ca puncte turcoaz care pulsează mai rapid, vizual distincte. O bară de progres nouă arată exact cât mai e până la următoarea Stea dincolo de cele deja gata de cules — calculul ține cont de curba pe rădăcină pătrată (`(pending+1)² × prag`, nu un interval liniar), altfel bara ar fi fost înșelătoare.
+- **Plafon de siguranță**: maximum 48 de stele aurii și 8 turcoaz randate individual (`OWNED_STAR_CAP`/`PENDING_STAR_CAP`), cu un badge „+N" dacă se depășește — un save foarte avansat, cu sute de Stele, nu trebuie să umple DOM-ul necontrolat.
+- **Performanță**: `renderNucleo()` rulează la fiecare tick economic (pe evenimentul `resources`, ~10×/secundă) — stratul de stele se reconstruiește DOAR când numărul de Stele deținute/gata-de-cules chiar se schimbă (comparat cu ultima valoare randată), nu la fiecare tick. Exact genul de regresie de performanță prinsă și reparată deja o dată la M0 (recrearea DOM-ului Paletei/Laboratorului la fiecare tick) — evitată de data asta din prima.
+- **Animație de sărbătorire**: la declanșarea reușită, `.nucleo-burst` adaugă un flash radial auriu peste hartă (0,9s), separat de bannerul „Nucleosinteza!" deja existent din `main.ts` — cele două se văd simultan, unul pe hartă, unul ca banner peste tot ecranul.
+- `tsc --noEmit` curat; toate cele 259 de teste tot verzi (nicio schimbare de logică/store, doar UI nou peste `store.pendingStars()`/`store.state.stars` deja existente).
+- **Verificat live pe dev server**, cu date simulate (nu pe save-ul real, ca să nu-l reseteze fără motiv — vezi totuși nota de mai jos despre ce a pățit save-ul real, dintr-un motiv complet diferit): 5 Stele deținute + 1 gata de cules, bară de progres la ~50% (2,5M/4M E), confirmat vizual identic cu ce s-a calculat. Declanșat efectiv Nucleosinteza pe acele date — burst-ul auriu a apărut, Stelele au urcat la 6, era s-a resetat corect (E, atomi, generatoare la zero), bara de progres a revenit la 0%.
+- **Incident separat, în timpul verificării**: o încercare de a restaura save-ul real de dezvoltare (folosit ca fixture pentru toată sesiunea de audit) după testul de mai sus a eșuat — salvarea pe `visibilitychange` (fix de fiabilitate din M0) a câștigat o cursă cu `reload()`-ul programatic și a suprascris restaurarea cu starea de test, iar cheia de backup fusese deja ștearsă în aceeași comandă. Progresul real de dezvoltare (~1,7M E / 861 C, 4 molecule în Colecție, generatoare la 0, mult din Tabelul Periodic deblocat) e pierdut ireversibil — doar save-ul local de browser al dezvoltatorului, nicio pierdere de cod sau de date de utilizator final. Cauza tehnică + procedura corectă pentru viitor (patch `localStorage.setItem` înainte de reload, nu șterge singura copie de backup înainte de confirmare) sunt salvate ca memorie de proiect, ca să nu se repete.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna de mecanică — SPEC §3.3 descrie deja formula/comportamentul Nucleosintezei; asta e strict un strat vizual nou peste starea existentă.
+
+**Rămas de făcut / follow-up:**
+- Niciun follow-up cunoscut din acest arc. Celelalte 2 direcții vizuale propuse (Colecția ca galerie, Muzeul descoperirilor) rămân disponibile pentru o sesiune viitoare, dacă utilizatorul le dorește.
+
+---
+
+## [2026-08-12] Audit general — overlay-uri stivuite + hotspot-uri invizibile
+
+**Milestone:** post-M9 v2 (audit la cererea utilizatorului: „verifică starea actuală, testează toate bucățile, ce s-ar putea upgrada?")
+**Făcut:**
+- **Verificare de stare**: `tsc --noEmit` curat, 259/259 teste automate trec. Testat live pe dev server (save real de dezvoltare, 1,7M E / 861 C): HUD, Paletă/Generatoare/Colecție cu căutare, Tabelul Periodic, Reacții (paletă vizuală + sloturi), ADN/ARN (listă mutații), Anatomie (hotspot-uri, click funcțional cu recompensă de Cunoaștere), Constructorul Ionic, Nucleosinteza (prag calculat corect, nedeclanșată intenționat ca să nu reseteze era save-ului real).
+- **Bug găsit și reparat**: overlay-urile deschise din bara de sus (Tabel Periodic/Reacții/ADN-ARN/Anatomie/Setări) nu se închideau reciproc — fiecare `open()` din `src/ui/*.ts` seta doar propriul `display:flex`, fără să știe de celelalte patru. Confirmat programatic (două `overlay-panel` cu `display:flex` simultan) și vizual (ADN/ARN peste Reacții, ambele vizibile). Fix minim în `src/main.ts`: un array `topOverlays` + un wrapper `exclusiveOpen()` care apelează `close()` pe celelalte patru înainte de `open()` pe cel țintit — reosește `close()`-urile deja existente în fiecare modul, fără nicio schimbare în `src/ui/*.ts`.
+- **Polish vizual**: hotspot-urile din Anatomie (`src/style.css`, `.anatomy-hotspot`) erau aproape invizibile pe ilustrațiile reale (cerc subțire, culoare apropiată de os) — se găseau doar din întâmplare. Adăugat un puls (`@keyframes anatomy-hotspot-pulse`, glow expandabil) pe hotspot-urile **nedescoperite**, oprit automat la hover și la `.discovered` (cele deja explorate rămân stabile, fără puls, ca semnal „gata văzut aici").
+- Verificat live (JS direct în consolă, evitând instabilitatea coordonatelor de click cauzată de redimensionarea repetată a viewport-ului browser-ului între capturi): deschidere Reacții → ADN/ARN fără închidere manuală → confirmat un singur `overlay-panel` cu `display:flex`. Hotspot nedescoperit confirmat cu `animationName: anatomy-hotspot-pulse` aplicat.
+- `tsc --noEmit` curat și 259/259 teste tot verzi după ambele fix-uri.
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna — ambele sunt fix-uri de comportament/polish, fără schimbare de mecanică.
+
+**Rămas de făcut / follow-up:**
+- Utilizatorul a cerut și o idee nouă de feature vizual (a treia opțiune aleasă alături de cele două fix-uri de mai sus) — urmează ca pas separat, nu încă implementată la momentul acestei intrări.
+
+---
+
 ## [2026-08-12] BACKLOG — tooltip înghețat + 3 lacune de Autopilot
 
 **Milestone:** post-M9 v2 (curățare BACKLOG.md, la cererea utilizatorului: „ce mai trebuia făcut la aplicație?")

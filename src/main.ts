@@ -47,12 +47,24 @@ const geneticsLab = renderGeneticsLab(store);
 const anatomyLab = renderAnatomyLab(store);
 const settings = renderSettings(store);
 
+// --- overlay-urile de sus (Tabel Periodic/Reacții/ADN-ARN/Anatomie/Setări) sunt
+// exclusive: deschiderea unuia le închide pe celelalte, ca să nu rămână stivuite. ---
+const topOverlays = [periodicTable, reactionsLab, geneticsLab, anatomyLab, settings];
+function exclusiveOpen(target: { open: () => void }): () => void {
+  return () => {
+    for (const overlay of topOverlays) {
+      if (overlay !== target) overlay.close();
+    }
+    target.open();
+  };
+}
+
 renderHud(hudEl, store, {
-  onOpenPeriodicTable: periodicTable.open,
-  onOpenReactionsLab: reactionsLab.open,
-  onOpenGeneticsLab: geneticsLab.open,
-  onOpenAnatomyLab: anatomyLab.open,
-  onOpenSettings: settings.open
+  onOpenPeriodicTable: exclusiveOpen(periodicTable),
+  onOpenReactionsLab: exclusiveOpen(reactionsLab),
+  onOpenGeneticsLab: exclusiveOpen(geneticsLab),
+  onOpenAnatomyLab: exclusiveOpen(anatomyLab),
+  onOpenSettings: exclusiveOpen(settings)
 });
 const palette = renderPalette(paletteEl, store);
 renderConstructor(constructorEl, store, palette);
