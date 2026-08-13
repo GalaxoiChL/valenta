@@ -20,6 +20,40 @@ Format per intrare:
 
 ---
 
+## [2026-08-13] 10 îmbunătățiri de fluiditate/aparență/grafică (alese de utilizator dintr-un brainstorm de 10 idei)
+
+**Milestone:** post-M9 v2 (cerere directă a utilizatorului: „vreau 10 idei noi de îmbunătățire a fluidizării aplicației, a aparențelor, graficii" — a ales toate cele 10, grupate în 3 loturi Fluiditate/Aparență/Grafică-Sunet, prin AskUserQuestion)
+**Făcut:**
+- **Fluiditate:**
+  - **Tranziții overlay** (`style.css` `.overlay`/`.overlay-panel`): fade+scale (0,18s), overlay-ul rămâne mereu `display:flex`, vizibilitatea reală vine din opacity/visibility/pointer-events comutate prin clasa `.open` — `periodicTable.ts`/`settings.ts`/`reactions.ts`/`genetics.ts`/`anatomy.ts` schimbate identic (toggle de clasă în loc de `style.display`).
+  - **Tranziții tab-uri** (`.tab-fade`/`.tab-fading`, 0,12s): `constructor.ts` (Covalent/Ionic) și `lab.ts` (Generatoare/Colecție) — fade-out → swap de `display` → fade-in, secvențiat cu `setTimeout`+`requestAnimationFrame`, consecvent cu tiparul `setTimeout` deja folosit în `reactions.ts` pentru animația de reacție.
+  - **Count-up pe numerele HUD** (`hud.ts`): smoothing exponențial (constantă de timp 200ms) pe Energie/Cunoaștere/Stele, printr-un `requestAnimationFrame` care se oprește singur când toate cele 3 s-au „așezat" — nu rulează la nesfârșit pe un joc complet idle.
+  - **Press + focus vizibil** (`style.css`, regulă globală `button:active`/`:focus-visible`): o singură regulă acoperă aproape tot (majoritatea elementelor interactive sunt deja `<button>`); excepție explicită pentru `.anatomy-hotspot` (centrat prin `translate(-50%,-50%)`, pe care scale-ul generic l-ar dezaxa la apăsare).
+  - **Fix real de performanță** (`objectives.ts`, `anatomy.ts`): amândouă rescriau tot DOM-ul la fiecare tick economic (~10×/s, pe evenimentul `"resources"`) — exact bug-ul reparat în M0 la Lab/Paletă, nedescoperit până acum aici. Migrate la pattern-ul `ensure*Row` deja stabilit (rânduri/hotspot-uri create o singură dată, doar actualizate); în Anatomie, hotspot-urile (23, statice pe durata modulului) nu se mai recreează și nu se mai re-atașează listener-ele de click la fiecare tick.
+- **Aparență:**
+  - **Accent de culoare per modul** (`--accent-bio: #a78bfa` nou în `style.css`, clasă `.overlay-bio` pe `genetics.ts`/`anatomy.ts`): redefinește `--accent` doar în acel subtree (moștenire CSS), deci butonul de close, tab-urile, focus ring-ul etc. se recolorează automat, fără nicio schimbare per-componentă.
+  - **Favicon + polish `<head>`** (`index.html`): titlu extins, meta description, `theme-color`, favicon SVG inline (motiv atom, 3 elipse rotite, în `--accent`).
+  - **Grupare butoane HUD** (`hud.ts`, `.hud-group`): Tabel Periodic+Reacții vs ADN/ARN+Anatomie, separate printr-un chenar subțire — bara nu mai crește ca un șir plat pe măsură ce se adaugă module noi.
+  - **Tooltip cu poziționare inteligentă** (`tooltip.ts`): detectare coliziune cu marginea dreapta/jos a viewport-ului, flip independent pe fiecare axă în loc să iasă din ecran.
+- **Grafică/Sunet:**
+  - **Sunete noi** (`sound.ts`): `playPurchase` (cumpărare generator/upgrade — legat DOAR din handler-ele de click din UI, nu din `economy.ts`, ca Autopilot să nu spameze audio la sute de cumpărări/tick), `playObjectiveComplete` (legat de evenimentul `"objective-done"`, care exista deja în `core/objectives.ts` dar nu avea niciun listener). Descoperirile ADN/ARN și Anatomie **nu erau tăcute** cum presupunea ideea inițială (foloseau deja fanfara de descoperire moleculară) — polish-ul real a fost diferențierea: payload-ul evenimentului `"discovery"` (6 puncte de emitere în `state.ts`) capătă un câmp `kind: "molecule"|"genetics"|"anatomy"`, iar `main.ts` alege `playGeneticsDiscovery`/`playAnatomyDiscovery`/`playDiscovery` corespunzător — jucătorul poate distinge după ureche ce tip de lucru tocmai a descoperit.
+  - **Celebrare vizuală confetti** (`ui/celebration.ts` nou, `burstConfetti()`): CSS-only, în stilul deja stabilit de `nucleo-burst`. Prag ancorat în date deja existente, nu inventat: `unlockElement()` din `state.ts` emite acum `"tier-unlock"` doar când elementul deblocat are `tier` strict mai mare decât maximul atins până atunci — deci prima deblocare dintr-un tier nou, nu orice deblocare.
+- Teste noi: 2 cazuri în `tests/unlocks.test.ts` pentru `"tier-unlock"` (se declanșează la primul element dintr-un tier nou, nu la al doilea element din același tier).
+- `tsc --noEmit` curat; 261 teste automate trec (33 fișiere, +2 față de sesiunea precedentă).
+- **Verificat live pe dev server** (injectat direct în `localStorage` cu tehnica „patch `setItem` la no-op înainte de reload", ca să nu piardă injectarea printr-o cursă cu autosave-ul pe `visibilitychange` — vezi memoria de proiect din 2026-08-12): overlay-uri confirmate programatic (opacity/transform ajunse la starea finală corectă), accent Biologie confirmat (`getComputedStyle(overlay).getPropertyValue('--accent')` → `#a78bfa` pe ADN/ARN și Anatomie), confetti confirmat (14 `.confetti-piece` apărute la deblocarea Carbonului, primul element peste tier-ul H/O/N), hotspot-urile Anatomiei confirmate stabile (23 noduri, aceleași înainte/după un click, nicio recreare), grupare HUD confirmată (border-left computat pe `.hud-group`), tooltip cu flip confirmat pe axa orizontală (colț dreapta-jos simulat), cumpărare generator confirmată funcțional (rând „H — Hidrogen ×1", sunet declanșat fără erori în consolă). Tab-ul de automatizare a raportat `document.visibilityState === "hidden"` cu un viewport degenerat (47px înălțime) — `requestAnimationFrame` și tranzițiile CSS nu se declanșau deloc cât timp tab-ul era considerat ascuns de Chrome, ceea ce a împiedicat verificarea directă a fade-ului de tab-uri și a animației count-up „în mișcare" (starea finală, odată forțat un tick, era totuși cea corectă) — limitare de unealtă de testare, nu comportament real (un tab vizibil/focalizat normal rulează rAF la 60fps).
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna de mecanică — toate 10 sunt polish vizual/UX peste sisteme existente, fără nicio schimbare de regulă de joc.
+- Constanta de timp a count-up-ului (200ms) și durata tranzițiilor (0,18s overlay, 0,12s tab) nu erau specificate de utilizator — alese empiric: suficient de rapide să nu încetinească interacțiunea, suficient de vizibile să se simtă intenționate.
+- Nu s-a adăugat un toggle light/dark (a doua variantă din ideea de „Aparență" oferită la alegere) — utilizatorul a ales explicit „accent per modul", nu tema.
+- `.periodic-cell`/`.compound-card`/`.dna-tile` sunt `<div>`-uri, nu `<button>`-uri, deci regula globală de `:focus-visible` nu le acoperă (ar avea nevoie de `tabindex`/`role="button"`) — semnalat, nu adresat, ca să nu extindă scope-ul de la „polish" la o trecere de accesibilitate separată.
+
+**Rămas de făcut / follow-up:**
+- Accesibilitate de tastatură pentru `.periodic-cell`/`.compound-card`/`.dna-tile` (focus-visible + navigare cu tastatura) — semnalat mai sus, nu e o regresie, doar neacoperit de această sesiune.
+- Cele două direcții vizuale nealese pentru Nucleosinteza (Colecția ca galerie, Muzeul descoperirilor, propuse pe 2026-08-12) rămân disponibile pentru o sesiune viitoare.
+
+---
+
 ## [2026-08-12] Anatomie — 4 hotspot-uri dezaliniate reparate (verificare cerută de utilizator)
 
 **Milestone:** post-M9 v2 (utilizatorul a cerut explicit o verificare de aliniere: „toate butoanele sunt aliniate corect cu imaginea? ca sa nu fie induse in eroare")

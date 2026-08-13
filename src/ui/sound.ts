@@ -87,3 +87,43 @@ export function playDiscovery(store: GameStore): void {
   const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
   notes.forEach((freq, i) => tone(audioCtx, freq, i * 0.09, 0.22, "triangle", 0.1));
 }
+
+/** Click discret la cumpărarea unui generator sau a upgrade-ului de viteză (C9).
+ *  Apelat doar din handler-ele de click din UI, NIMENI din economy.ts —
+ *  Autopilot poate cumpăra până la 200 de generatoare într-un singur tick
+ *  (vezi AUTOPILOT_MAX_PURCHASES_PER_TICK), și ar spama sunetul dacă ar fi legat de store.buyGenerator(). */
+export function playPurchase(store: GameStore): void {
+  if (!enabled(store)) return;
+  const audioCtx = getContext();
+  if (!audioCtx) return;
+  tone(audioCtx, 300, 0, 0.05, "square", 0.05);
+  tone(audioCtx, 460, 0.045, 0.07, "square", 0.045);
+}
+
+/** Ton scurt, cald, la finalizarea unui obiectiv ghidat (C9). */
+export function playObjectiveComplete(store: GameStore): void {
+  if (!enabled(store)) return;
+  const audioCtx = getContext();
+  if (!audioCtx) return;
+  tone(audioCtx, 523.25, 0, 0.15, "triangle", 0.09); // C5
+  tone(audioCtx, 783.99, 0.06, 0.18, "triangle", 0.09); // G5
+}
+
+/** Variantă distinctă de fanfară pentru descoperirea unei mutații ADN/ARN (C9) —
+ *  alternanța de tonuri sugerează cei doi catene răsucite ale ADN-ului. */
+export function playGeneticsDiscovery(store: GameStore): void {
+  if (!enabled(store)) return;
+  const audioCtx = getContext();
+  if (!audioCtx) return;
+  [440, 554.37, 440, 659.25].forEach((freq, i) => tone(audioCtx, freq, i * 0.07, 0.16, "sawtooth", 0.06));
+}
+
+/** Variantă distinctă de fanfară pentru descoperirea unei părți de anatomie (C9) —
+ *  ton cald și jos, deosebit clar de fanfara ascuțită a moleculelor. */
+export function playAnatomyDiscovery(store: GameStore): void {
+  if (!enabled(store)) return;
+  const audioCtx = getContext();
+  if (!audioCtx) return;
+  tone(audioCtx, 220, 0, 0.35, "sine", 0.12);
+  tone(audioCtx, 329.63, 0.05, 0.3, "sine", 0.08);
+}

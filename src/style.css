@@ -6,6 +6,10 @@
   --text: #dce6f5;
   --text-dim: #8b9bb5;
   --accent: #22d3ee;
+  /* Accent de Biologie (B5) — scopat pe overlay-urile ADN/ARN și Anatomie via
+     .overlay-bio, care redefinește --accent local (moștenire CSS pe subtree,
+     zero edit-uri per-componentă). Chimia rămâne pe --accent implicit. */
+  --accent-bio: #a78bfa;
   --good: #34d399;
   --bad: #f87171;
   --warn: #fbbf24;
@@ -14,6 +18,29 @@
 
 * {
   box-sizing: border-box;
+}
+
+/* ---------- Feedback global de interacțiune (A3) ---------- */
+button {
+  transition: transform 0.08s ease, filter 0.08s ease, border-color 0.15s ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.96);
+  filter: brightness(0.92);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Reducere de mișcare, la cerere de sistem ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 html,
@@ -70,6 +97,20 @@ body {
 
 .hud button:hover {
   border-color: var(--accent);
+}
+
+/* Grupare vizuală (B7): butoanele Chimie/Biologie se disting printr-un
+   separator subțire, ca bara de sus să rămână lizibilă pe măsură ce cresc
+   numărul de module. */
+.hud-group {
+  display: flex;
+  gap: 6px;
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
+}
+
+.hud-group-bio button:hover {
+  border-color: var(--accent-bio);
 }
 
 /* ---------- Layout principal ---------- */
@@ -1017,6 +1058,14 @@ body {
   animation: none;
 }
 
+/* Suprascrie regula globală button:active (A3) — .anatomy-hotspot e centrat
+   prin translate(-50%,-50%), pe care scale-ul generic l-ar înlocui și l-ar
+   dezaxa vizibil la apăsare. */
+.anatomy-hotspot:active:not(:disabled) {
+  transform: translate(-50%, -50%) scale(1.05);
+  filter: none;
+}
+
 .anatomy-hotspot.discovered {
   border-color: var(--accent);
   background: rgba(94, 234, 212, 0.35);
@@ -1167,6 +1216,9 @@ body {
 }
 
 /* ---------- Overlay-uri (Tabel Periodic, Setări) ---------- */
+/* A1 — deschidere/închidere cu fade+scale, nu toggle instant de display.
+   overlay rămâne mereu display:flex; vizibilitatea reală vine din
+   opacity/visibility/pointer-events, comutate prin clasa .open. */
 .overlay {
   position: fixed;
   inset: 0;
@@ -1176,6 +1228,17 @@ body {
   justify-content: center;
   z-index: 950;
   padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, visibility 0s linear 0.18s;
+}
+
+.overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.18s ease, visibility 0s linear 0s;
 }
 
 .overlay-panel {
@@ -1187,6 +1250,29 @@ body {
   max-height: 100%;
   overflow: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transform: scale(0.96);
+  transition: transform 0.18s ease;
+}
+
+.overlay.open .overlay-panel {
+  transform: scale(1);
+}
+
+/* B5 — accent de Biologie: aplicat pe overlay-urile ADN/ARN și Anatomie,
+   redefinește --accent doar în acest subtree (moștenire CSS), fără nicio
+   schimbare per-componentă. */
+.overlay-bio {
+  --accent: var(--accent-bio);
+}
+
+/* Tranziții de tab (A1) — fade scurt la comutare, reosit de constructor.ts
+   (Covalent/Ionic) și lab.ts (Generatoare/Colecție). */
+.tab-fade {
+  transition: opacity 0.12s ease;
+}
+
+.tab-fade.tab-fading {
+  opacity: 0;
 }
 
 .overlay-header {
@@ -1612,4 +1698,36 @@ body {
   font-size: 14px;
   font-weight: 600;
   max-width: 320px;
+}
+
+/* ---------- Celebrare la primul element dintr-un tier nou (C10) ---------- */
+.confetti-burst {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  z-index: 901;
+  pointer-events: none;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 6px;
+  height: 10px;
+  left: 0;
+  top: 0;
+  border-radius: 1px;
+  animation: confetti-fly 0.9s ease-out forwards;
+}
+
+@keyframes confetti-fly {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.4);
+    opacity: 0;
+  }
 }

@@ -120,7 +120,6 @@ export function renderReactionsLab(store: GameStore): OverlayController {
 
   const overlay = document.createElement("div");
   overlay.className = "overlay";
-  overlay.style.display = "none";
 
   const panel = document.createElement("div");
   panel.className = "overlay-panel reactions-panel";
@@ -203,18 +202,18 @@ export function renderReactionsLab(store: GameStore): OverlayController {
   document.body.appendChild(overlay);
 
   function close(): void {
-    overlay.style.display = "none";
+    overlay.classList.remove("open");
   }
   function open(): void {
     render();
-    overlay.style.display = "flex";
+    overlay.classList.add("open");
   }
   closeBtn.addEventListener("click", close);
   overlay.addEventListener("click", (evt) => {
     if (evt.target === overlay) close();
   });
   document.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape" && overlay.style.display !== "none") close();
+    if (evt.key === "Escape" && overlay.classList.contains("open")) close();
   });
 
   // --- drag&drop (pointer events, ca în constructor.ts — nu HTML5 DnD nativ) ---

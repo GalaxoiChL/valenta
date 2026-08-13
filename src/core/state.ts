@@ -281,11 +281,15 @@ export class GameStore {
   unlockElement(symbol: string): boolean {
     if (!this.canUnlockElement(symbol)) return false;
     const def = ELEMENTS[symbol];
+    // C10 — pragul de celebrare vizuală: primul element dintr-un tier nou,
+    // niciodată văzut înainte de această deblocare.
+    const maxTierBefore = this.state.unlockedElements.reduce((m, s) => Math.max(m, ELEMENTS[s]?.tier ?? 0), 0);
     this.state.resources.knowledge -= def.unlockCost;
     this.state.unlockedElements.push(symbol);
     this.state.generators[symbol] = this.state.generators[symbol] ?? 0;
     this.emitResources();
     this.events.emit("unlocked", symbol);
+    if (def.tier > maxTierBefore) this.events.emit("tier-unlock", { symbol, tier: def.tier });
     return true;
   }
 
@@ -408,7 +412,7 @@ export class GameStore {
     this.emitResources();
     this.events.emit("collection", key);
     if (isFirstDiscovery) {
-      this.events.emit("discovery", { key, dbEntry, formula });
+      this.events.emit("discovery", { key, dbEntry, formula, kind: "molecule" });
     }
 
     return { ok: true, isFirstDiscovery, dbEntry, formula };
@@ -535,7 +539,7 @@ export class GameStore {
 
     this.emitResources();
     this.events.emit("collection", reactionId);
-    for (const d of discoveries) this.events.emit("discovery", d);
+    for (const d of discoveries) this.events.emit("discovery", { ...d, kind: "molecule" });
 
     return { ok: true };
   }
@@ -617,7 +621,7 @@ export class GameStore {
       this.state.resources.knowledge += m.discoveryC;
       this.emitResources();
       // reosește bannerul de descoperire deja existent (main.ts) — aceeași formă {dbEntry, formula}.
-      this.events.emit("discovery", { dbEntry: { name: m.name, flavor: m.flavor }, formula: m.shortLabel });
+      this.events.emit("discovery", { dbEntry: { name: m.name, flavor: m.flavor }, formula: m.shortLabel, kind: "genetics" });
     }
   }
 
@@ -638,7 +642,7 @@ export class GameStore {
       this.emitResources();
       // reosește bannerul de descoperire deja existent (main.ts) — aceeași formă {dbEntry, formula}.
       const systemLabel = BODY_SYSTEMS.find((s) => s.id === part.system)?.label ?? part.system;
-      this.events.emit("discovery", { dbEntry: { name: part.name, flavor: part.flavor }, formula: systemLabel });
+      this.events.emit("discovery", { dbEntry: { name: part.name, flavor: part.flavor }, formula: systemLabel, kind: "anatomy" });
     }
     return part;
   }
@@ -796,7 +800,7 @@ export class GameStore {
     this.emitDraft();
     this.events.emit("collection", key);
     if (isFirstDiscovery) {
-      this.events.emit("discovery", { key, dbEntry, formula: result.formula });
+      this.events.emit("discovery", { key, dbEntry, formula: result.formula, kind: "molecule" });
     }
 
     return { ok: true, isFirstDiscovery, dbEntry, formula: result.formula };
@@ -883,7 +887,7 @@ export class GameStore {
     this.emitResources();
     this.events.emit("collection", key);
     if (isFirstDiscovery) {
-      this.events.emit("discovery", { key, formula: this.state.collection[key].formula });
+      this.events.emit("discovery", { key, formula: this.state.collection[key].formula, kind: "molecule" });
     }
 
     return { ok: true, isFirstDiscovery, formula: this.state.collection[key].formula };

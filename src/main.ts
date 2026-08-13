@@ -16,8 +16,9 @@ import { renderAnatomyLab } from "./ui/anatomy";
 import { renderSettings } from "./ui/settings";
 import { toUnicodeSubscript } from "./chem/formula";
 import { formatNumber, formatDuration } from "./ui/format";
-import { playDiscovery } from "./ui/sound";
+import { playDiscovery, playGeneticsDiscovery, playAnatomyDiscovery } from "./ui/sound";
 import { renderTutorial } from "./ui/tutorial";
+import { burstConfetti } from "./ui/celebration";
 
 const isFirstLaunch = localStorage.getItem(SAVE_KEY) === null;
 
@@ -84,13 +85,18 @@ document.body.appendChild(banner);
 let bannerTimeout: ReturnType<typeof setTimeout> | null = null;
 
 store.events.on("discovery", (payload: unknown) => {
-  const { dbEntry, formula } = payload as {
+  const { dbEntry, formula, kind } = payload as {
     dbEntry?: { name: string; flavor: string };
     formula: string;
+    kind?: "molecule" | "genetics" | "anatomy";
   };
   const name = dbEntry?.name ?? `Compus ${toUnicodeSubscript(formula)}`;
   const flavor = dbEntry?.flavor ?? "O moleculă validă, în afara bazei de date cunoscute — la fel de reală.";
-  playDiscovery(store);
+  // C9 — sunet distinct per tip de descoperire, ca jucătorul să distingă
+  // molecule/mutații/părți anatomice după ureche.
+  if (kind === "genetics") playGeneticsDiscovery(store);
+  else if (kind === "anatomy") playAnatomyDiscovery(store);
+  else playDiscovery(store);
   banner.innerHTML = `
     <div class="title">Ai descoperit</div>
     <div class="name">${name} <span style="opacity:.6">(${toUnicodeSubscript(formula)})</span></div>
@@ -101,6 +107,9 @@ store.events.on("discovery", (payload: unknown) => {
   bannerTimeout = setTimeout(() => banner.classList.remove("visible"), 3500);
   banner.onclick = () => banner.classList.remove("visible");
 });
+
+// --- C10: confetti la deblocarea primului element dintr-un tier nou ---
+store.events.on("tier-unlock", () => burstConfetti());
 
 // --- Nucleosinteza: banner de sărbătorire (§3.3) ---
 store.events.on("nucleosynthesis", (payload: unknown) => {

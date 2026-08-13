@@ -12,7 +12,6 @@ export interface OverlayController {
 export function renderPeriodicTable(store: GameStore): OverlayController {
   const overlay = document.createElement("div");
   overlay.className = "overlay";
-  overlay.style.display = "none";
 
   const panel = document.createElement("div");
   panel.className = "overlay-panel periodic-panel";
@@ -41,12 +40,12 @@ export function renderPeriodicTable(store: GameStore): OverlayController {
   document.body.appendChild(overlay);
 
   function close(): void {
-    overlay.style.display = "none";
+    overlay.classList.remove("open");
   }
 
   function open(): void {
     render();
-    overlay.style.display = "flex";
+    overlay.classList.add("open");
   }
 
   closeBtn.addEventListener("click", close);
@@ -54,7 +53,7 @@ export function renderPeriodicTable(store: GameStore): OverlayController {
     if (evt.target === overlay) close();
   });
   document.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape" && overlay.style.display !== "none") close();
+    if (evt.key === "Escape" && overlay.classList.contains("open")) close();
   });
 
   const cells = new Map<string, { cell: HTMLElement; symbolEl: HTMLElement; costEl: HTMLElement }>();

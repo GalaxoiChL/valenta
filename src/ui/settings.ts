@@ -7,7 +7,6 @@ import type { OverlayController } from "./periodicTable";
 export function renderSettings(store: GameStore): OverlayController {
   const overlay = document.createElement("div");
   overlay.className = "overlay";
-  overlay.style.display = "none";
 
   const panel = document.createElement("div");
   panel.className = "overlay-panel settings-panel";
@@ -265,14 +264,14 @@ export function renderSettings(store: GameStore): OverlayController {
   document.body.appendChild(overlay);
 
   function close(): void {
-    overlay.style.display = "none";
+    overlay.classList.remove("open");
     disarm();
   }
   function open(): void {
     status.textContent = "";
     nucleoStatus.textContent = "";
     renderNucleo();
-    overlay.style.display = "flex";
+    overlay.classList.add("open");
   }
 
   closeBtn.addEventListener("click", close);
@@ -280,7 +279,7 @@ export function renderSettings(store: GameStore): OverlayController {
     if (evt.target === overlay) close();
   });
   document.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape" && overlay.style.display !== "none") close();
+    if (evt.key === "Escape" && overlay.classList.contains("open")) close();
   });
 
   exportBtn.addEventListener("click", () => {

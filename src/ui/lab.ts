@@ -3,6 +3,7 @@ import { getElement } from "../chem/elements";
 import { generatorCost, generatorRate, generatorSpeedUpgradeCost, analysisKnowledge, AUTO_SYNTH_UNLOCK_COST, MAX_AUTO_SYNTH_RATE } from "../core/balance";
 import { formatNumber, formatRate } from "./format";
 import { attachTooltip } from "./tooltip";
+import { playPurchase } from "./sound";
 
 type Tab = "generators" | "collection";
 
@@ -66,13 +67,31 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
 
   container.append(heading, tabs, searchInput, generatorsBody, collectionBody);
 
+  // A1 — comutare cu fade scurt (.tab-fade/.tab-fading din style.css), nu
+  // toggle instant de display. Starea inițială se setează direct (fără fade).
+  generatorsBody.classList.add("tab-fade");
+  collectionBody.classList.add("tab-fade");
+  generatorsBody.style.display = "";
+  collectionBody.style.display = "none";
+  genTabBtn.classList.add("active");
+  searchInput.placeholder = "Caută generator...";
+
   function setTab(next: Tab): void {
+    if (next === tab) return;
     tab = next;
     genTabBtn.classList.toggle("active", tab === "generators");
     colTabBtn.classList.toggle("active", tab === "collection");
-    generatorsBody.style.display = tab === "generators" ? "" : "none";
-    collectionBody.style.display = tab === "collection" ? "" : "none";
     searchInput.placeholder = tab === "generators" ? "Caută generator..." : "Caută moleculă...";
+    const from = tab === "generators" ? collectionBody : generatorsBody;
+    const to = tab === "generators" ? generatorsBody : collectionBody;
+    from.classList.add("tab-fading");
+    setTimeout(() => {
+      from.style.display = "none";
+      from.classList.remove("tab-fading");
+      to.style.display = "";
+      to.classList.add("tab-fading");
+      requestAnimationFrame(() => to.classList.remove("tab-fading"));
+    }, 120);
   }
   genTabBtn.addEventListener("click", () => setTab("generators"));
   colTabBtn.addEventListener("click", () => setTab("collection"));
@@ -96,7 +115,9 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
   speedUpgradeTop.className = "top";
   const speedUpgradeLabel = document.createElement("span");
   const speedUpgradeBtn = document.createElement("button");
-  speedUpgradeBtn.addEventListener("click", () => store.buyGeneratorSpeedUpgrade());
+  speedUpgradeBtn.addEventListener("click", () => {
+    if (store.buyGeneratorSpeedUpgrade()) playPurchase(store);
+  });
   speedUpgradeTop.append(speedUpgradeLabel, speedUpgradeBtn);
   speedUpgradeRow.appendChild(speedUpgradeTop);
   generatorsBody.appendChild(speedUpgradeRow);
@@ -123,7 +144,9 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
     top.className = "top";
     const label = document.createElement("span");
     const buyBtn = document.createElement("button");
-    buyBtn.addEventListener("click", () => store.buyGenerator(symbol));
+    buyBtn.addEventListener("click", () => {
+      if (store.buyGenerator(symbol)) playPurchase(store);
+    });
     top.append(label, buyBtn);
     const rateEl = document.createElement("div");
     rateEl.className = "rate";
@@ -350,7 +373,6 @@ export function renderLab(container: HTMLElement, store: GameStore): void {
     renderCollection();
   }
 
-  setTab("generators");
   render();
   store.events.on("resources", render);
   store.events.on("generators", render);

@@ -43,15 +43,35 @@ export function renderConstructor(
 
   container.append(modeTabs, covalentView, ionicView);
 
+  // A1 — comutare cu fade scurt (.tab-fade/.tab-fading din style.css), nu
+  // toggle instant de display. Starea inițială se setează direct (fără fade),
+  // setMode() gestionează doar tranzițiile ulterioare.
+  covalentView.classList.add("tab-fade");
+  ionicView.classList.add("tab-fade");
+  covalentView.style.display = "flex";
+  ionicView.style.display = "none";
+  covalentTabBtn.classList.add("active");
+
+  let currentMode: "covalent" | "ionic" = "covalent";
+
   function setMode(mode: "covalent" | "ionic"): void {
+    if (mode === currentMode) return;
     covalentTabBtn.classList.toggle("active", mode === "covalent");
     ionicTabBtn.classList.toggle("active", mode === "ionic");
-    covalentView.style.display = mode === "covalent" ? "flex" : "none";
-    ionicView.style.display = mode === "ionic" ? "flex" : "none";
+    const from = currentMode === "covalent" ? covalentView : ionicView;
+    const to = mode === "covalent" ? covalentView : ionicView;
+    currentMode = mode;
+    from.classList.add("tab-fading");
+    setTimeout(() => {
+      from.style.display = "none";
+      from.classList.remove("tab-fading");
+      to.style.display = "flex";
+      to.classList.add("tab-fading");
+      requestAnimationFrame(() => to.classList.remove("tab-fading"));
+    }, 120);
   }
   covalentTabBtn.addEventListener("click", () => setMode("covalent"));
   ionicTabBtn.addEventListener("click", () => setMode("ionic"));
-  setMode("covalent");
 
   // M4, §6.5 — "Încarcă în Constructor" din Colecție trebuie să comute
   // automat pe tab-ul Covalent, indiferent unde era jucătorul.

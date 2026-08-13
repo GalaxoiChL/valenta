@@ -13,8 +13,7 @@ export function renderAnatomyLab(store: GameStore): OverlayController {
   const parts = store.listAnatomyParts();
 
   const overlay = document.createElement("div");
-  overlay.className = "overlay";
-  overlay.style.display = "none";
+  overlay.className = "overlay overlay-bio";
 
   const panel = document.createElement("div");
   panel.className = "overlay-panel anatomy-panel";
@@ -65,40 +64,50 @@ export function renderAnatomyLab(store: GameStore): OverlayController {
   document.body.appendChild(overlay);
 
   function close(): void {
-    overlay.style.display = "none";
+    overlay.classList.remove("open");
   }
   function open(): void {
-    overlay.style.display = "flex";
+    overlay.classList.add("open");
   }
   closeBtn.addEventListener("click", close);
   overlay.addEventListener("click", (evt) => {
     if (evt.target === overlay) close();
   });
   document.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape" && overlay.style.display !== "none") close();
+    if (evt.key === "Escape" && overlay.classList.contains("open")) close();
   });
 
   function showInfo(part: AnatomyPart): void {
     infoPanel.innerHTML = `<strong>${part.name}</strong><div class="flavor">${part.flavor}</div>`;
   }
 
+  // A4 — hotspot-urile (statice pe durata de viață a modulului: `parts` nu se
+  // schimbă) sunt create O SINGURĂ DATĂ aici, nu la fiecare "resources" (10x/s).
+  // renderParts() doar comută vizibilitatea/starea .discovered pe nodurile deja
+  // existente — elimină atât recrearea DOM-ului, cât și re-atașarea
+  // listener-elor de click la fiecare tick economic.
+  const hotspots = new Map<string, HTMLButtonElement>();
+  for (const part of parts) {
+    const dot = document.createElement("button");
+    dot.className = "anatomy-hotspot";
+    dot.style.left = `${part.x}%`;
+    dot.style.top = `${part.y}%`;
+    dot.title = part.name;
+    dot.setAttribute("aria-label", part.name);
+    dot.addEventListener("click", () => {
+      const inspected = store.inspectAnatomyPart(part.id);
+      if (inspected) showInfo(inspected);
+      renderParts();
+    });
+    hotspotsLayer.appendChild(dot);
+    hotspots.set(part.id, dot);
+  }
+
   function renderParts(): void {
-    hotspotsLayer.innerHTML = "";
     for (const part of parts) {
-      if (part.system !== activeSystem) continue;
-      const dot = document.createElement("button");
-      dot.className = "anatomy-hotspot";
-      dot.style.left = `${part.x}%`;
-      dot.style.top = `${part.y}%`;
-      dot.title = part.name;
-      dot.setAttribute("aria-label", part.name);
+      const dot = hotspots.get(part.id)!;
+      dot.style.display = part.system === activeSystem ? "" : "none";
       dot.classList.toggle("discovered", store.state.anatomyDiscovered.includes(part.id));
-      dot.addEventListener("click", () => {
-        const inspected = store.inspectAnatomyPart(part.id);
-        if (inspected) showInfo(inspected);
-        renderParts();
-      });
-      hotspotsLayer.appendChild(dot);
     }
   }
 

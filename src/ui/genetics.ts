@@ -40,8 +40,7 @@ export function renderGeneticsLab(store: GameStore): OverlayController {
   let isDragging = false;
 
   const overlay = document.createElement("div");
-  overlay.className = "overlay";
-  overlay.style.display = "none";
+  overlay.className = "overlay overlay-bio";
 
   const panel = document.createElement("div");
   panel.className = "overlay-panel genetics-panel";
@@ -124,18 +123,18 @@ export function renderGeneticsLab(store: GameStore): OverlayController {
   document.body.appendChild(overlay);
 
   function close(): void {
-    overlay.style.display = "none";
+    overlay.classList.remove("open");
   }
   function open(): void {
     render();
-    overlay.style.display = "flex";
+    overlay.classList.add("open");
   }
   closeBtn.addEventListener("click", close);
   overlay.addEventListener("click", (evt) => {
     if (evt.target === overlay) close();
   });
   document.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape" && overlay.style.display !== "none") close();
+    if (evt.key === "Escape" && overlay.classList.contains("open")) close();
   });
 
   // --- selecție prin click-drag peste plăcuțe (mousedown/mousemove/mouseup) ---

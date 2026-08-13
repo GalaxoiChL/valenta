@@ -21,10 +21,21 @@ export function attachTooltip(el: HTMLElement | SVGElement, textOrFn: string | (
   el.addEventListener("mouseleave", hideTooltip);
 }
 
+// B8 — poziționare cu detectare de coliziune: lângă marginea dreapta/jos a
+// viewport-ului, tooltip-ul se răstoarnă pe partea opusă cursorului în loc
+// să iasă din ecran. Axele se verifică independent (flip pe orizontală nu
+// implică automat flip pe verticală).
 function positionTooltip(evt: MouseEvent): void {
   const tip = ensureTooltip();
-  tip.style.left = `${evt.clientX + 14}px`;
-  tip.style.top = `${evt.clientY + 14}px`;
+  const margin = 14;
+  const edgePad = 8;
+  const rect = tip.getBoundingClientRect();
+  let left = evt.clientX + margin;
+  let top = evt.clientY + margin;
+  if (left + rect.width > window.innerWidth - edgePad) left = evt.clientX - margin - rect.width;
+  if (top + rect.height > window.innerHeight - edgePad) top = evt.clientY - margin - rect.height;
+  tip.style.left = `${Math.max(edgePad, left)}px`;
+  tip.style.top = `${Math.max(edgePad, top)}px`;
 }
 
 export function hideTooltip(): void {

@@ -38,4 +38,27 @@ describe("GameStore.unlockElement — deblocare din Tabelul Periodic (§8.1)", (
     expect(store.unlockElement("Fr")).toBe(false);
     expect(store.state.unlockedElements).not.toContain("Fr");
   });
+
+  it("emite 'tier-unlock' doar la primul element dintr-un tier nou nevăzut (C10)", () => {
+    const store = new GameStore(createInitialState());
+    store.state.resources.knowledge = 999999;
+    const tierUnlocks: unknown[] = [];
+    store.events.on("tier-unlock", (payload: unknown) => tierUnlocks.push(payload));
+
+    // H (tier 0) + O/N (tier 1) sunt deja deblocate la start — Carbonul (tier 2)
+    // e primul element cu tier strict mai mare decât maximul curent.
+    expect(store.unlockElement("C")).toBe(true);
+    expect(tierUnlocks).toEqual([{ symbol: "C", tier: 2 }]);
+  });
+
+  it("nu emite 'tier-unlock' pentru un al doilea element din ACELAȘI tier", () => {
+    const store = new GameStore(createInitialState());
+    store.state.resources.knowledge = 999999;
+    store.unlockElement("Cl"); // tier 3, ridică maximul la 3
+    const tierUnlocks: unknown[] = [];
+    store.events.on("tier-unlock", (payload: unknown) => tierUnlocks.push(payload));
+
+    store.unlockElement("F"); // tot tier 3 — nu mai mare decât maximul deja atins
+    expect(tierUnlocks).toEqual([]);
+  });
 });
