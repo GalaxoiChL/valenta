@@ -20,6 +20,30 @@ Format per intrare:
 
 ---
 
+## [2026-08-13] Anatomie — hotspot-uri dezaliniate pe 3 sisteme (Organe interne, Sistem circulator, Sistem muscular)
+
+**Milestone:** post-M9 v2 (sesizare directă a utilizatorului: „punctele care dau informațiile nu sunt corect centralizate pe imagine... dau o falsă informație")
+**Făcut:**
+- **Metodă nouă, mai bună decât cea din 2026-08-12**: tehnica de eșantionare de pixeli pe canvas (folosită data trecută) confirmă doar dacă un punct cade pe „conținut" vs „fundal transparent" — nu poate distinge un organ specific de altul quando ambele sunt „conținut" (ex. un punct pe braț tot numără ca "pe conținut", ca și unul pe stomac, fiindcă brațul e tot corp, nu fundal gol). Pentru verificare semantică reală (chiar organul corect, nu doar corpul în general), am descărcat canvas-ul randat ca fișier PNG direct pe disc (`canvas.toBlob` → `<a download>` → citit cu unealta de citire de imagini), ocolind complet pipeline-ul de captură de ecran din browser (confirmat din nou instabil în această sesiune: `Page.captureScreenshot` a picat repetat, iar rezultatele `zoom` cu regiuni late au trunchiat conținutul la o lățime fixă în mod repetat — o particularitate nouă, necunoscută până acum, salvată ca memorie de proiect). Asta a permis inspecție vizuală directă, la rezoluție nativă, a ilustrațiilor reale — mult mai fiabil decât orice combinație de eșantionare+presupunere.
+- **Organe interne** (`anatomyDB.json`), 7 corecții — toate cele 7 puncte erau înghesuite pe o coloană verticală îngustă (x:33-39%) lângă marginea stângă a trunchiului, în loc să fie centrate fiecare pe organul lui real (același tipar de bug ca „coloana/bazinul copiate greșit" din sesiunea trecută, dar nedescoperit atunci fiindcă verificarea de-atunci se oprise la Stomac):
+  - **Stomac**: `x: 59→54, y: 57→57` (ajustat în doi pași, 52 apoi 57, dupå verificare vizuală) — cădea complet în afara trunchiului, pe brațul cu vase de sânge (bug-ul cel mai vizibil, exact ce a semnalat utilizatorul).
+  - **Creier**: `x: 40→44, y: 10.5→13` — centrat mai bine pe secțiunea de creier.
+  - **Inimă**: `x: 39.3→47, y: 46.6→46` — mutată din marginea trunchiului direct pe forma inimii.
+  - **Plămâni, Ficat, Rinichi, Intestine**: `x` crescut cu 2-6 puncte procentuale fiecare (din coloana îngustă 33-39% spre poziții centrate pe masa de organe reală, 37-43%), `y` ajustat să cadă pe fiecare organ, nu doar „undeva pe trunchi".
+- **Sistem circulator** (`anatomyDB.json`), 4 din 5 corecții — Inimă, Aortă, Vena cavă și Artere majore aveau toate `x` în jur de 42-49%, dar trunchiul principal de vase (vizibil clar în ilustrație) e de fapt la ~54-55%; toate patru mutate acolo (`x: 46.4→55`, `49→54`, `42.6→55`, `42.6→54`). „Vene majore" (deja reparat 2026-08-12) neschimbat.
+- **Sistem muscular** (`anatomyDB.json`), 5 corecții — Biceps era cel mai grav: `x: 58.3→67` (prima încercare, 77, a picat vizual în fundalul crem în afara brațului; a doua trecere a confirmat 67 corect, direct pe mușchi). Pectorali, Abdominali, Cvadriceps, Gambe ajustate cu 4-8 puncte procentuale fiecare, din poziții care cădeau parțial pe mușchiul greșit sau în golul dintre mușchi, spre centrul mușchiului real corespunzător numelui.
+- Fiecare corecție verificată vizual, individual, prin re-randare live pe dev server + captură de ecran a punctelor suprapuse pe ilustrația reală — nu doar prin calcul, mai ales după ce prima estimare pentru Biceps s-a dovedit greșită la verificare.
+- `tsc --noEmit` curat; toate cele 261 de teste tot verzi (schimbare doar de date/coordonate în `anatomyDB.json`, nicio schimbare de logică).
+
+**Decizii / abateri de la SPEC.md:**
+- Niciuna — corecții de date (coordonate ochiometrice greșite, provenite probabil din același proces de estimare aproximativă din M9 v2), nu de mecanică.
+
+**Rămas de făcut / follow-up:**
+- Sistemul Schelet nu a fost re-verificat în această sesiune (utilizatorul a semnalat explicit doar celelalte 3 sisteme) — presupus corect, pe baza fix-urilor din 2026-08-12.
+- Tehnica de verificare prin descărcare PNG + citire directă a fișierului (nu doar eșantionare de pixeli sau captură de ecran) merită refolosită direct dacă apare vreodată nevoia de a verifica alinierea altor overlay-uri vizuale din joc — salvată ca memorie de proiect.
+
+---
+
 ## [2026-08-13] 10 îmbunătățiri de fluiditate/aparență/grafică (alese de utilizator dintr-un brainstorm de 10 idei)
 
 **Milestone:** post-M9 v2 (cerere directă a utilizatorului: „vreau 10 idei noi de îmbunătățire a fluidizării aplicației, a aparențelor, graficii" — a ales toate cele 10, grupate în 3 loturi Fluiditate/Aparență/Grafică-Sunet, prin AskUserQuestion)
